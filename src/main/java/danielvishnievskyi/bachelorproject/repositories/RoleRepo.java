@@ -1,6 +1,7 @@
-package com.danielvishnievskyi.webjavareact.repositories;
+package danielvishnievskyi.bachelorproject.repositories;
 
-import com.danielvishnievskyi.webjavareact.entities.Role;
+
+import danielvishnievskyi.bachelorproject.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepo extends JpaRepository<Role, Long> {

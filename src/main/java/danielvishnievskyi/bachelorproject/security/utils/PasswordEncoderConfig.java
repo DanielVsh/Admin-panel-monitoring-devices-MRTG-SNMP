@@ -1,10 +1,10 @@
-package danielvishnievskyi.bachelorproject.security.utils.encoder;
+package danielvishnievskyi.bachelorproject.security.utils;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class PasswordEncoderConfig {
   @Bean
   public BCryptPasswordEncoder bCryptPasswordEncoder() {

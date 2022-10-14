@@ -1,4 +1,4 @@
-package danielvishnievskyi.bachelorproject.security.utils.hierarchy;
+package danielvishnievskyi.bachelorproject.security.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

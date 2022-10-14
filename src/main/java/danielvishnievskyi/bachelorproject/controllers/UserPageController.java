@@ -11,7 +11,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
-public class MainPageController {
+public class UserPageController {
   private final UserProfileService userProfileService;
 
   @GetMapping

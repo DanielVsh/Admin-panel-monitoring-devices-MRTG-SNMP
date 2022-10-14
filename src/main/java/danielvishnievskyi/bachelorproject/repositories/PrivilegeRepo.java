@@ -1,6 +1,7 @@
-package com.danielvishnievskyi.webjavareact.repositories;
+package danielvishnievskyi.bachelorproject.repositories;
 
-import com.danielvishnievskyi.webjavareact.entities.Privilege;
+
+import danielvishnievskyi.bachelorproject.entities.Privilege;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrivilegeRepo extends JpaRepository<Privilege, Long> {

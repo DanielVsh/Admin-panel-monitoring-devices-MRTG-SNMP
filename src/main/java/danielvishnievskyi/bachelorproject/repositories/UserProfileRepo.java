@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserProfileService extends JpaRepository<UserProfile, Long> {
+public interface UserProfileRepo extends JpaRepository<UserProfile, Long> {
   UserProfile findUserProfileByUsername(String username);
 }

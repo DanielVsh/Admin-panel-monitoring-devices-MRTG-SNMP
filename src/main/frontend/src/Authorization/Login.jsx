@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import axios from "./Utils/custom-axios";
+import axios from "../Utils/custom-axios";
 
 const Login = () => {
 
