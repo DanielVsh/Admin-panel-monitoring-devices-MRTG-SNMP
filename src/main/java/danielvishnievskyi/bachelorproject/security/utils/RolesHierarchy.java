@@ -18,7 +18,7 @@ public class RolesHierarchy {
   @Bean
   public RoleHierarchy roleHierarchy() {
     RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-    String hierarchy = "ROLE_ADMIN > ROLE_USER";
+    String hierarchy = "ROLE_SUPER_ADMIN > ROLE_ADMIN";
     roleHierarchy.setHierarchy(hierarchy);
     return roleHierarchy;
   }

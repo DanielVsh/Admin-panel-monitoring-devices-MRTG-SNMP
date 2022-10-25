@@ -1,0 +1,9 @@
+.foot {
+    grid-area: foot;
+    background-color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex-grow: 2;
+}

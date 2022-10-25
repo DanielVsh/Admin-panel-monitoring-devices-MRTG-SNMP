@@ -1,1 +1,18 @@
+.app-wrapper{
+    display: grid;
 
+    grid-template-areas:
+          "header header"
+          "navbar content"
+          "navbar foot";
+
+    height: 100%;
+    grid-auto-rows: min-content auto min-content;
+    grid-auto-columns: 10% 90%;
+}
+
+.content {
+    grid-area: content;
+    margin: 20px 20px;
+    background-color: #ffffff;
+}
