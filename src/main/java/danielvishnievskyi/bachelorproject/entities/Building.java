@@ -3,7 +3,6 @@ package danielvishnievskyi.bachelorproject.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,7 +16,7 @@ public class Building {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private Collection<Device> devices;
 
   public Building(String name) {
