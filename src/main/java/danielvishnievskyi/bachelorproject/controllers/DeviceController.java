@@ -38,10 +38,9 @@ public class DeviceController {
     return ResponseEntity.ok().body(deviceDetails);
   }
 
-
   @PutMapping("/update/{id}")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
-                                             @RequestBody Device deviceDetails) {
+      @RequestBody Device deviceDetails) {
     Device device = deviceService.getById(id);
     device.setName(deviceDetails.getName());
     device.setIpAddress(deviceDetails.getIpAddress());

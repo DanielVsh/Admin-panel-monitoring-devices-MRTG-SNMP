@@ -3,7 +3,6 @@ package danielvishnievskyi.bachelorproject.controllers;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import danielvishnievskyi.bachelorproject.entities.AdminProfile;
-import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.entities.Role;
 import danielvishnievskyi.bachelorproject.security.utils.AuthUtil;
 import danielvishnievskyi.bachelorproject.services.AdminProfileService;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +32,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class AuthController {
   private final AdminProfileService userProfileService;
+
+  @GetMapping("/cors")
+  public ResponseEntity<CsrfToken> cors(CsrfToken csrfToken) {
+    return ResponseEntity.ok(csrfToken);
+  }
 
   @GetMapping()
   @PreAuthorize("hasAnyRole('ADMIN')")

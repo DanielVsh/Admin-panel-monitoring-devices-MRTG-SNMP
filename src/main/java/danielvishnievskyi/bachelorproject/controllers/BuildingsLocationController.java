@@ -10,8 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -27,7 +25,8 @@ public class BuildingsLocationController {
   }
 
   @PostMapping("/create")
-  public ResponseEntity<BuildingsLocation> createBuildingsLocation(@RequestBody BuildingsLocation buildingsLocationDetails) {
+  public ResponseEntity<BuildingsLocation> createBuildingsLocation(
+      @RequestBody BuildingsLocation buildingsLocationDetails) {
     if (buildingsLocationDetails.getName() == null) {
       return ResponseEntity.badRequest().body(buildingsLocationDetails);
     }
@@ -37,7 +36,7 @@ public class BuildingsLocationController {
 
   @PutMapping("/update/{id}")
   public ResponseEntity<BuildingsLocation> updateBuildingsLocation(@PathVariable Long id,
-                                                                   @RequestBody BuildingsLocation buildingsLocationDetails) {
+      @RequestBody BuildingsLocation buildingsLocationDetails) {
     BuildingsLocation buildingsLocation = buildLocService.getById(id);
     buildingsLocation.setName(buildingsLocationDetails.getName());
     buildingsLocation.setBuildings(buildingsLocationDetails.getBuildings());
@@ -52,5 +51,3 @@ public class BuildingsLocationController {
   }
 
 }
-
-

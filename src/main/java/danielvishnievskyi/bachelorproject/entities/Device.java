@@ -21,7 +21,7 @@ public class Device {
   private String ipAddress;
   private LocalDateTime uptime;
   private boolean switchMap;
-  //TODO: variable SNMP comunity ???
+  private String SNMP;
 
   public Device(String name,
                 String ipAddress,
@@ -30,5 +30,17 @@ public class Device {
     this.ipAddress = ipAddress;
     this.uptime = LocalDateTime.now();
     this.switchMap = switchMap;
+    this.SNMP = "PUBLIC";
+  }
+
+  public Device(String name,
+                String ipAddress,
+                boolean switchMap,
+                String SNMP) {
+    this.name = name;
+    this.ipAddress = ipAddress;
+    this.uptime = LocalDateTime.now();
+    this.switchMap = switchMap;
+    this.SNMP = SNMP;
   }
 }
