@@ -15,8 +15,10 @@ const Login = () => {
         bodyFormData.append("password", password);
         axios.post("api/v1/auth/login", bodyFormData)
             .then((response) => {
-                localStorage.setItem("access_token", "Bearer " + response.data.access_token);
-                localStorage.setItem("refresh_token", "Bearer " + response.data.refresh_token);
+                const access_token = "Bearer " + response.data.access_token;
+                const refresh_token = response.data.refresh_token;
+                localStorage.setItem("access_token", access_token);
+                localStorage.setItem("refresh_token", "Bearer " + refresh_token);
                 navigate("/dashboard", {replace: true})
             }).catch(reason => {
             if (reason.status === 401) {

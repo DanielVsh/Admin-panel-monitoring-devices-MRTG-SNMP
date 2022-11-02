@@ -17,8 +17,8 @@ public class BuildingService {
     return bImpl.getBuildings();
   }
 
-  public void joinDevicesToBuilding(Collection<Device> devices, Long buildingId) {
-    bImpl.joinDevicesToBuilding(devices, buildingId);
+  public Collection<Building> getBuildingsByIds(Collection<Long> ids) {
+    return bImpl.getBuildingsByIds(ids);
   }
 
   public Building getById(Long id) {
@@ -29,9 +29,6 @@ public class BuildingService {
     return bImpl.createIfNotFound(name);
   }
 
-  public void deleteFromLocation(Long id) {
-    bImpl.deleteFromLocation(id);
-  }
   public void delete(Long id) {
     bImpl.delete(id);
   }

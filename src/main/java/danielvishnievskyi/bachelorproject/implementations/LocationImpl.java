@@ -1,7 +1,7 @@
 package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Building;
-import danielvishnievskyi.bachelorproject.entities.BuildingsLocation;
+import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.repositories.BuildingLocationRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,14 @@ import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundExc
 
 @Component
 @RequiredArgsConstructor
-public class BuildingsLocationImpl {
+public class LocationImpl {
   private final BuildingLocationRepo blRepo;
 
-  public Collection<BuildingsLocation> getBuildingsLocations() {
+  public Collection<Location> getBuildingsLocations() {
     return blRepo.findAll();
   }
 
-  public BuildingsLocation getById(Long id) {
+  public Location getById(Long id) {
     try {
       return blRepo.findById(id).orElseThrow(NotFoundException::new);
     } catch (NotFoundException e) {
@@ -32,21 +32,15 @@ public class BuildingsLocationImpl {
     blRepo.delete(getById(id));
   }
 
-  public void save(BuildingsLocation buildingLocation) {
+  public void save(Location buildingLocation) {
     blRepo.save(buildingLocation);
   }
 
-  public void joinBuildingsToLocation(Collection<Building> buildings, Long buildingLocationId) {
-    var buildingLocation = getById(buildingLocationId);
-    buildingLocation.getBuildings().addAll(buildings);
-    buildingLocation.setBuildings(buildingLocation.getBuildings());
-    save(buildingLocation);
-  }
 
   @Transactional
-  public BuildingsLocation createIfNotFound(String name) {
+  public Location createIfNotFound(String name) {
     return blRepo.getByName(name.toUpperCase()).orElseGet(() -> {
-      BuildingsLocation buildingsLocation = new BuildingsLocation(name.toUpperCase());
+      Location buildingsLocation = new Location(name.toUpperCase());
       save(buildingsLocation);
       return buildingsLocation;
     });

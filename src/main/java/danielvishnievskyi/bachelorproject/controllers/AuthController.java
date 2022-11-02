@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +31,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class AuthController {
   private final AdminProfileService userProfileService;
-
-  @GetMapping("/cors")
-  public ResponseEntity<CsrfToken> cors(CsrfToken csrfToken) {
-    return ResponseEntity.ok(csrfToken);
-  }
 
   @GetMapping()
   @PreAuthorize("hasAnyRole('ADMIN')")

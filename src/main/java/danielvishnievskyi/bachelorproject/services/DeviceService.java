@@ -16,16 +16,17 @@ public class DeviceService {
     return deviceImpl.getDevices();
   }
 
-  public Collection<Device> getByBuilding(Long buildingId) {
-    return deviceImpl.getByBuilding(buildingId);
-  }
 
-  public void deleteFromBuilding(Long id) {
-    deviceImpl.deleteFromBuilding(id);
+  public Collection<Device> getDevicesByIds(Collection<Long> ids) {
+    return deviceImpl.getDevicesByIds(ids);
   }
 
   public void save(Device device) {
     deviceImpl.save(device);
+  }
+
+  public void deleteAllByIds(Collection<Long> ids) {
+    deviceImpl.deleteAllById(ids);
   }
 
   public void delete(Long id) {

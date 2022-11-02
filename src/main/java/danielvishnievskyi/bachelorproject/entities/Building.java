@@ -1,5 +1,6 @@
 package danielvishnievskyi.bachelorproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class Building {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+  @JoinColumn(name = "building_id")
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private Collection<Device> devices;
 

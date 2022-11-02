@@ -3,11 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const structureApi = createApi({
   reducerPath: "structureApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4200/api/v1/",
+    baseUrl: "http://127.0.0.1:4200/api/v1/",
     prepareHeaders: (headers) => {
-      //TODO: взять куки и запихнуть их в хедер
       headers.set('Authorization', localStorage.getItem("access_token"));
-      // headers.set('XSRF-TOKEN', document.cookie);
       return headers;
     },
   }),
@@ -16,6 +14,15 @@ export const structureApi = createApi({
     getLocations: builder.query({
       query: () => "location",
       providesTags: ["Location", "Building", "Device"]
+    }),
+
+    createNewLocation: builder.mutation({
+      query: (body) => ({
+        url: "location/create",
+        method: "POST",
+        body: body
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
     }),
 
     deleteLocation: builder.mutation({
@@ -31,6 +38,19 @@ export const structureApi = createApi({
       providesTags: ["Building", "Location", "Device"]
     }),
 
+    getBuildingById: builder.query({
+      query: (id) => `building/${id}`
+    }),
+
+    createNewBuilding: builder.mutation({
+      query: (body) => ({
+        url: "building/create",
+        method: "POST",
+        body: body
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
+    }),
+
     deleteBuilding: builder.mutation({
       query: (id) => ({
         url: `building/delete/${id}`,
@@ -42,6 +62,15 @@ export const structureApi = createApi({
     getDevice: builder.query({
       query: () => "device",
       providesTags: ["Device", "Building", "Location"]
+    }),
+
+    createNewDevice: builder.mutation({
+      query: (body) => ({
+        url: "device/create",
+        method: "POST",
+        body: body
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
     }),
 
     deleteDevice: builder.mutation({
@@ -63,4 +92,9 @@ export const {
   useDeleteBuildingMutation,
   useGetDeviceQuery,
   useDeleteDeviceMutation,
+  useGetBuildingByIdQuery,
+  useCreateNewDeviceMutation,
+  useCreateNewLocationMutation,
+  useCreateNewBuildingMutation,
+  
 } = structureApi;

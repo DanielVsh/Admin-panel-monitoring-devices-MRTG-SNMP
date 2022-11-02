@@ -1,5 +1,6 @@
 package danielvishnievskyi.bachelorproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.util.Collection;
 @Getter
 @ToString
 @NoArgsConstructor
-public class BuildingsLocation {
+public class Location {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -23,7 +24,7 @@ public class BuildingsLocation {
   @ToString.Exclude
   private Collection<Building> buildings;
 
-  public BuildingsLocation(String name) {
+  public Location(String name) {
     this.name = name;
   }
 }
