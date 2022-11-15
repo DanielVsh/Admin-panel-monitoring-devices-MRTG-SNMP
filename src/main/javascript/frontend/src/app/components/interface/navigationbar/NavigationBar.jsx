@@ -17,6 +17,9 @@ const NavBar = () => {
             <div>
                 <NavLink to={"/dashboard/devices"} className={props => props.isActive ? navbar.active : navbar.passive}>Devices</NavLink>
             </div>
+            <div>
+                <NavLink to={"/dashboard/logs"} className={props => props.isActive ? navbar.active : navbar.passive}>Logs</NavLink>
+            </div>
         </nav>
     )
 }

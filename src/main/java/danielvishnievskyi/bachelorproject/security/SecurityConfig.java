@@ -39,6 +39,7 @@ public class SecurityConfig {
     CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
     customAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
     http.csrf().disable();
+//    http.cors().disable();
     http.cors(withDefaults());
 //    http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     http.sessionManagement().sessionCreationPolicy(STATELESS);

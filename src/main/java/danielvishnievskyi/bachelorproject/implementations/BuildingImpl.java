@@ -1,54 +1,61 @@
 package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Building;
+import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 @Component
 @RequiredArgsConstructor
 public class BuildingImpl {
-  private final BuildingRepo bRepo;
+  private final BuildingRepo buildingRepo;
 
-  public Collection<Building> getBuildings() {
-    return bRepo.findAll();
+  public Collection<Building> findAll() {
+    return buildingRepo.findAll();
+  }
+
+  public Page<Building> findAll(Pageable page) {
+    return buildingRepo.findAll(page);
+  }
+
+  public Page<Building> findAll(Specification<Building> specification, Pageable page) {
+    return buildingRepo.findAll(specification, page);
   }
 
   public void save(Building building) {
-    bRepo.save(building);
+    buildingRepo.save(building);
   }
 
-  public void delete(Long id) {
-    bRepo.delete(getById(id));
+  public Building deleteById(Long id) {
+    var building = getById(id).orElseThrow();
+    buildingRepo.deleteById(id);
+    return building;
   }
 
-  @Transactional
-  public Building createIfNotFound(String name) {
-    return bRepo.getByName(name.toUpperCase()).orElseGet(() -> {
-      Building building = new Building(name.toUpperCase());
-      save(building);
-      return building;
-    });
+  public Optional<Building> getByName(String name) {
+    return buildingRepo.getByName(name);
   }
 
-  public Collection<Building> getBuildingsByIds(Collection<Long> ids) {
+  public Collection<Long> deleteAllById(Collection<Long> ids) {
+    buildingRepo.deleteAllById(ids);
+    return ids;
+  }
+
+  public Collection<Building> getManyByIds(Collection<Long> ids) {
     return ids.stream()
-      .map(this::getById)
+      .map(value -> getById(value).orElseThrow())
       .collect(Collectors.toList());
   }
 
-
-  public Building getById(Long id) {
-    try {
-      return bRepo.findById(id).orElseThrow(NotFoundException::new);
-    } catch (NotFoundException e) {
-      throw new RuntimeException(e);
-    }
+  public Optional<Building> getById(Long id) {
+      return buildingRepo.findById(id);
   }
 }

@@ -11,54 +11,83 @@ export const structureApi = createApi({
   }),
   tagTypes: ["Location", "Building", "Device"],
   endpoints: (builder) => ({
+    ////////////////////////////
     getLocations: builder.query({
-      query: () => "location",
+      query: (pageable) => pageable 
+      ? `location?sort=${pageable.sort.element},${pageable.sort.direction}&size=${pageable.size}&page=${pageable.page}&filter=${pageable.filter}`
+      : `location`,
+      providesTags: ["Location", "Building", "Device"]
+    }),
+
+    getLocationById: builder.query({
+      query: (id) => `location/${id}`,
       providesTags: ["Location", "Building", "Device"]
     }),
 
     createNewLocation: builder.mutation({
       query: (body) => ({
-        url: "location/create",
+        url: "location",
         method: "POST",
         body: body
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
+    }),
+
+    updateLocation: builder.mutation({
+      query: (body) => ({
+        url: `location/${body.locationId}`,
+        method: "PUT",
+        body: body.data
       }),
       invalidatesTags: ["Building", "Location", "Device"]
     }),
 
     deleteLocation: builder.mutation({
       query: (id) => ({
-        url: `location/delete/${id}`,
+        url: `location/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Location", "Building", "Device"]
     }),
-
+    ////////////////////////////
     getBuilding: builder.query({
-      query: () => "building",
-      providesTags: ["Building", "Location", "Device"]
+      query: (pageable) => pageable 
+      ? `building?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
+      : `building`,
+      providesTags: ["Location", "Building", "Device"]
     }),
 
     getBuildingById: builder.query({
-      query: (id) => `building/${id}`
+      query: (id) => `building/${id}`,
+      providesTags: ["Building", "Location", "Device"]
     }),
 
     createNewBuilding: builder.mutation({
       query: (body) => ({
-        url: "building/create",
+        url: "building",
         method: "POST",
         body: body
       }),
       invalidatesTags: ["Building", "Location", "Device"]
     }),
 
-    deleteBuilding: builder.mutation({
-      query: (id) => ({
-        url: `building/delete/${id}`,
-        method: "DELETE",
+    updateBuilding: builder.mutation({
+      query: (body) => ({
+        url: `building/${body.buildingId}`,
+        method: "PUT",
+        body: body.data
       }),
       invalidatesTags: ["Building", "Location", "Device"]
     }),
 
+    deleteBuilding: builder.mutation({
+      query: (id) => ({
+        url: `building/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
+    }),
+    ////////////////////////////
     getDevice: builder.query({
       query: () => "device",
       providesTags: ["Device", "Building", "Location"]
@@ -66,7 +95,7 @@ export const structureApi = createApi({
 
     createNewDevice: builder.mutation({
       query: (body) => ({
-        url: "device/create",
+        url: "device",
         method: "POST",
         body: body
       }),
@@ -75,26 +104,31 @@ export const structureApi = createApi({
 
     deleteDevice: builder.mutation({
       query: (id) => ({
-        url: `device/delete/${id}`,
+        url: `device/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Device", "Building", "Location"]
     }),
-
+    ////////////////////////////
 
   }),
 });
 
 export const {
   useGetLocationsQuery,
-  useDeleteLocationMutation,
-  useGetBuildingQuery,
-  useDeleteBuildingMutation,
-  useGetDeviceQuery,
-  useDeleteDeviceMutation,
-  useGetBuildingByIdQuery,
-  useCreateNewDeviceMutation,
+  useGetLocationByIdQuery,
   useCreateNewLocationMutation,
+  useUpdateLocationMutation,
+  useDeleteLocationMutation,
+  ////////////////////////////
+  useGetBuildingQuery,
+  useGetBuildingByIdQuery,
   useCreateNewBuildingMutation,
-  
+  useUpdateBuildingMutation,
+  useDeleteBuildingMutation,
+  ////////////////////////////
+  useGetDeviceQuery,
+  useCreateNewDeviceMutation,
+  useDeleteDeviceMutation,
+
 } = structureApi;

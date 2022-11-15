@@ -9,7 +9,7 @@ const Logout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    const clearData = () => {
+    const clearData = async () => {
         localStorage.clear();
         dispatch(structureApi.util.resetApiState());
         dispatch(authApi.util.resetApiState());

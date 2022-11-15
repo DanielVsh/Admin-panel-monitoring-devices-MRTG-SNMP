@@ -2,12 +2,11 @@ package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
-import danielvishnievskyi.bachelorproject.services.BuildingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 public class DeviceImpl {
   private final DeviceRepo deviceRepo;
 
-  public Collection<Device> getDevices() {
+  public Collection<Device> getAll() {
     return deviceRepo.findAll();
   }
 
@@ -23,33 +22,25 @@ public class DeviceImpl {
     deviceRepo.save(device);
   }
 
-  public Collection<Device> getDevicesByIds(Collection<Long> ids) {
+  public Collection<Device> getManyByIds(Collection<Long> ids) {
     return ids.stream()
-      .map(this::getById)
+      .map(value -> getById(value).orElseThrow())
       .collect(Collectors.toList());
   }
 
   public void delete(Long id) {
-    deviceRepo.delete(getById(id));
+    deviceRepo.deleteById(id);
   }
 
-  public Device getById(Long id) {
-    try {
-      return deviceRepo.findById(id).orElseThrow(NotFoundException::new);
-    } catch (NotFoundException e) {
-      throw new RuntimeException(e);
-    }
+  public Optional<Device> getById(Long id) {
+      return deviceRepo.findById(id);
   }
 
-  public void deleteAllById(Collection<Long> ids) {
+  public void deleteManyById(Collection<Long> ids) {
     deviceRepo.deleteAllById(ids);
   }
 
-  public Device getByName(String name) {
-    try {
-      return deviceRepo.getByName(name).orElseThrow(NotFoundException::new);
-    } catch (NotFoundException e) {
-      throw new RuntimeException(e);
-    }
+  public Optional<Device> getByName(String name) {
+      return deviceRepo.getByName(name);
   }
 }

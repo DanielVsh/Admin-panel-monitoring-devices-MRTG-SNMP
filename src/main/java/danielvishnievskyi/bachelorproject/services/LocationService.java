@@ -1,35 +1,53 @@
 package danielvishnievskyi.bachelorproject.services;
 
-import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.implementations.LocationImpl;
+import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class LocationService {
-  private final LocationImpl blImpl;
+  private final LocationImpl locationImpl;
 
-  public Collection<Location> getBuildingsLocations() {
-    return blImpl.getBuildingsLocations();
+  public List<Location> findAll() {
+    return locationImpl.findAll();
   }
 
-  public Location getById(Long id) {
-    return blImpl.getById(id);
+  public Page<Location> findAll(Pageable page) {
+    return locationImpl.findAll(page);
   }
 
-  public void delete(Long id) {
-    blImpl.delete(id);
+  public Page<Location> findAll(Specification<Location> specification, Pageable page) {
+    return locationImpl.findAll(specification, page);
+  }
+
+  public Optional<Location> getById(Long id) {
+    return locationImpl.getById(id);
+  }
+
+  public Optional<Location> getByName(String name) {
+    return locationImpl.getByName(name);
+  }
+
+  public Location delete(Long id) {
+    return locationImpl.deleteById(id);
+  }
+
+  public Collection<Long> deleteManyByIds(Collection<Long> ids) {
+    locationImpl.deleteManyByIds(ids);
+    return ids;
   }
 
   public void save(Location buildingLocation) {
-    blImpl.save(buildingLocation);
-  }
-
-  public Location createIfNotFound(String name) {
-    return blImpl.createIfNotFound(name);
+    locationImpl.save(buildingLocation);
   }
 }
