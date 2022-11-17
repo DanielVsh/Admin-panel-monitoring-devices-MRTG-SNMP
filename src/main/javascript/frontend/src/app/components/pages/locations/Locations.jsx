@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import table from "../TableStyle.module.css";
 import { useCreateNewLocationMutation, useDeleteLocationMutation, useGetLocationsQuery } from "../../../../features/redux/api/structureApi";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
@@ -14,7 +14,9 @@ const Locations = () => {
   const [size, setSize] = useState(10);
   const [sortedElement, setSortedElement] = useState("id");
   const [sortedDirection, setSortedDirection] = useState("desc");
-  const [filter, setFilter] = useState("");
+  const [filterLine, setFilterLine] = useState("");
+  const [name, setName] = useState('');
+  const [dropdownCreateLocation, setDropdownCreateLocation] = useState(false);
 
   const { data: pageableLocation, isLoading: pageableLoading, isError: pageableError }
     = useGetLocationsQuery({
@@ -24,12 +26,11 @@ const Locations = () => {
         direction: sortedDirection
       },
       size: size,
-      filter: filter,
+      filter: filterLine,
     });
   const [deleteLocation] = useDeleteLocationMutation();
   const [createLocation] = useCreateNewLocationMutation();
-  console.log(filter)
-  const [name, setName] = useState('');
+
 
   const handleCreateLocation = async (body) => {
     await createLocation(body).unwrap();
@@ -39,17 +40,54 @@ const Locations = () => {
     await deleteLocation(id).unwrap();
   }
 
+  const modalWindowRef = useRef();
+  const handleClick = (e) => {
+    if (dropdownCreateLocation && !modalWindowRef?.current?.contains(e?.target)) {
+      setDropdownCreateLocation(false);
+    }
+  }
+
+  useEffect(() => {
+    if (pageableLocation) {
+      setPage(0);
+    };
+  }, [filterLine]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+  });
+
 
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
 
   return (
     <>
-      <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
-      <input name={name} onChange={(e) => setName(e.target.value)} placeholder={"Location name"} />
-      <button onClick={(e) => handleCreateLocation({
-        name: name,
-      }, e.preventDefault())}>Create new Location</button>
+      <div className={table.topMenu}>
+        <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)} placeholder={"search"} />
+        {!dropdownCreateLocation &&
+          <button onClick={() => setDropdownCreateLocation(!dropdownCreateLocation)} >add new location</button>
+        }
+      </div>
+      {dropdownCreateLocation &&
+        <div className={table.newLocation} ref={modalWindowRef}>
+          <form>
+            <p>Create form</p>
+            <div>
+              <input name={name} onChange={(e) => setName(e.target.value)} placeholder={"Location name"} />
+            </div>
+            <div>
+              <button onClick={(e) => {
+                handleCreateLocation({
+                  name: name,
+                }, e.preventDefault())
+                setDropdownCreateLocation(false)
+              }}>Create</button>
+            </div>
+          </form>
+        </div>
+      }
+
       <table className={table.table}>
         <thead className={table.head}>
           <tr>

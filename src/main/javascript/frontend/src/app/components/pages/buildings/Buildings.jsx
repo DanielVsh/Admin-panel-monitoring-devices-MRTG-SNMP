@@ -61,6 +61,11 @@ const Buildings = () => {
     }
   }, [pageableLocation]);
 
+  useEffect(() => {
+    if(pageableBuilding) {
+      setPage(0);
+    }
+  }, [filterLine])
 
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
@@ -86,7 +91,7 @@ const Buildings = () => {
           <tr>
             <td className={table.minSize}>Id</td>
             <td>Name</td>
-            <td>Location</td>
+            <td>Location Id</td>
             <td>Devices</td>
             <td className={table.minSize}>Actions</td>
           </tr>
@@ -96,7 +101,7 @@ const Buildings = () => {
             <tr key={building.id}>
               <td>{building.id}</td>
               <td>{building.name}</td>
-              <td>?</td>
+              <td>{building.location}</td>
               <td>{building.devices ? building.devices.length : "0"}</td>
               <td>
                 <button onClick={() => handleDeleteBuilding(building.id)}>Delete</button>

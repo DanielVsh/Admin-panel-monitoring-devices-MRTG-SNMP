@@ -1,8 +1,9 @@
-.table .table ,table{
+.table .table,
+table {
     width: 100%;
 }
 
-.table .head{
+.table .head {
     text-align: center;
     background-color: #04AA6D;
     color: #000000;
@@ -27,6 +28,68 @@
     width: 0;
 }
 
-.table ,tbody ,tr:last-of-type{
-    border-bottom: 4px solid #04AA6D ;
+.table,
+tbody,
+tr:last-of-type {
+    border-bottom: 4px solid #04AA6D;
+}
+
+
+
+
+
+.newLocation {
+    height: 200px;
+    width: 500px;
+    background-color: #04AA6D;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.newLocation p {
+    text-align: center;
+}
+.newLocation input {
+    background-color: #fff9f9;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+}
+.newLocation input::placeholder {
+    text-align: center;
+    color: #7a7777;
+}
+.newLocation button {   
+    margin-top: 3px ;
+    border-radius: 1px;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff9f9;
+    border: none;
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.topMenu {
+    margin-bottom: 10px;
+   
+}
+
+.topMenu button{
+    float: right;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 1px;
+    padding: 6px;
 }

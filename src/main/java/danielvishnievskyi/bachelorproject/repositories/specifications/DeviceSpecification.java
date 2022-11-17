@@ -1,7 +1,9 @@
 package danielvishnievskyi.bachelorproject.repositories.specifications;
 
 import danielvishnievskyi.bachelorproject.entities.Building;
+import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,10 +13,10 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingSpecification implements Specification<Building> {
+public class DeviceSpecification implements Specification<Device> {
   private final List<SearchCriteria> list;
 
-  public BuildingSpecification() {
+  public DeviceSpecification() {
     this.list = new ArrayList<>();
   }
 
@@ -23,7 +25,7 @@ public class BuildingSpecification implements Specification<Building> {
   }
 
   @Override
-  public Predicate toPredicate(Root<Building> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+  public Predicate toPredicate(Root<Device> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
     var predicates =
       SpecificationUtil.getSpecificationSettings(list, root, query, builder);
 

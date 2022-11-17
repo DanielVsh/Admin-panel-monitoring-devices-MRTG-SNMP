@@ -1,8 +1,12 @@
 package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Device;
+import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -14,8 +18,12 @@ import java.util.stream.Collectors;
 public class DeviceImpl {
   private final DeviceRepo deviceRepo;
 
-  public Collection<Device> getAll() {
-    return deviceRepo.findAll();
+  public Page<Device> findAll(Pageable page) {
+    return deviceRepo.findAll(page);
+  }
+
+  public Page<Device> findAll(Specification<Device> specification, Pageable page) {
+    return deviceRepo.findAll(specification, page);
   }
 
   public void save(Device device) {

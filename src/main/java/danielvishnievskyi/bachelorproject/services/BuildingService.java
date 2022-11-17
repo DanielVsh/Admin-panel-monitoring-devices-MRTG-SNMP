@@ -16,10 +16,6 @@ import java.util.Optional;
 public class BuildingService {
   private final BuildingImpl buildingImpl;
 
-  public Collection<Building> findAll() {
-    return buildingImpl.findAll();
-  }
-
   public Page<Building> findAll(Pageable page) {
     return buildingImpl.findAll(page);
   }

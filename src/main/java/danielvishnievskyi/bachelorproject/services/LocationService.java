@@ -18,10 +18,6 @@ import java.util.Optional;
 public class LocationService {
   private final LocationImpl locationImpl;
 
-  public List<Location> findAll() {
-    return locationImpl.findAll();
-  }
-
   public Page<Location> findAll(Pageable page) {
     return locationImpl.findAll(page);
   }

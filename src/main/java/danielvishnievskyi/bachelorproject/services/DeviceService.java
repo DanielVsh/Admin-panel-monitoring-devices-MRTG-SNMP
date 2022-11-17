@@ -4,6 +4,9 @@ import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.implementations.DeviceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -13,10 +16,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DeviceService {
   private final DeviceImpl deviceImpl;
-  private final BuildingService buildingService;
 
-  public Collection<Device> getAll() {
-    return deviceImpl.getAll();
+  public Page<Device> findAll(Pageable page) {
+    return deviceImpl.findAll(page);
+  }
+
+  public Page<Device> findAll(Specification<Device> specification, Pageable page) {
+    return deviceImpl.findAll(specification, page);
   }
 
   public Collection<Device> getManyByIds(Collection<Long> ids) {

@@ -89,8 +89,10 @@ export const structureApi = createApi({
     }),
     ////////////////////////////
     getDevice: builder.query({
-      query: () => "device",
-      providesTags: ["Device", "Building", "Location"]
+      query: (pageable) => pageable 
+      ? `device?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
+      : `device`,
+      providesTags: ["Location", "Building", "Device"]
     }),
 
     createNewDevice: builder.mutation({

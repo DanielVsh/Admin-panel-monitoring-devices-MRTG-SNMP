@@ -1,6 +1,6 @@
 import React from "react";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
-import { useGetBuildingQuery, useGetLocationsQuery } from "../../../../features/redux/api/structureApi";
+import { useGetBuildingQuery, useGetDeviceQuery, useGetLocationsQuery } from "../../../../features/redux/api/structureApi";
 import ErrorPage from "../error/ErrorPage";
 import dashboard from "./Dashboard.module.css"
 
@@ -10,9 +10,11 @@ const Dashboard = () => {
   = useGetLocationsQuery();
   const { data: pageableBuilding, isLoading: buildIsLoading, isError: buildIsError }
   = useGetBuildingQuery();
+  const { data: pageableDevices, isLoading: deviceIsLoading, isError: deviceIsError }
+  = useGetDeviceQuery();
 
-  if (LocIsLoading || buildIsLoading) return <LoaderHook/>
-  if(LocIsError || buildIsError) return <ErrorPage/>
+  if (LocIsLoading || buildIsLoading || deviceIsLoading) return <LoaderHook/>
+  if(LocIsError || buildIsError || deviceIsError) return <ErrorPage/>
   
   return (
     <div className={dashboard}>
@@ -23,7 +25,7 @@ const Dashboard = () => {
         <div className={dashboard.locations}>
           Locations
           <div>
-            {pageableLocation.totalElements}
+            {pageableLocation?.totalElements}
           </div>
           <div className={dashboard.button}>
             <button type={"button"}>Button</button>
@@ -32,7 +34,7 @@ const Dashboard = () => {
         <div className={dashboard.buildings}>
           Buildings
           <div>
-            {pageableBuilding.totalElements}
+            {pageableBuilding?.totalElements}
           </div>
           <div className={dashboard.button}>
             <button type={"button"}>Button</button>
@@ -41,7 +43,7 @@ const Dashboard = () => {
         <div className={dashboard.devices}>
           Devices
           <div>
-            {/* {devicesData && devicesData.length} */}
+            {pageableDevices?.totalElements}
           </div>
           <div className={dashboard.button}>
             <button type={"button"}>Button</button>
