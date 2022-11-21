@@ -1,7 +1,6 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Collection;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
 

@@ -38,7 +38,7 @@ tr:last-of-type {
 
 
 
-.newLocation {
+.newLocation, .newBuilding, .newDevice{
     height: 200px;
     width: 500px;
     background-color: #04AA6D;
@@ -79,6 +79,49 @@ tr:last-of-type {
     transition-duration: 0.4s;
     cursor: pointer;
 }
+
+
+.newBuilding {
+    height: 300px;
+    width: 500px;
+}
+
+.valueList {
+    list-style: none;
+    /* margin-top: 4rem; */
+    box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    max-height: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.valueList.open {
+    max-height: 320px;
+    overflow: auto;
+}
+
+.valueList li {
+    /* position: relative; */
+    height: 4rem;
+    background-color: #fafcfd;
+    padding: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    opacity: 1;
+}
+.valueListli:hover {
+    background-color: #ff908b;
+}
+.valueList li.closed {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    opacity: 0;
+}
+
 
 .topMenu {
     margin-bottom: 10px;

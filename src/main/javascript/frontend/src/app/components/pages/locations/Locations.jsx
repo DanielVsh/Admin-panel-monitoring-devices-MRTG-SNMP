@@ -5,6 +5,7 @@ import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import ErrorPage from "../error/ErrorPage"
 import { useNavigate } from 'react-router-dom';
 import debounce from "lodash.debounce";
+import JSOG from "jsog";
 
 const Locations = () => {
 
@@ -30,7 +31,6 @@ const Locations = () => {
     });
   const [deleteLocation] = useDeleteLocationMutation();
   const [createLocation] = useCreateNewLocationMutation();
-
 
   const handleCreateLocation = async (body) => {
     await createLocation(body).unwrap();
@@ -61,6 +61,7 @@ const Locations = () => {
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
 
+  
   return (
     <>
       <div className={table.topMenu}>
@@ -78,11 +79,9 @@ const Locations = () => {
             </div>
             <div>
               <button onClick={(e) => {
-                handleCreateLocation({
-                  name: name,
-                }, e.preventDefault())
+                handleCreateLocation({name: name}, e.preventDefault())
                 setDropdownCreateLocation(false)
-              }}>Create</button>
+                }}>Create</button>
             </div>
           </form>
         </div>
@@ -99,7 +98,7 @@ const Locations = () => {
           </tr>
         </thead>
         <tbody>
-          {pageableLocation.content.map((location) => (
+          {JSOG.decode(pageableLocation?.content).map((location) => (
             <tr key={location.id}>
               <td>{location.id}</td>
               <td>{location.name}</td>

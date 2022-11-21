@@ -1,12 +1,11 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
+import danielvishnievskyi.bachelorproject.dto.DeviceDto;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.DeviceSpecification;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import danielvishnievskyi.bachelorproject.services.BuildingService;
 import danielvishnievskyi.bachelorproject.services.DeviceService;
-import danielvishnievskyi.bachelorproject.dto.DeviceDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -18,7 +17,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.EQUAL;
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;

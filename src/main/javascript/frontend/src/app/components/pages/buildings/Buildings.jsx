@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import table from "../TableStyle.module.css";
 import { useCreateNewBuildingMutation, useDeleteBuildingMutation, useGetBuildingQuery, useGetLocationsQuery } from "../../../../features/redux/api/structureApi";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import ErrorPage from "../error/ErrorPage"
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash.debounce';
+import JSOG from 'jsog';
 
 const Buildings = () => {
 
@@ -17,6 +18,9 @@ const Buildings = () => {
   const [sortedDirection, setSortedDirection] = useState("desc");
   const [filterLine, setFilterLine] = useState("");
   const [filter, setFilter] = useState("");
+  const [dropdownCreateLocation, setDropdownCreateLocation] = useState(false);
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState(Number);
 
   const { data: pageableBuilding, isLoading: pageableLoading, isError: pageableError }
     = useGetBuildingQuery({
@@ -30,15 +34,15 @@ const Buildings = () => {
     });
 
 
-    const { data: pageableLocation } = useGetLocationsQuery({
-      page: 0,
-      sort: {
-        element: "name",
-        direction: "asc"
-      },
-       size: 10,
-      filter: filter,
-    });
+  const { data: pageableLocation } = useGetLocationsQuery({
+    page: 0,
+    sort: {
+      element: "name",
+      direction: "asc"
+    },
+    size: 5,
+    filter: filter,
+  });
   const [deleteBuilding] = useDeleteBuildingMutation();
   const [createBuilding] = useCreateNewBuildingMutation();
 
@@ -51,57 +55,95 @@ const Buildings = () => {
   }
 
 
-  const [name, setName] = useState('');
-  const [locationId, setLocationId] = useState(Number);
+ 
 
-
-  useEffect(() => {
-    if (pageableLocation) {
-      setLocationId(pageableLocation?.content[0]?.id)
+  const modalWindowRef = useRef();
+  const handleClick = (e) => {
+    if (dropdownCreateLocation && !modalWindowRef?.current?.contains(e?.target)) {
+      setDropdownCreateLocation(false);
     }
-  }, [pageableLocation]);
+  }
+
+
+  // useEffect(() => {
+  //   if (pageableLocation) {
+  //     setLocation(pageableLocation?.content[0])
+  //   }
+  // }, [pageableLocation]);
+
+  // useEffect(() => {
+  //   if (locationId) {
+  //     setFilter(locationId)
+  //   }
+  // }, [locationId]);
 
   useEffect(() => {
-    if(pageableBuilding) {
+    if (pageableBuilding) {
       setPage(0);
     }
   }, [filterLine])
 
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+  });
+
+
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
-
+  console.log(location)
   return (
     <>
-      <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)} placeholder={"search line"} />
-      <form>
-        <input name={"name"} onChange={(e) => setName(e.target.value)} placeholder={"Building name"} />
-        <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
-        <select onChange={(e) => setLocationId(e.target.value)}>
-          {pageableLocation?.content?.map(location => (
-            <option key={location.id} value={location.id}>id: {location.id} name: {location.name}</option>
-          ))}
-        </select>{locationId}<br />
-        <button onClick={(e) => handleCreateBuilding({
-          name: name,
-          locationId: locationId
-        }, e.preventDefault())}>Create new Building</button>
-      </form>
+      <div className={table.topMenu}>
+        <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)} placeholder={"search"} />
+        {!dropdownCreateLocation &&
+          <button onClick={() => setDropdownCreateLocation(!dropdownCreateLocation)} >add new building</button>
+        }
+      </div>
+      {dropdownCreateLocation &&
+        <div className={table.newBuilding} ref={modalWindowRef}>
+          <form>
+            <p>Create form</p>
+            <input name={"name"} onChange={(e) => setName(e.target.value)} placeholder={"Building name"} />
+            <div>
+              <div>Location: {location?.name}</div>
+              <input className={table.chosenValue} name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
+              {filter.length > 0 && 
+              pageableLocation?.content?.map(location => (
+                <div onClick={() => setLocation(location)} key={location.id} value={location.id}>id: {location.id} name: {location.name}</div>
+              ))}
+
+              {/* <select onChange={(e) => setLocationId(e.target.value)}>
+                {pageableLocation?.content?.map(location => (
+                  <option key={location.id} value={location.id}>id: {location.id} name: {location.name}</option>
+                ))}
+              </select>{locationId}<br /> */}
+            </div>
+            <button onClick={(e) => {handleCreateBuilding({
+              name: name,
+              locationId: location?.id
+            }, e.preventDefault())
+            setDropdownCreateLocation(false)
+            }}>Create new Building</button>
+          </form>
+        </div>
+      }
+
       <table className={table.table}>
         <thead className={table.head}>
           <tr>
             <td className={table.minSize}>Id</td>
             <td>Name</td>
-            <td>Location Id</td>
+            <td>Location</td>
             <td>Devices</td>
             <td className={table.minSize}>Actions</td>
           </tr>
         </thead>
         <tbody>
-          {pageableBuilding.content.map((building) => (
+          {JSOG.decode(pageableBuilding?.content).map((building) => (
             <tr key={building.id}>
               <td>{building.id}</td>
               <td>{building.name}</td>
-              <td>{building.location}</td>
+              <td>{building.location.name}</td>
               <td>{building.devices ? building.devices.length : "0"}</td>
               <td>
                 <button onClick={() => handleDeleteBuilding(building.id)}>Delete</button>

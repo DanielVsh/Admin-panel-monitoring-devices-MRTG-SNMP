@@ -4,6 +4,7 @@ import { useCreateNewDeviceMutation, useDeleteDeviceMutation, useGetBuildingQuer
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import ErrorPage from "../error/ErrorPage";
 import debounce from 'lodash.debounce';
+import JSOG from 'jsog';
 
 const Devices = () => {
 
@@ -65,6 +66,8 @@ const Devices = () => {
   if (isLoading) return <LoaderHook />
   if (isError) return <ErrorPage />
 
+  console.log(JSOG.decode(devices?.content))
+
   return (
     <>
       <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)} placeholder={"search line"} />
@@ -111,12 +114,12 @@ const Devices = () => {
           </tr>
         </thead>
         <tbody>
-          {devices?.content?.map(device => (
+          {JSOG.decode(devices?.content).map(device => (
             <tr key={device.id}>
               <td>{device.id}</td>
               <td>{device.name}</td>
-              <td>{device.building}</td>
-              <td>?</td>
+              <td>{device.building.name}</td>
+              <td>{device.building.location.name}</td>
               <td>{device.ipAddress}</td>
               <td>{device.uptime}</td>
               <td>{device.snmp}</td>

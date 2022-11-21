@@ -1,7 +1,6 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Collection;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
 
@@ -19,7 +17,7 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @NoArgsConstructor
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class Building extends Auditable<String>{
+public class Building extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

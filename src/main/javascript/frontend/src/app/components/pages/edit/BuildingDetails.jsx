@@ -17,7 +17,7 @@ const BuildingDetails = () => {
 
 
   const { data: buildingsData, isLoading: isLoadingBuildings } = useGetBuildingByIdQuery(Number(id));
-  const { data: locationData, isLoading } = useGetLocationByIdQuery(buildingsData?.location);
+  const { data: locationData, isLoading } = useGetLocationByIdQuery(buildingsData?.location.id);
 
   const { data: pageableLocation } = useGetLocationsQuery({
     page: 0,
@@ -25,7 +25,7 @@ const BuildingDetails = () => {
       element: "name",
       direction: "asc"
     },
-     size: 10,
+    size: 10,
     filter: filter,
   });
   const [updateBuilding] = useUpdateBuildingMutation();
@@ -35,9 +35,7 @@ const BuildingDetails = () => {
   useEffect(() => {
     if (buildingsData) {
       setBuildingName(buildingsData?.name)
-    }
-    if (pageableLocation) {
-      setBuildingLocationId(pageableLocation?.content[0]?.id)
+      setBuildingLocationId(buildingsData.location.id)
     }
   }, [buildingsData]);
 
