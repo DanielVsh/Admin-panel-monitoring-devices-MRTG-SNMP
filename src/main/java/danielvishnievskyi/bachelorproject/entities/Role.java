@@ -11,7 +11,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role {
+public class Role extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

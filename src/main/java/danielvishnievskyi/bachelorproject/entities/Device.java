@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,14 +11,13 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static javax.persistence.CascadeType.*;
-
 @Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class Device {
+@JsonIdentityInfo(generator = JSOGGenerator.class)
+public class Device extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -31,8 +30,6 @@ public class Device {
   private String SNMP;
 
   @ManyToOne()
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
   private Building building;
 
   public Device(String name,
@@ -46,6 +43,7 @@ public class Device {
     this.switchMap = switchMap;
     this.SNMP = "PUBLIC";
   }
+
   public Device(String name,
                 Building building,
                 String ipAddress,

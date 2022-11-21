@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @ToString
 @Transactional
 @NoArgsConstructor
-public class AdminProfile {
+public class AdminProfile extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long Id;

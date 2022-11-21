@@ -11,7 +11,7 @@ import java.util.Collection;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Privilege {
+public class Privilege extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

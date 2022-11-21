@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +11,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Collection;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
@@ -19,13 +20,14 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Location {
+@JsonIdentityInfo(generator = JSOGGenerator.class)
+public class Location extends Auditable<String> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column(unique = true)
   private String name;
-  @OneToMany(fetch = EAGER, cascade = REMOVE, orphanRemoval = true, mappedBy = "location")
+  @OneToMany(fetch = EAGER, cascade = MERGE, orphanRemoval = true, mappedBy = "location")
   private Collection<Building> buildings;
 
   public Location(String name) {
