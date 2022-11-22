@@ -16,6 +16,7 @@ import MissingPage from "./app/components/pages/missingpage/MissingPage";
 import AuthRouteWrite from './features/hooks/authRoute/AuthRouteWrite';
 import BuildingDetails from "./app/components/pages/edit/BuildingDetails";
 import LocationDetails from './app/components/pages/edit/LocationDetails';
+import Logs from './app/components/pages/logs/Logs';
 
 
 //TODO: DONE! 1.сделать рендер приложения при изменениях.
@@ -43,6 +44,7 @@ function App() {
               <Route path={"location/:id"} element={<LocationDetails />} />
             </Route>
             <Route path={"devices"} element={<Devices />} />
+            <Route path={"logs"} element={<Logs />} />
           </Route>
           <Route path={"*"} element={<MissingPage />} />
         </Routes>

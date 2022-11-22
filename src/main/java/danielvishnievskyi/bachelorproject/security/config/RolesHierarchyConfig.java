@@ -1,4 +1,4 @@
-package danielvishnievskyi.bachelorproject.security.utils;
+package danielvishnievskyi.bachelorproject.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 @Configuration
-public class RolesHierarchy {
+public class RolesHierarchyConfig {
   @Bean
   public DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler() {
     DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();

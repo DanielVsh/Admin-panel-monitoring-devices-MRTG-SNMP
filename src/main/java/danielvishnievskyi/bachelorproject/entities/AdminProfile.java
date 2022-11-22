@@ -1,10 +1,13 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -16,8 +19,10 @@ import java.util.stream.Collectors;
 @Setter
 @ToString
 @Transactional
+@Audited()
 @NoArgsConstructor
-public class AdminProfile extends Auditable<String> {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class AdminProfile  {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long Id;

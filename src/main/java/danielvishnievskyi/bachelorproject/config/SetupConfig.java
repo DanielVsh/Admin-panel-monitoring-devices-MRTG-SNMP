@@ -68,21 +68,27 @@ public class SetupConfig {
 //        Building build5 = new Building("Build5", loc4);
 //        buildingRepo.saveAll(Set.of(build1, build2, build3, build4, build5));
 
-//      var loc  = IntStream.rangeClosed(1, 3000)
-//        .mapToObj(value -> new Location("Location " + (3000+value))).toList();
-//      locationRepo.saveAll(loc);
-//      var build  = IntStream.rangeClosed(1, 2000)
-//        .mapToObj(value -> new Building(
-//          "Building " + (2000+value),
-//          loc.get(value))).toList();
-//      buildingRepo.saveAll(build);
-//      var device  = IntStream.rangeClosed(1, 1500)
-//        .mapToObj(value -> new Device(
-//          "Device " + (1500+value),
-//          build.get(value),
-//          "123.123.123.123" + value,
-//          false)).toList();
-//      deviceRepo.saveAll(device);
+      var loc  = IntStream.rangeClosed(1, 3000)
+        .mapToObj(value -> new Location("Location " + (3000+value))).toList();
+      locationRepo.saveAll(loc);
+      var build  = IntStream.rangeClosed(1, 2000)
+        .mapToObj(value -> new Building(
+          "Building " + (2000+value),
+          loc.get(value))).toList();
+      buildingRepo.saveAll(build);
+      var device  = IntStream.rangeClosed(1, 1500)
+        .mapToObj(value -> new Device(
+          "Device " + (1500+value),
+          build.get(value),
+          "123.123.123.123" + value,
+          false)).toList();
+      deviceRepo.saveAll(device);
+
+
+      IntStream.rangeClosed(1,100).forEach((i) -> {
+        device.get(0).setName("TEST"+i);
+        deviceRepo.save(device.get(0));
+      });
     };
   }
 }

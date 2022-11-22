@@ -112,7 +112,12 @@ export const structureApi = createApi({
       invalidatesTags: ["Device", "Building", "Location"]
     }),
     ////////////////////////////
-
+    getLogs: builder.query({
+      query: (pageable) => pageable 
+      ? `logs/${pageable?.filter}?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
+      : `logs/${pageable?.filter}`,
+      providesTags: ["Location", "Building", "Device"]
+    })
   }),
 });
 
@@ -132,5 +137,7 @@ export const {
   useGetDeviceQuery,
   useCreateNewDeviceMutation,
   useDeleteDeviceMutation,
+  ////////////////////////////
+  useGetLogsQuery,
 
 } = structureApi;

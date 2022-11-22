@@ -1,4 +1,4 @@
-package danielvishnievskyi.bachelorproject.security.utils;
+package danielvishnievskyi.bachelorproject.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

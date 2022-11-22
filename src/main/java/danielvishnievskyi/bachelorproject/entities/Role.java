@@ -1,8 +1,12 @@
 package danielvishnievskyi.bachelorproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -10,14 +14,18 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@ToString
+@Audited()
 @NoArgsConstructor
-public class Role extends Auditable<String> {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Role  {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
   @ManyToMany(mappedBy = "roles")
+  @ToString.Exclude
   private Collection<AdminProfile> users;
 
   @ManyToMany(fetch = FetchType.EAGER)

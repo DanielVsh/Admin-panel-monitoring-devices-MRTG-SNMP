@@ -1,11 +1,13 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,10 +15,11 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
+@Audited
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class Device extends Auditable<String> {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Device  {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

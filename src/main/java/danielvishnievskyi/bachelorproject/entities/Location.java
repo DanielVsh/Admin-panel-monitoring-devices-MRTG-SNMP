@@ -1,11 +1,15 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.envers.AuditMappedBy;
+import org.hibernate.envers.Audited;
+import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,13 +22,17 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @ToString
 @NoArgsConstructor
+@Audited
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class Location extends Auditable<String> {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Location  {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column(unique = true)
   private String name;
+
+  @AuditMappedBy(mappedBy = "location")
   @OneToMany(fetch = EAGER, cascade = MERGE, orphanRemoval = true, mappedBy = "location")
   private Collection<Building> buildings;
 
