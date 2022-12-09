@@ -6,7 +6,6 @@ import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.DeviceSpecification;
 import danielvishnievskyi.bachelorproject.services.BuildingService;
 import danielvishnievskyi.bachelorproject.services.DeviceService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -17,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.EQUAL;
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;

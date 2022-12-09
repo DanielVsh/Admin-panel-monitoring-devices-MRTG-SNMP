@@ -7,7 +7,6 @@ import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSp
 import danielvishnievskyi.bachelorproject.services.BuildingService;
 import danielvishnievskyi.bachelorproject.services.LocationService;
 import danielvishnievskyi.bachelorproject.dto.BuildingDto;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -18,6 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
 

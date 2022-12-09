@@ -91,6 +91,7 @@ const Buildings = () => {
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
   console.log(location)
+  console.log("nu nahui")
   return (
     <>
       <div className={table.topMenu}>
