@@ -2,10 +2,10 @@ package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Privilege;
 import danielvishnievskyi.bachelorproject.repositories.PrivilegeRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 
 @Component
 @RequiredArgsConstructor

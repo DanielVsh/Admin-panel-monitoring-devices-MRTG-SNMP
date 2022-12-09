@@ -3,6 +3,7 @@ package danielvishnievskyi.bachelorproject.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +11,11 @@ import lombok.ToString;
 import org.hibernate.envers.AuditMappedBy;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
 import java.util.Collection;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.FetchType.EAGER;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.FetchType.EAGER;
+
 
 @Entity
 @Getter

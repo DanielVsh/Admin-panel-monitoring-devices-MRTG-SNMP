@@ -1,14 +1,12 @@
 package danielvishnievskyi.bachelorproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
