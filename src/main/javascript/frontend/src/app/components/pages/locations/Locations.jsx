@@ -57,6 +57,7 @@ const Locations = () => {
     document.addEventListener('mousedown', handleClick);
   });
 
+  console.log(pageableLocation)
 
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />

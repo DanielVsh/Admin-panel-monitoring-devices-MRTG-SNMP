@@ -8,7 +8,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const bodyFormData = new FormData();
-
+    
     const sendLoginRequest = () => {
         bodyFormData.append("username", username);
         bodyFormData.append("password", password);
