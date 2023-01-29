@@ -15,7 +15,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-@Audited()
+@Audited
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role  {

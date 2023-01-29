@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { currentIp } from "../../../settings";
 
 export const structureApi = createApi({
   reducerPath: "structureApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://147.232.205.203:8080/api/v1/",
+    baseUrl: `${currentIp}api/v1/`,
     prepareHeaders: (headers) => {
       headers.set('Authorization', localStorage.getItem("access_token"));
       return headers;
@@ -114,11 +115,13 @@ export const structureApi = createApi({
     ////////////////////////////
     getLogs: builder.query({
       query: (pageable) => pageable 
-      ? `logs/${pageable?.filter}?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
-      : `logs/${pageable?.filter}`,
+      ? `logs?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
+      : `logs`,
       providesTags: ["Location", "Building", "Device"]
     })
   }),
+
+  
 });
 
 export const {

@@ -15,7 +15,7 @@ import java.util.Collection;
 @Setter
 @Getter
 @ToString
-@Audited()
+@Audited
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Privilege  {
