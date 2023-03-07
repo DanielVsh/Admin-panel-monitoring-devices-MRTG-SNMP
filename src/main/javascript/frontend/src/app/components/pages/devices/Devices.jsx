@@ -66,7 +66,6 @@ const Devices = () => {
   if (isLoading) return <LoaderHook />
   if (isError) return <ErrorPage />
 
-  console.log(JSOG.decode(devices?.content))
 
   return (
     <>

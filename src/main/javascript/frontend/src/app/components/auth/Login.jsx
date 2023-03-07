@@ -7,6 +7,10 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const check = () => {
+        axios.get(`${currentIp}api/v1/mrtg`).then(console.log("ok"))
+    }
+
     const navigate = useNavigate();
     const bodyFormData = new FormData();
     const sendLoginRequest = () => {
@@ -37,6 +41,8 @@ const Login = () => {
                 placeholder={"Write your password"}
             />
             <button type={"submit"} onClick={() => sendLoginRequest()} on>Login</button>
+
+            <button type={"submit"} onClick={() => check()}></button>
         </>
     )
 }
