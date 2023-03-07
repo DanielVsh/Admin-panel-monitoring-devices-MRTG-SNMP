@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.envers.AuditMappedBy;
-import org.hibernate.envers.Audited;
-import org.springframework.data.envers.repository.config.EnableEnversRepositories;
+import org.javers.spring.annotation.JaversAuditable;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -21,23 +19,22 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Getter
 @ToString
+@Embeddable
 @NoArgsConstructor
-@Audited
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location  {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+
   private Long id;
   @Column(unique = true)
   private String name;
 
-  @AuditMappedBy(mappedBy = "location")
   @OneToMany(fetch = EAGER, cascade = MERGE, orphanRemoval = true, mappedBy = "location")
   private Collection<Building> buildings;
 
   public Location(String name) {
     this.name = name;
   }
-
 }

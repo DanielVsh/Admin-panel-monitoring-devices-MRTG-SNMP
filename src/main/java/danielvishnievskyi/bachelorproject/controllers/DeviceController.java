@@ -1,6 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
-import danielvishnievskyi.bachelorproject.dto.DeviceDto;
+import danielvishnievskyi.bachelorproject.dto.DeviceDTO;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.DeviceSpecification;
@@ -49,7 +49,7 @@ public class DeviceController {
   }
 
   @PostMapping()
-  public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDto deviceDetails) {
+  public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
     if (deviceService.getByName(deviceDetails.getName()).isPresent()) {
       return new ResponseEntity<>
         (String.format("Device with %s name already exists", deviceDetails.getName()), CONFLICT);
@@ -70,7 +70,7 @@ public class DeviceController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
-                                             @RequestBody @Valid DeviceDto deviceDetails) {
+                                             @RequestBody @Valid DeviceDTO deviceDetails) {
     Device device = deviceService.getById(id).orElseThrow();
     device.setName(deviceDetails.getName());
     device.setIpAddress(deviceDetails.getIpAddress());

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.envers.AuditMappedBy;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,8 +18,8 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @Setter
 @ToString
+@Embeddable
 @NoArgsConstructor
-@Audited
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Building  {
@@ -35,7 +33,6 @@ public class Building  {
   @ToString.Exclude
   private Location location;
 
-  @AuditMappedBy(mappedBy = "building")
   @OneToMany(fetch = EAGER, cascade = MERGE, orphanRemoval = true, mappedBy = "building")
   private Collection<Device> devices;
 

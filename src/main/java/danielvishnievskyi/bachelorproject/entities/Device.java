@@ -7,16 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Embeddable
+@ToString
 @NoArgsConstructor
-@Audited
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Device  {
@@ -27,11 +27,12 @@ public class Device  {
   private String name;
   @Column(unique = true)
   private String ipAddress;
-  private LocalDateTime uptime;
+  private Date uptime;
   private boolean switchMap;
   private String SNMP;
 
   @ManyToOne()
+  @ToString.Exclude
   private Building building;
 
   public Device(String name,
@@ -41,7 +42,7 @@ public class Device  {
     this.name = name;
     this.building = building;
     this.ipAddress = ipAddress;
-    this.uptime = LocalDateTime.now();
+    this.uptime = new Date();
     this.switchMap = switchMap;
     this.SNMP = "PUBLIC";
   }
@@ -54,8 +55,9 @@ public class Device  {
     this.name = name;
     this.building = building;
     this.ipAddress = ipAddress;
-    this.uptime = LocalDateTime.now();
+    this.uptime = new Date();
     this.switchMap = switchMap;
     this.SNMP = SNMP;
   }
 }
+

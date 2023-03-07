@@ -1,12 +1,11 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
+import danielvishnievskyi.bachelorproject.dto.BuildingDTO;
 import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.BuildingSpecification;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import danielvishnievskyi.bachelorproject.services.BuildingService;
 import danielvishnievskyi.bachelorproject.services.LocationService;
-import danielvishnievskyi.bachelorproject.dto.BuildingDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -17,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
@@ -61,7 +59,7 @@ public class BuildingController {
   }
 
   @PostMapping()
-  public ResponseEntity<?> createBuilding(@RequestBody @Valid BuildingDto buildingDetails) {
+  public ResponseEntity<?> createBuilding(@RequestBody @Valid BuildingDTO buildingDetails) {
     if (locationService.getById(buildingDetails.getLocationId()).isEmpty()) {
       return new ResponseEntity<>("Location id is null or location not found", BAD_REQUEST);
     }
@@ -79,7 +77,7 @@ public class BuildingController {
 
   @PutMapping("/{id}")
   public ResponseEntity<?> updateBuilding(@PathVariable Long id,
-                                          @RequestBody @Valid BuildingDto buildingDetails) {
+                                          @RequestBody @Valid BuildingDTO buildingDetails) {
     if (buildingService.getById(id).isEmpty()) {
       return new ResponseEntity<>("Invalid id", BAD_REQUEST);
     }

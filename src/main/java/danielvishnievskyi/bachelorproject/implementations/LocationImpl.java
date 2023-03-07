@@ -2,7 +2,6 @@ package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.repositories.LocationRepo;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

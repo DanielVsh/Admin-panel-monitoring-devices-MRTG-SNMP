@@ -1,6 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
-import danielvishnievskyi.bachelorproject.dto.LocationDto;
+import danielvishnievskyi.bachelorproject.dto.LocationDTO;
 import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
@@ -59,7 +59,7 @@ public class LocationController {
   }
 
   @PostMapping()
-  public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDto locationDetails) {
+  public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
     if (locationService.getByName(locationDetails.getName()).isPresent()) {
       return new ResponseEntity<>
         (String.format("Location with %s name already exists", locationDetails.getName()), CONFLICT);
@@ -71,7 +71,7 @@ public class LocationController {
 
   @PutMapping("/{id}")
   public ResponseEntity<?> updateLocation(@PathVariable Long id,
-                                          @RequestBody @Valid LocationDto locationDetails) {
+                                          @RequestBody @Valid LocationDTO locationDetails) {
     if (locationService.getById(id).isEmpty()) {
       return new ResponseEntity<>("Invalid id", BAD_REQUEST);
     }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.crossstore.ChangeSetPersister.*;
+import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 @Component
 @RequiredArgsConstructor

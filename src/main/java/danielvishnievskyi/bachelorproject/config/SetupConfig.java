@@ -1,23 +1,16 @@
 package danielvishnievskyi.bachelorproject.config;
 
 import danielvishnievskyi.bachelorproject.entities.*;
-import danielvishnievskyi.bachelorproject.enums.SearchOperation;
 import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
 import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
 import danielvishnievskyi.bachelorproject.repositories.LocationRepo;
-import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import danielvishnievskyi.bachelorproject.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static danielvishnievskyi.bachelorproject.enums.SearchOperation.*;
 
 @Configuration
 public class SetupConfig {
@@ -68,15 +61,18 @@ public class SetupConfig {
         Building build5 = new Building("Build5", loc4);
         buildingRepo.saveAll(Set.of(build1, build2, build3, build4, build5));
 
-//      var loc  = IntStream.rangeClosed(1, 3000)
+        Device device = new Device("Dev", build1, "147.232.205.203",true);
+        deviceRepo.save(device);
+
+//      var loc  = IntStream.rangeClosed(1, 2000)
 //        .mapToObj(value -> new Location("Location " + (3000+value))).toList();
 //      locationRepo.saveAll(loc);
-//      var build  = IntStream.rangeClosed(1, 2000)
+//      var build  = IntStream.rangeClosed(1, 1000)
 //        .mapToObj(value -> new Building(
 //          "Building " + (2000+value),
 //          loc.get(value))).toList();
 //      buildingRepo.saveAll(build);
-//      var device  = IntStream.rangeClosed(1, 1500)
+//      var device  = IntStream.rangeClosed(1, 500)
 //        .mapToObj(value -> new Device(
 //          "Device " + (1500+value),
 //          build.get(value),
@@ -85,7 +81,7 @@ public class SetupConfig {
 //      deviceRepo.saveAll(device);
 //
 //
-//      IntStream.rangeClosed(1,100).forEach((i) -> {
+//      IntStream.rangeClosed(1,300).forEach((i) -> {
 //        device.get(0).setName("TEST"+i);
 //        deviceRepo.save(device.get(0));
 //      });
