@@ -8,11 +8,13 @@ import danielvishnievskyi.bachelorproject.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Set;
 import java.util.stream.IntStream;
 
 @Configuration
+@EnableScheduling
 public class SetupConfig {
 
   @Bean
