@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -64,7 +65,9 @@ public class SetupConfig {
         buildingRepo.saveAll(Set.of(build1, build2, build3, build4, build5));
 
         Device device = new Device("Dev", build1, "147.232.205.203",true);
-        deviceRepo.save(device);
+        Device device1 = new Device("Dev1", build1, "147.232.205.204",true);
+        Device device2 = new Device("Dev2", build2, "147.232.205.205",true);
+        deviceRepo.saveAll(List.of(device, device1, device2));
 
 //      var loc  = IntStream.rangeClosed(1, 2000)
 //        .mapToObj(value -> new Location("Location " + (3000+value))).toList();

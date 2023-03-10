@@ -2,26 +2,25 @@ package danielvishnievskyi.bachelorproject.services;
 
 import danielvishnievskyi.bachelorproject.entities.Privilege;
 import danielvishnievskyi.bachelorproject.entities.Role;
-import danielvishnievskyi.bachelorproject.implementations.RoleImpl;
+import danielvishnievskyi.bachelorproject.repositories.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
 public class RoleService {
-  private final RoleImpl roleImpl;
+  private final RoleRepo roleRepo;
 
-  public void save(Role role) {
-    roleImpl.save(role);
-  }
-
-  public void delete(Role role) {
-    roleImpl.delete(role);
-  }
-
+  @Transactional
   public Role createIfNotFound(String name, Collection<Privilege> privileges) {
-    return roleImpl.createIfNotFound(name, privileges);
+    return roleRepo.getByName(name.toUpperCase()).orElseGet(() -> {
+      Role role = new Role(name.toUpperCase());
+      role.setPrivileges(privileges);
+      roleRepo.save(role);
+      return role;
+    });
   }
 }

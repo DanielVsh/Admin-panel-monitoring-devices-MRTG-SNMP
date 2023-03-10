@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
 
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.EQUAL;
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;
@@ -52,15 +53,15 @@ public class LocationController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
-    if (locationService.getById(id).isEmpty()) {
+    if (locationService.findById(id).isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
-    return ResponseEntity.ok(locationService.getById(id).orElseThrow());
+    return ResponseEntity.ok(locationService.findById(id).orElseThrow());
   }
 
   @PostMapping()
   public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
-    if (locationService.getByName(locationDetails.getName()).isPresent()) {
+    if (locationService.findByName(locationDetails.getName()).isPresent()) {
       return new ResponseEntity<>
         (String.format("Location with %s name already exists", locationDetails.getName()), CONFLICT);
     }
@@ -72,10 +73,10 @@ public class LocationController {
   @PutMapping("/{id}")
   public ResponseEntity<?> updateLocation(@PathVariable Long id,
                                           @RequestBody @Valid LocationDTO locationDetails) {
-    if (locationService.getById(id).isEmpty()) {
+    if (locationService.findById(id).isEmpty()) {
       return new ResponseEntity<>("Invalid id", BAD_REQUEST);
     }
-    Location location = locationService.getById(id).orElseThrow();
+    Location location = locationService.findById(id).orElseThrow();
     location.setName(locationDetails.getName());
     locationService.save(location);
     return ResponseEntity.ok(location);
@@ -83,12 +84,13 @@ public class LocationController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Location> delete(@PathVariable Long id) {
-    return ResponseEntity.ok(locationService.delete(id));
+    locationService.deleteById(id);
+    return ResponseEntity.ok().build();
   }
 
   @DeleteMapping()
   public ResponseEntity<Collection<Long>> delete(@RequestParam Collection<Long> filter) throws IOException {
-    return ResponseEntity.ok(locationService.deleteManyByIds(filter));
+    locationService.deleteAllById(filter);
+    return ResponseEntity.ok().build();
   }
-
 }

@@ -50,16 +50,16 @@ public class DeviceController {
 
   @PostMapping()
   public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
-    if (deviceService.getByName(deviceDetails.getName()).isPresent()) {
+    if (deviceService.findByName(deviceDetails.getName()).isPresent()) {
       return new ResponseEntity<>
         (String.format("Device with %s name already exists", deviceDetails.getName()), CONFLICT);
     }
-    if (buildingService.getById(deviceDetails.getBuildingId()).isEmpty()) {
+    if (buildingService.findById(deviceDetails.getBuildingId()).isEmpty()) {
       return new ResponseEntity<>(("Building not found"), CONFLICT);
     }
     Device device = new Device(
       deviceDetails.getName(),
-      buildingService.getById(deviceDetails.getBuildingId()).orElseThrow(),
+      buildingService.findById(deviceDetails.getBuildingId()).orElseThrow(),
       deviceDetails.getIpAddress(),
       deviceDetails.isSwitchMap(),
       deviceDetails.getSNMP() != null ? deviceDetails.getSNMP() : null
@@ -71,7 +71,7 @@ public class DeviceController {
   @PutMapping("/{id}")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
                                              @RequestBody @Valid DeviceDTO deviceDetails) {
-    Device device = deviceService.getById(id).orElseThrow();
+    Device device = deviceService.findById(id).orElseThrow();
     device.setName(deviceDetails.getName());
     device.setIpAddress(deviceDetails.getIpAddress());
     device.setSwitchMap(deviceDetails.isSwitchMap());
@@ -82,7 +82,7 @@ public class DeviceController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Device> deleteDevice(@PathVariable Long id) {
-    deviceService.delete(id);
+    deviceService.deleteById(id);
     return ResponseEntity.ok().build();
   }
 }

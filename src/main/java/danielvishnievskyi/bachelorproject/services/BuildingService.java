@@ -1,7 +1,7 @@
 package danielvishnievskyi.bachelorproject.services;
 
 import danielvishnievskyi.bachelorproject.entities.Building;
-import danielvishnievskyi.bachelorproject.implementations.BuildingImpl;
+import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,37 +14,37 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BuildingService {
-  private final BuildingImpl buildingImpl;
+  private final BuildingRepo buildingRepo;
 
   public Page<Building> findAll(Pageable page) {
-    return buildingImpl.findAll(page);
+    return buildingRepo.findAll(page);
   }
 
   public Page<Building> findAll(Specification<Building> specification, Pageable page) {
-    return buildingImpl.findAll(specification, page);
+    return buildingRepo.findAll(specification, page);
   }
 
-  public Collection<Building> getManyByIds(Collection<Long> ids) {
-    return buildingImpl.getManyByIds(ids);
+  public Collection<Building> findAllById(Collection<Long> ids) {
+    return buildingRepo.findAllById(ids);
   }
 
-  public Optional<Building> getById(Long id) {
-    return buildingImpl.getById(id);
+  public Optional<Building> findById(Long id) {
+    return buildingRepo.findById(id);
   }
 
-  public Optional<Building> getByName(String name) {
-    return buildingImpl.getByName(name);
+  public Optional<Building> findByName(String name) {
+    return buildingRepo.findByName(name);
   }
 
-  public Building deleteById(Long id) {
-    return buildingImpl.deleteById(id);
+  public void deleteById(Long id) {
+    buildingRepo.deleteById(id);
   }
 
-  public Collection<Long> deleteManyByIds(Collection<Long> ids) {
-    return buildingImpl.deleteAllById(ids);
+  public void deleteAllById(Collection<Long> ids) {
+    buildingRepo.deleteAllById(ids);
   }
 
   public void save(Building building) {
-    buildingImpl.save(building);
+    buildingRepo.save(building);
   }
 }

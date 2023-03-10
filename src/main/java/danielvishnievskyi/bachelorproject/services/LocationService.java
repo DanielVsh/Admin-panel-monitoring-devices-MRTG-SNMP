@@ -1,8 +1,7 @@
 package danielvishnievskyi.bachelorproject.services;
 
 import danielvishnievskyi.bachelorproject.entities.Location;
-import danielvishnievskyi.bachelorproject.implementations.LocationImpl;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
+import danielvishnievskyi.bachelorproject.repositories.LocationRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,40 +9,42 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class LocationService {
-  private final LocationImpl locationImpl;
+public class LocationService{
+  private final LocationRepo locationRepo;
 
   public Page<Location> findAll(Pageable page) {
-    return locationImpl.findAll(page);
+    return locationRepo.findAll(page);
+  }
+
+  public Collection<Location> findAll() {
+    return locationRepo.findAll();
   }
 
   public Page<Location> findAll(Specification<Location> specification, Pageable page) {
-    return locationImpl.findAll(specification, page);
+    return locationRepo.findAll(specification, page);
   }
 
-  public Optional<Location> getById(Long id) {
-    return locationImpl.getById(id);
+  public Optional<Location> findById(Long id) {
+    return locationRepo.findById(id);
   }
 
-  public Optional<Location> getByName(String name) {
-    return locationImpl.getByName(name);
+  public Optional<Location> findByName(String name) {
+    return locationRepo.findByName(name);
   }
 
-  public Location delete(Long id) {
-    return locationImpl.deleteById(id);
+  public void deleteById(Long id) {
+    locationRepo.deleteById(id);
   }
 
-  public Collection<Long> deleteManyByIds(Collection<Long> ids) {
-    locationImpl.deleteManyByIds(ids);
-    return ids;
+  public void deleteAllById(Collection<Long> ids) {
+    locationRepo.deleteAllById(ids);
   }
 
   public void save(Location buildingLocation) {
-    locationImpl.save(buildingLocation);
+    locationRepo.save(buildingLocation);
   }
 }

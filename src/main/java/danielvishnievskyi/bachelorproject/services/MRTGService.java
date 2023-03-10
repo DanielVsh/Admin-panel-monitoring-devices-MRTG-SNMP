@@ -21,7 +21,6 @@ public class MRTGService {
 
   private final DeviceRepo deviceRepo;
 
-
   @Transactional
   public void generateMRTG() throws IOException, InterruptedException {
     log.info("Start of generating MRTG");

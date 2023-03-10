@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.spring.annotation.JaversAuditable;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -23,7 +22,7 @@ import static javax.persistence.FetchType.EAGER;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Location  {
+public class Location {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
 

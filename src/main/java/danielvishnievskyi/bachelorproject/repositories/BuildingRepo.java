@@ -12,20 +12,5 @@ import java.util.Optional;
 @JaversSpringDataAuditable
 public interface BuildingRepo extends JpaRepository<Building, Long>,
   JpaSpecificationExecutor<Building>{
-  Optional<Building> getByName(String name);
-
-//  @Query(value = """
-//    SELECT new danielvishnievskyi.bachelorproject.dto.audit.AuditBuildingDTO(
-//      la.id,
-//      la.rev,
-//      la.revtype,
-//      la.name,
-//      la.locationId,
-//      er.timestamp,
-//      er.username
-//    )
-//    FROM AuditBuilding la
-//    JOIN EnversRev er ON la.rev = er.id
-//  """)
-//  List<AuditBuildingDTO> findLastChanges(Pageable pageable);
+  Optional<Building> findByName(String name);
 }

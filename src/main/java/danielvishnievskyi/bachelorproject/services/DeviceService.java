@@ -1,8 +1,7 @@
 package danielvishnievskyi.bachelorproject.services;
 
-import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.entities.Device;
-import danielvishnievskyi.bachelorproject.implementations.DeviceImpl;
+import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,38 +13,38 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DeviceService {
-  private final DeviceImpl deviceImpl;
+public class DeviceService{
+  private final DeviceRepo deviceRepo;
 
   public Page<Device> findAll(Pageable page) {
-    return deviceImpl.findAll(page);
+    return deviceRepo.findAll(page);
   }
 
   public Page<Device> findAll(Specification<Device> specification, Pageable page) {
-    return deviceImpl.findAll(specification, page);
+    return deviceRepo.findAll(specification, page);
   }
 
-  public Collection<Device> getManyByIds(Collection<Long> ids) {
-    return deviceImpl.getManyByIds(ids);
+  public Collection<Device> findAllById(Collection<Long> ids) {
+    return deviceRepo.findAllById(ids);
   }
 
   public void save(Device device) {
-    deviceImpl.save(device);
+    deviceRepo.save(device);
   }
 
-  public void deleteManyByIds(Collection<Long> ids) {
-    deviceImpl.deleteManyById(ids);
+  public void deleteAllById(Collection<Long> ids) {
+    deviceRepo.deleteAllById(ids);
   }
 
-  public void delete(Long id) {
-    deviceImpl.delete(id);
+  public void deleteById(Long id) {
+    deviceRepo.deleteById(id);
   }
 
-  public Optional<Device> getById(Long id) {
-    return deviceImpl.getById(id);
+  public Optional<Device> findById(Long id) {
+    return deviceRepo.findById(id);
   }
 
-  public Optional<Device> getByName(String name) {
-    return deviceImpl.getByName(name);
+  public Optional<Device> findByName(String name) {
+    return deviceRepo.findByName(name);
   }
 }

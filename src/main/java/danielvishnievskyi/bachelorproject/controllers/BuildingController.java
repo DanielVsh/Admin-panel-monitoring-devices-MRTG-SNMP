@@ -49,28 +49,29 @@ public class BuildingController {
     } else if (StringUtils.hasLength(filter)) {
       buildFilter.add(new SearchCriteria("name", filter, MATCH));
     }
+
     return ResponseEntity.ok(buildingService.findAll(buildFilter, page));
   }
 
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Building> getBuildingById(@PathVariable Long id) {
-    return ResponseEntity.ok(buildingService.getById(id).orElseThrow());
+    return ResponseEntity.ok(buildingService.findById(id).orElseThrow());
   }
 
   @PostMapping()
   public ResponseEntity<?> createBuilding(@RequestBody @Valid BuildingDTO buildingDetails) {
-    if (locationService.getById(buildingDetails.getLocationId()).isEmpty()) {
+    if (locationService.findById(buildingDetails.getLocationId()).isEmpty()) {
       return new ResponseEntity<>("Location id is null or location not found", BAD_REQUEST);
     }
-    if (buildingService.getByName(buildingDetails.getName()).isPresent()) {
+    if (buildingService.findByName(buildingDetails.getName()).isPresent()) {
       return new ResponseEntity<>
         (format("Building with %s name already exists", buildingDetails.getName()), CONFLICT);
     }
 
     Building building = new Building(
       buildingDetails.getName(),
-      locationService.getById(buildingDetails.getLocationId()).orElseThrow());
+      locationService.findById(buildingDetails.getLocationId()).orElseThrow());
     buildingService.save(building);
     return ResponseEntity.ok(building);
   }
@@ -78,13 +79,13 @@ public class BuildingController {
   @PutMapping("/{id}")
   public ResponseEntity<?> updateBuilding(@PathVariable Long id,
                                           @RequestBody @Valid BuildingDTO buildingDetails) {
-    if (buildingService.getById(id).isEmpty()) {
+    if (buildingService.findById(id).isEmpty()) {
       return new ResponseEntity<>("Invalid id", BAD_REQUEST);
     }
-    Building building = buildingService.getById(id).orElseThrow();
+    Building building = buildingService.findById(id).orElseThrow();
     building.setName(buildingDetails.getName());
-    if (locationService.getById(buildingDetails.getLocationId()).isPresent()) {
-      var location = locationService.getById(buildingDetails.getLocationId()).orElseThrow();
+    if (locationService.findById(buildingDetails.getLocationId()).isPresent()) {
+      var location = locationService.findById(buildingDetails.getLocationId()).orElseThrow();
       building.setLocation(location);
     }
     buildingService.save(building);
@@ -93,11 +94,13 @@ public class BuildingController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Building> deleteBuilding(@PathVariable Long id) {
-    return ResponseEntity.ok(buildingService.deleteById(id));
+    buildingService.deleteById(id);
+    return ResponseEntity.ok().build();
   }
 
   @DeleteMapping()
   public ResponseEntity<?> delete(@RequestParam Collection<Long> filter) throws IOException {
-    return ResponseEntity.ok(buildingService.deleteManyByIds(filter));
+    buildingService.deleteAllById(filter);
+    return ResponseEntity.ok().build();
   }
 }
