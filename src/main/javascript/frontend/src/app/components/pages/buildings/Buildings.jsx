@@ -6,6 +6,7 @@ import ErrorPage from "../error/ErrorPage"
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import JSOG from 'jsog';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Buildings = () => {
 
@@ -55,7 +56,7 @@ const Buildings = () => {
   }
 
 
- 
+
 
   const modalWindowRef = useRef();
   const handleClick = (e) => {
@@ -90,6 +91,8 @@ const Buildings = () => {
 
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
+
+  console.log(JSOG.decode(pageableBuilding))
   return (
     <>
       <div className={table.topMenu}>
@@ -106,10 +109,10 @@ const Buildings = () => {
             <div>
               <div>Location: {location?.name}</div>
               <input className={table.chosenValue} name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
-              {filter.length > 0 && 
-              pageableLocation?.content?.map(location => (
-                <div onClick={() => setLocation(location)} key={location.id} value={location.id}>id: {location.id} name: {location.name}</div>
-              ))}
+              {filter.length > 0 &&
+                pageableLocation?.content?.map(location => (
+                  <div onClick={() => setLocation(location)} key={location.id} value={location.id}>id: {location.id} name: {location.name}</div>
+                ))}
 
               {/* <select onChange={(e) => setLocationId(e.target.value)}>
                 {pageableLocation?.content?.map(location => (
@@ -117,36 +120,45 @@ const Buildings = () => {
                 ))}
               </select>{locationId}<br /> */}
             </div>
-            <button onClick={(e) => {handleCreateBuilding({
-              name: name,
-              locationId: location?.id
-            }, e.preventDefault())
-            setDropdownCreateLocation(false)
+            <button onClick={(e) => {
+              handleCreateBuilding({
+                name: name,
+                locationId: location?.id
+              }, e.preventDefault())
+              setDropdownCreateLocation(false)
             }}>Create new Building</button>
           </form>
         </div>
       }
-
       <table className={table.table}>
         <thead className={table.head}>
           <tr>
-            <td className={table.minSize}>Id</td>
-            <td>Name</td>
-            <td>Location</td>
+            <td onClick={() => {
+              setSortedElement("id")
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+            }} className={table.minSize}>Id</td>
+            <td onClick={() => {
+              setSortedElement("name")
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+            }}>Name</td>
+            <td onClick={() => {
+              setSortedElement("location_name")
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+            }}>Location</td>
             <td>Devices</td>
-            <td className={table.minSize}>Actions</td>
+            <td className={table.actionSize}>Actions</td>
           </tr>
         </thead>
         <tbody>
-          {JSOG.decode(pageableBuilding?.content).map((building) => (
-            <tr key={building.id}>
+          {JSOG.decode(pageableBuilding?.content)?.map((building, idx) => (
+            <tr key={idx}>
               <td>{building.id}</td>
               <td>{building.name}</td>
               <td>{building.location.name}</td>
               <td>{building.devices ? building.devices.length : "0"}</td>
-              <td>
-                <button onClick={() => handleDeleteBuilding(building.id)}>Delete</button>
-                <button onClick={() => navigate(`building/${building.id}`, { replace: true })}>Edit</button>
+              <td className={table.action}>
+                <i class="bi bi-pencil-fill" onClick={() => navigate(`building/${building.id}`, { replace: true })}></i>
+                <i class="bi bi-trash" onClick={() => handleDeleteBuilding(building.id)}></i>
               </td>
             </tr>
           ))}

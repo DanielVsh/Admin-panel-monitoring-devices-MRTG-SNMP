@@ -27,7 +27,7 @@ const Devices = () => {
   const { data: buildingsData, isLoading: isLoadingBuildings } = useGetBuildingQuery({
     page: 0,
     sort: {
-      element: "name",
+      element: "id",
       direction: "asc"
     },
     size: 10,
@@ -81,7 +81,7 @@ const Devices = () => {
         </select>
         <input name={"SNMP"} value={SNMP} onChange={(e) =>
           setSNMP(e.target.value)} placeholder={"SNMP community"} />
-          <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
+        <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
         <select value={buildingId} onChange={(e) => setBuildingId(e.target.value)} >
           {buildingsData?.content?.map(building => (
             <option key={building.id} value={building.id}>id: {building.id} name: {building.name}</option>
@@ -101,33 +101,67 @@ const Devices = () => {
       <table className={table.table}>
         <thead className={table.head}>
           <tr>
-            <td className={table.minSize}>Id</td>
-            <td>Name</td>
-            <td>Building</td>
-            <td>Location</td>
-            <td className={table.minSize}>Ip</td>
-            <td className={table.minSize}>UpTime</td>
-            <td className={table.minSize}>SNMP</td>
-            <td className={table.minSize}>SwitchMap</td>
+            <td onClick={() => {
+              setSortedElement('id')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }} className={table.minSize}>Id</td>
+            <td onClick={() => {
+              setSortedElement('name')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }}>Name</td>
+            <td onClick={() => {
+              setSortedElement('building_name')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }}>Building</td>
+            <td onClick={() => {
+              setSortedElement('building_location_name')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }}>Location</td>
+            <td onClick={() => {
+              setSortedElement('ipAddress')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }} className={table.minSize}>Ip</td>
+            <td onClick={() => {
+              setSortedElement('uptime')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }}>UpTime</td>
+            <td onClick={() => {
+              setSortedElement('SNMP')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }} className={table.minSize}>SNMP</td>
+            <td onClick={() => {
+              setSortedElement('switchMap')
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+              }} className={table.minSize}>SwitchMap</td>
             <td className={table.minSize}>Actions</td>
           </tr>
         </thead>
         <tbody>
-          {JSOG.decode(devices?.content).map(device => (
-            <tr key={device.id}>
-              <td>{device.id}</td>
-              <td>{device.name}</td>
-              <td>{device.building.name}</td>
-              <td>{device.building.location.name}</td>
-              <td>{device.ipAddress}</td>
-              <td>{device.uptime}</td>
-              <td>{device.snmp}</td>
-              <td>{device.switchMap ? "true" : "false"}</td>
-              <td>
-                <button onClick={() => handleDeleteDevice(device.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
+          {JSOG.decode(devices?.content).map(device => {
+            const deviceTime = new Date(device?.uptime);
+            const currentTime = new Date();
+            const timeDiff = Math.abs(currentTime - deviceTime);
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+            return (
+              <tr key={device?.id}>
+                <td>{device?.id}</td>
+                <td>{device?.name}</td>
+                <td>{device?.building?.name}</td>
+                <td>{device?.building?.location?.name}</td>
+                <td>{device?.ipAddress}</td>
+                <td>{`${days} days ${hours}:${minutes}:${seconds} hours`}</td>
+                <td>{device?.snmp}</td>
+                <td>{device?.switchMap ? "true" : "false"}</td>
+                <td>
+                  <button onClick={() => handleDeleteDevice(device.id)}>Delete</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {page + 1 + " of " + devices.totalPages}

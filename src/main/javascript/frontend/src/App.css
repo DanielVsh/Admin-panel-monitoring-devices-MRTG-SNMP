@@ -13,6 +13,19 @@
 
 .content {
     grid-area: content;
-    margin: 20px 20px;
+    margin: 10px 10px;
     background-color: #ffffff;
+    
+}
+
+
+
+.unLogged{
+    display: grid;
+    grid-template-areas: 
+    "content"
+    "foot";
+    height: 100%;
+    grid-auto-rows: auto min-content;
+
 }

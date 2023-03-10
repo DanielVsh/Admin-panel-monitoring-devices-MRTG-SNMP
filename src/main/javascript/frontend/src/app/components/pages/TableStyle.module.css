@@ -1,5 +1,6 @@
 .table .table,
 table {
+    
     width: 100%;
 }
 
@@ -7,6 +8,7 @@ table {
     text-align: center;
     background-color: #04AA6D;
     color: #000000;
+    
 
 }
 
@@ -19,9 +21,9 @@ table {
 }
 
 .table td {
-    padding: 10px;
+    padding: 4px;
     border-bottom: 1px solid #ddd;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .table .minSize {
@@ -125,7 +127,6 @@ tr:last-of-type {
 
 .topMenu {
     margin-bottom: 10px;
-   
 }
 
 .topMenu button{
@@ -135,4 +136,12 @@ tr:last-of-type {
     border: none;
     border-radius: 1px;
     padding: 6px;
+}
+
+.action i {
+    padding-right: 15px;
+}
+
+.actionSize {
+    width: 85px;
 }

@@ -18,6 +18,7 @@ const Logout = () => {
     const logout = () => {
         clearData();
         navigate("/", {replace: true});
+        window.location.reload();
     }
     return (
         <div>
