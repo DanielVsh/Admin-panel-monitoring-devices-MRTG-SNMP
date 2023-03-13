@@ -3,6 +3,7 @@ package danielvishnievskyi.bachelorproject.security.utils;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -10,8 +11,8 @@ import java.util.Date;
 @Setter
 public class AuthUtil {
   private static final String secretJWT = ".RwTxMB3qR#XV*djaY.Uc7@C;Q3ibAVr3i6w9tw#?y657AYGeRgr&/q;k/HUWZ[$";
-  private static final int accessTokenTime =1000 * 30 * 60 * 1000;
-  private static final int refreshTokenTime = 2 * 60 * 60 * 1000;
+  private static final Integer accessTokenTime = 1000 * 60 * 60;
+  private static final Integer refreshTokenTime = 1000 * 60 * 60 * 24;
 
   public static Algorithm getSecuredJWT() {
     return Algorithm.HMAC256(secretJWT);
