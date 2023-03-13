@@ -27,7 +27,6 @@ const MainPage = () => {
 
   return (
     <>
-
       <img className={styles.uvtImg} src="UVT_TUKE.png" alt='UVT' />
       <h2 className={styles.title}>MRTG TUKE UVT</h2>
 

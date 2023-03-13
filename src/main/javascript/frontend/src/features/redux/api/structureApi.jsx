@@ -1,22 +1,59 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Mutex } from 'async-mutex';
+import axios from 'axios';
 import { currentIp } from "../../../settings";
+import { logout } from './../../../app/components/auth/logout';
+
+const mutex = new Mutex()
+const baseQuery = fetchBaseQuery({
+  baseUrl: `${currentIp}api/v1/`,
+  prepareHeaders: (headers) => {
+    if (localStorage.getItem("access_token")) {
+      headers.set('Authorization', localStorage.getItem("access_token"));
+    }
+    return headers;
+  },
+})
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  await mutex.waitForUnlock()
+  let result = await baseQuery(args, api, extraOptions)
+  if (result.error && result.error.status === 403) {
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire()
+      try {
+       await axios.get(`${currentIp}api/v1/auth/token/refresh`, {
+          headers: {
+            "Authorization": localStorage.getItem("refresh_token")
+          }
+        }).then((response) => {
+          localStorage.setItem("access_token", `Bearer ${response.data.access_token}`)
+          result = baseQuery(args, api, extraOptions)
+        }).catch(reason => {
+          logout(null, null)
+          window.location.href = "/login";
+          alert("Your token has expired");
+        })    
+      } finally {
+        release()
+      }
+    } else {
+      await mutex.waitForUnlock()
+      result = await baseQuery(args, api, extraOptions)
+    }
+  }
+  return result
+}
 
 export const structureApi = createApi({
   reducerPath: "structureApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${currentIp}api/v1/`,
-    prepareHeaders: (headers) => {
-      headers.set('Authorization', localStorage.getItem("access_token"));
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Location", "Building", "Device"],
   endpoints: (builder) => ({
     ////////////////////////////
     getLocations: builder.query({
-      query: (pageable) => pageable 
-      ? `location?sort=${pageable.sort.element},${pageable.sort.direction}&size=${pageable.size}&page=${pageable.page}&filter=${pageable.filter}`
-      : `location`,
+      query: (pageable) => pageable
+        ? `location?sort=${pageable.sort.element},${pageable.sort.direction}&size=${pageable.size}&page=${pageable.page}&filter=${pageable.filter}`
+        : `location`,
       providesTags: ["Location", "Building", "Device"]
     }),
 
@@ -52,9 +89,9 @@ export const structureApi = createApi({
     }),
     ////////////////////////////
     getBuilding: builder.query({
-      query: (pageable) => pageable 
-      ? `building?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
-      : `building`,
+      query: (pageable) => pageable
+        ? `building?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
+        : `building`,
       providesTags: ["Location", "Building", "Device"]
     }),
 
@@ -90,9 +127,9 @@ export const structureApi = createApi({
     }),
     ////////////////////////////
     getDevice: builder.query({
-      query: (pageable) => pageable 
-      ? `device?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
-      : `device`,
+      query: (pageable) => pageable
+        ? `device?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&filter=${pageable?.filter}`
+        : `device`,
       providesTags: ["Location", "Building", "Device"]
     }),
 
@@ -114,22 +151,20 @@ export const structureApi = createApi({
     }),
     ////////////////////////////
     getAuditLogs: builder.query({
-      query: (pageable) => pageable 
-      ? `logs?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
-      : `logs`,
+      query: (pageable) => pageable
+        ? `logs?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
+        : `logs`,
       providesTags: ["Location", "Building", "Device"]
     }),
     ////////////////////////////
     getUserLocations: builder.query({
       query: (pageable) => pageable
-      ? `user?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
-      : `user`,
+        ? `user?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
+        : `user`,
       providesTags: ["Location", "Building", "Device"]
 
     })
   }),
-
-  
 });
 
 export const {
@@ -154,7 +189,7 @@ export const {
   useGetBuildingAuditLogsQuery,
   ////////////////////////////
   useGetUserLocationsQuery,
-  
+
 
 
 } = structureApi;

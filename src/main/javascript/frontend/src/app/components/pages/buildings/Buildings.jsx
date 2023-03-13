@@ -92,7 +92,6 @@ const Buildings = () => {
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
 
-  console.log(JSOG.decode(pageableBuilding))
   return (
     <>
       <div className={table.topMenu}>
@@ -157,8 +156,8 @@ const Buildings = () => {
               <td>{building.location.name}</td>
               <td>{building.devices ? building.devices.length : "0"}</td>
               <td className={table.action}>
-                <i class="bi bi-pencil-fill" onClick={() => navigate(`building/${building.id}`, { replace: true })}></i>
-                <i class="bi bi-trash" onClick={() => handleDeleteBuilding(building.id)}></i>
+                <i className="bi bi-pencil-fill" onClick={() => navigate(`building/${building.id}`, { replace: true })}></i>
+                <i className="bi bi-trash" onClick={() => handleDeleteBuilding(building.id)}></i>
               </td>
             </tr>
           ))}

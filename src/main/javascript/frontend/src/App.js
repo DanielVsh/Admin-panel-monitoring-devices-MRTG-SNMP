@@ -1,8 +1,8 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import Login from "./app/components/auth/Login";
-import Logout from "./app/components/auth/Logout";
+import Logout from "./app/components/auth/logout";
 import Foot from "./app/components/interface/foot/Foot";
 import Header from "./app/components/interface/header/Header";
 import NavigationBar from "./app/components/interface/navigationbar/NavigationBar";
@@ -17,27 +17,27 @@ import MainPage from "./app/components/pages/main/MainPage";
 import MissingPage from "./app/components/pages/missingpage/MissingPage";
 import AuthRouteView from "./features/hooks/authRoute/AuthRouteView";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-//TODO: DONE! 1.сделать рендер приложения при изменениях.
-// 2. сделать обновление акцес токена спомощью рефреш токена
-// DONE! 3. расделить таблицы по 10 на страницу
 function App() {
+
+  const location = useLocation();
 
   const appContent = localStorage.getItem("access_token") === null
     ? (
       <div className="unLogged">
-        <Foot />
+        {location.pathname !== "/login" && <Foot />}
         <div className={"content"}>
           <Routes>
             <Route path={""} element={<MainPage />} />
-            <Route path={"login"} element={<Login />} />
-            <Route path={"logout"} element={<Logout />} />
-            <Route path={"*"} element={<Login />} />
+            <Route path={"/login"} element={<Login />} />
+            <Route path={"*"} element={<MissingPage />} />
           </Routes>
         </div>
       </div>
     )
     : (
+      <>
       <div className="app-wrapper">
         <Header />
         <NavigationBar />
@@ -45,8 +45,7 @@ function App() {
         <div className={"content"}>
           <Routes>
             <Route path={""} element={<MainPage />} />
-            <Route path={"login"} element={<Login />} />
-            <Route path={"logout"} element={<Logout />} />
+            {/* <Route path={"login"} element={<Login />} /> */}
             <Route path={"dashboard"} element={<AuthRouteView />}>
               <Route index element={<Dashboard />} />
               <Route path={"buildings"}>
@@ -64,6 +63,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      </>
     )
 
 

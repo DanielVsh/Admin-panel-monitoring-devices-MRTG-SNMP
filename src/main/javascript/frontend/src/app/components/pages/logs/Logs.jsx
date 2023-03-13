@@ -25,7 +25,6 @@ const Logs = () => {
     return <LoaderHook />
   }
 
-  console.log(auditLogs)
   return (
     <>
       <table className={table.table}>

@@ -169,7 +169,7 @@ const Devices = () => {
       <button onClick={() => setPage(devices.totalPages - 1 > page ? page + 1 : page)}>next page</button>
       <button onClick={() => setPage(0)}>First page</button>
       <button onClick={() => setPage(devices.totalPages - 1)}>Last page</button>
-      <select value={size} onChange={(e) => setSize(e.target.value)} >
+      <select key={1} value={size} onChange={(e) => setSize(e.target.value)} >
         <option value={10}>{10} </option>
         <option value={20}>{20} </option>
         <option value={30}>{30} </option>

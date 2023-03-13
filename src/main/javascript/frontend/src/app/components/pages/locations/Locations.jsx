@@ -73,7 +73,6 @@ const Locations = () => {
 
   if (pageableLoading) return <LoaderHook />
   if (pageableError) return <ErrorPage />
-  console.log(pageableLocation && locations)
 
   return (
     <>
@@ -111,21 +110,24 @@ const Locations = () => {
               setSortedElement("name")
               setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
             }}>Name</td>
-            <td className={table.minSize}>Buildings</td>
+            <td onClick={() => {
+              setSortedElement("buildings")
+              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+            }} className={table.minSize}>Buildings</td>
             <td className={table.minSize}>Devices</td>
             <td className={table.actionSize}>Actions</td>
           </tr>
         </thead>
         <tbody>
-          {locations?.map((location, id) => (
-            <tr key={id}>
+          {locations?.map((location) => (
+            <tr key={location.id}>
               <td>{location.id}</td>
               <td>{location.name}</td>
               <td>{location.buildings.length}</td>
               <td>{location.buildings.reduce((sum, building) => sum + building.devices.length, 0)}</td>
               <td className={table.action}>
-                <i class="bi bi-pencil-fill" onClick={() => navigate(`location/${location.id}`, { replace: true })}></i>
-                <i class="bi bi-trash" onClick={() => handleDeleteLocation(location.id)}></i>
+                <i className="bi bi-pencil-fill" onClick={() => navigate(`location/${location.id}`, { replace: true })}></i>
+                <i className="bi bi-trash" onClick={() => handleDeleteLocation(location.id)}></i>
               </td>
             </tr>
           ))}
