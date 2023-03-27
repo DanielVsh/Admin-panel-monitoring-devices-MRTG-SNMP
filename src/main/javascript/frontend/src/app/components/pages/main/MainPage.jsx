@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import { useGetUserLocationsQuery } from "../../../../features/redux/api/structureApi";
 import styles from './MainPage.module.css';
-import { Link } from 'react-router-dom';
 
 const MainPage = () => {
 
@@ -58,7 +57,8 @@ const MainPage = () => {
 
                     return (
                       <li className={styles.text} key={device.id} >
-                        <Link className={styles.link} to={`/mrtg/${device.ipAddress}.html`}>{device.name}</Link>
+                        <a className={styles.link} href={`/mrtg/${device.ipAddress}.html`}>{device?.name}</a>
+                        {/* <Link className={styles.link} to={`/mrtg/${device.ipAddress}.html`}>{device.name}</Link> */}
                         &nbsp;&nbsp;{`uptime: ${days} days ${hours}:${minutes}:${seconds} hours`}
                       </li>
                     )
