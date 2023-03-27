@@ -8,14 +8,11 @@ import danielvishnievskyi.bachelorproject.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 @Configuration
-@EnableScheduling
 public class SetupConfig {
 
   @Bean
@@ -33,8 +30,10 @@ public class SetupConfig {
     return args -> {
       Privilege adminWritePrivilege = privilegeService.createIfNotFound("admin:write");
       Privilege adminViewPrivilege = privilegeService.createIfNotFound("admin:view");
-      Role roleAdmin = roleService.createIfNotFound("ADMIN", Set.of(adminViewPrivilege));
-      Role superAdmin = roleService.createIfNotFound("SUPER_ADMIN", Set.of(adminViewPrivilege, adminWritePrivilege));
+      Privilege adminDeletePrivilege = privilegeService.createIfNotFound("admin:delete");
+      Role roleAdmin = roleService.createIfNotFound("ADMIN_VIEW", Set.of(adminViewPrivilege));
+      Role roleAdminModerator = roleService.createIfNotFound("ADMIN_WRITE", Set.of(adminWritePrivilege));
+      Role superAdmin = roleService.createIfNotFound("SUPER_ADMIN", Set.of(adminDeletePrivilege));
 
       AdminProfile admin = new AdminProfile(
         "admin",
@@ -50,24 +49,31 @@ public class SetupConfig {
         "boss",
         Set.of(superAdmin));
       userProfileService.save(super_admin);
+      AdminProfile admin_write = new AdminProfile(
+        "writer",
+        "super",
+        "boss",
+        "writer",
+        Set.of(roleAdminModerator));
+      userProfileService.save(admin_write);
 
-        Location loc1 = new Location("Loc1");
-        Location loc2 = new Location("Loc2");
-        Location loc3 = new Location("Loc3");
-        Location loc4 = new Location("Loc4");
-        Location loc5 = new Location("Loc5");
-        locationRepo.saveAll(Set.of(loc1, loc2, loc3, loc4, loc5));
-        Building build1 = new Building("Build1", loc1);
-        Building build2 = new Building("Build2", loc1);
-        Building build3 = new Building("Build3", loc2);
-        Building build4 = new Building("Build4", loc3);
-        Building build5 = new Building("Build5", loc4);
-        buildingRepo.saveAll(Set.of(build1, build2, build3, build4, build5));
+      Location loc1 = new Location("Loc1");
+      Location loc2 = new Location("Loc2");
+      Location loc3 = new Location("Loc3");
+      Location loc4 = new Location("Loc4");
+      Location loc5 = new Location("Loc5");
+      locationRepo.saveAll(Set.of(loc1, loc2, loc3, loc4, loc5));
+      Building build1 = new Building("Build1", loc1);
+      Building build2 = new Building("Build2", loc1);
+      Building build3 = new Building("Build3", loc2);
+      Building build4 = new Building("Build4", loc3);
+      Building build5 = new Building("Build5", loc4);
+      buildingRepo.saveAll(Set.of(build1, build2, build3, build4, build5));
 
-        Device device = new Device("Dev", build1, "147.232.205.203",true);
-        Device device1 = new Device("Dev1", build1, "147.232.205.204",true);
-        Device device2 = new Device("Dev2", build2, "147.232.205.205",true);
-        deviceRepo.saveAll(List.of(device, device1, device2));
+      Device device = new Device("Dev", build1, "147.232.205.203", true);
+      Device device1 = new Device("Dev1", build1, "147.232.205.204", true);
+      Device device2 = new Device("Dev2", build2, "147.232.205.205", true);
+      deviceRepo.saveAll(List.of(device, device1, device2));
 
 //      var loc  = IntStream.rangeClosed(1, 2000)
 //        .mapToObj(value -> new Location("Location " + (3000+value))).toList();

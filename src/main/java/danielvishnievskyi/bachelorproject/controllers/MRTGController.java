@@ -12,15 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @EnableAsync
-@PreAuthorize("hasAnyRole('SUPER_ADMIN')")
 @RestController()
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class MRTGController {
   private final MRTGService MRTGService;
 
-  @Scheduled(cron = "0 0 0 * * *")
+  @Scheduled(cron = "0 0 * * * ?")
+  public void automaticallyGenerateMRTG() {
+    try {
+      MRTGService.generateMRTG();
+      log.info("Successfully finished generating the MRTG");
+    } catch (Exception e) {
+      log.error("Error: {}", e.getMessage());
+      e.printStackTrace();
+    }
+  }
+
   @GetMapping("/mrtg")
+  @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public void generateMRTG() {
     try {
       MRTGService.generateMRTG();

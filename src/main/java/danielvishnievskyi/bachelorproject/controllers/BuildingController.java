@@ -29,7 +29,6 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('SUPER_ADMIN')")
 @RequestMapping("api/v1/building")
 @RequiredArgsConstructor
 public class BuildingController {
@@ -37,7 +36,7 @@ public class BuildingController {
   private final LocationService locationService;
 
   @GetMapping()
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> getBuildings(
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
@@ -54,12 +53,13 @@ public class BuildingController {
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Building> getBuildingById(@PathVariable Long id) {
     return ResponseEntity.ok(buildingService.findById(id).orElseThrow());
   }
 
   @PostMapping()
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<?> createBuilding(@RequestBody @Valid BuildingDTO buildingDetails) {
     if (locationService.findById(buildingDetails.getLocationId()).isEmpty()) {
       return new ResponseEntity<>("Location id is null or location not found", BAD_REQUEST);
@@ -77,6 +77,7 @@ public class BuildingController {
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<?> updateBuilding(@PathVariable Long id,
                                           @RequestBody @Valid BuildingDTO buildingDetails) {
     if (buildingService.findById(id).isEmpty()) {
@@ -93,12 +94,14 @@ public class BuildingController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Building> deleteBuilding(@PathVariable Long id) {
     buildingService.deleteById(id);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping()
+  @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<?> delete(@RequestParam Collection<Long> filter) throws IOException {
     buildingService.deleteAllById(filter);
     return ResponseEntity.ok().build();

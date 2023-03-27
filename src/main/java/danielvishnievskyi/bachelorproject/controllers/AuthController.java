@@ -33,7 +33,7 @@ public class AuthController {
   private final AdminProfileService userProfileService;
 
   @GetMapping()
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Boolean> isLogged() {
     return ResponseEntity.ok().body(true);
   }

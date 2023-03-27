@@ -44,7 +44,7 @@ public class Device  {
     this.ipAddress = ipAddress;
     this.uptime = new Date();
     this.switchMap = switchMap;
-    this.SNMP = "PUBLIC";
+    this.SNMP = "public";
   }
 
   public Device(String name,
@@ -57,7 +57,7 @@ public class Device  {
     this.ipAddress = ipAddress;
     this.uptime = new Date();
     this.switchMap = switchMap;
-    this.SNMP = SNMP;
+    this.SNMP = SNMP.toLowerCase();
   }
 }
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
-@PreAuthorize("hasAnyRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN_VIEW')")
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 public class AdminController {

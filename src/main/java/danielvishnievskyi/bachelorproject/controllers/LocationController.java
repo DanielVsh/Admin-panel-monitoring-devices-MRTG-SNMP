@@ -28,7 +28,6 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('SUPER_ADMIN')")
 @RequestMapping("api/v1/location")
 @RequiredArgsConstructor
 public class LocationController {
@@ -36,7 +35,7 @@ public class LocationController {
 
 
   @GetMapping()
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> getFilteredAndPageableLocations(
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
@@ -52,6 +51,7 @@ public class LocationController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
     if (locationService.findById(id).isEmpty()) {
       return ResponseEntity.badRequest().build();
@@ -60,6 +60,7 @@ public class LocationController {
   }
 
   @PostMapping()
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
     if (locationService.findByName(locationDetails.getName()).isPresent()) {
       return new ResponseEntity<>
@@ -71,6 +72,7 @@ public class LocationController {
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<?> updateLocation(@PathVariable Long id,
                                           @RequestBody @Valid LocationDTO locationDetails) {
     if (locationService.findById(id).isEmpty()) {
@@ -83,12 +85,14 @@ public class LocationController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<Location> delete(@PathVariable Long id) {
     locationService.deleteById(id);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping()
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<Collection<Long>> delete(@RequestParam Collection<Long> filter) throws IOException {
     locationService.deleteAllById(filter);
     return ResponseEntity.ok().build();

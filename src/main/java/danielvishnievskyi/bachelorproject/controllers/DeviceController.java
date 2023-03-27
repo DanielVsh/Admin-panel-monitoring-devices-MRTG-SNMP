@@ -25,7 +25,6 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('SUPER_ADMIN')")
 @RequestMapping("api/v1/device")
 @RequiredArgsConstructor
 public class DeviceController {
@@ -33,7 +32,7 @@ public class DeviceController {
   private final BuildingService buildingService;
 
   @GetMapping()
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> getFilteredAndPageableDevices(
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
@@ -49,6 +48,7 @@ public class DeviceController {
   }
 
   @PostMapping()
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
     if (deviceService.findByName(deviceDetails.getName()).isPresent()) {
       return new ResponseEntity<>
@@ -69,6 +69,7 @@ public class DeviceController {
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
                                              @RequestBody @Valid DeviceDTO deviceDetails) {
     Device device = deviceService.findById(id).orElseThrow();
@@ -81,6 +82,7 @@ public class DeviceController {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Device> deleteDevice(@PathVariable Long id) {
     deviceService.deleteById(id);
     return ResponseEntity.ok().build();
