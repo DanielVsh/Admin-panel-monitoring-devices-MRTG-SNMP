@@ -59,7 +59,7 @@ public class BuildingController {
   }
 
   @PostMapping()
-  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> createBuilding(@RequestBody @Valid BuildingDTO buildingDetails) {
     if (locationService.findById(buildingDetails.getLocationId()).isEmpty()) {
       return new ResponseEntity<>("Location id is null or location not found", BAD_REQUEST);

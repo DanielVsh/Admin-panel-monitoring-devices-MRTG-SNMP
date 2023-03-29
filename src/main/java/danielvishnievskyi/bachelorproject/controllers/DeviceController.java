@@ -48,7 +48,7 @@ public class DeviceController {
   }
 
   @PostMapping()
-  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
     if (deviceService.findByName(deviceDetails.getName()).isPresent()) {
       return new ResponseEntity<>

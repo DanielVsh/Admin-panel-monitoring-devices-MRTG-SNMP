@@ -32,8 +32,8 @@ public class SetupConfig {
       Privilege adminViewPrivilege = privilegeService.createIfNotFound("admin:view");
       Privilege adminDeletePrivilege = privilegeService.createIfNotFound("admin:delete");
       Role roleAdmin = roleService.createIfNotFound("ADMIN_VIEW", Set.of(adminViewPrivilege));
-      Role roleAdminModerator = roleService.createIfNotFound("ADMIN_WRITE", Set.of(adminWritePrivilege));
-      Role superAdmin = roleService.createIfNotFound("SUPER_ADMIN", Set.of(adminDeletePrivilege));
+      Role roleAdminModerator = roleService.createIfNotFound("ADMIN_WRITE", Set.of(adminWritePrivilege, adminViewPrivilege));
+      Role superAdmin = roleService.createIfNotFound("SUPER_ADMIN", Set.of(adminDeletePrivilege, adminWritePrivilege, adminViewPrivilege));
 
       AdminProfile admin = new AdminProfile(
         "admin",

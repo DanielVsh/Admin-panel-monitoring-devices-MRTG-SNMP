@@ -60,7 +60,7 @@ public class LocationController {
   }
 
   @PostMapping()
-  @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
     if (locationService.findByName(locationDetails.getName()).isPresent()) {
       return new ResponseEntity<>
