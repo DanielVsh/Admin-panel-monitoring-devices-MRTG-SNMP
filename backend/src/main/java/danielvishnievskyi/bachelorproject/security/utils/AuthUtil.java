@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 public class AuthUtil {
   private static final String secretJWT = ".RwTxMB3qR#XV*djaY.Uc7@C;Q3ibAVr3i6w9tw#?y657AYGeRgr&/q;k/HUWZ[$";
-  private static final Integer accessTokenTime = 1000 * 60 * 60;
+  private static final Integer accessTokenTime = 1000 * 60 * 10;
   private static final Integer refreshTokenTime = 1000 * 60 * 60 * 24;
 
   public static Algorithm getSecuredJWT() {

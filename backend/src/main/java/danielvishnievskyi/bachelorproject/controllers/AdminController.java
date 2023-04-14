@@ -17,7 +17,6 @@ import java.security.Principal;
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 public class AdminController {
-
   private final AdminProfileService userProfileService;
 
   @GetMapping()

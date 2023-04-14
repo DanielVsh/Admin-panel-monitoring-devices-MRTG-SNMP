@@ -41,7 +41,13 @@ public class MRTGService {
 
         String file = "/usr/bin/cfgmaker --output=/tmp/mrtg-gen/mrtg.cfg.new --global \"Interval: 5\" --global \"Forks: 4\"  --global \"options[_]: growright,bits\" --ifdesc=descr --show-op-down --ifdesc=name --ifdesc=alias --no-down --subdirs=HOSTNAME__SNMPNAME ";
         file += community + "@" + ip + ":::::" + snmpversion + ";";
-        mrtgconf.append(community).append("@").append(ip).append(":::::").append(snmpversion).append(" ");
+        mrtgconf
+          .append(community)
+          .append("@")
+          .append(ip)
+          .append(":::::")
+          .append(snmpversion)
+          .append(" ");
 
         Path scriptPath = Paths.get("/var/www/html/mrtg.uvt.tuke.sk/admin/script/mrtgindex.sh");
         if (!Files.exists(scriptPath.getParent())) {

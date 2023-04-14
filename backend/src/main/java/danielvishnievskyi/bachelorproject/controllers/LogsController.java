@@ -1,5 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
+import danielvishnievskyi.bachelorproject.entities.AdminProfile;
 import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.entities.Location;
@@ -22,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogsController {
   private final Javers javers;
 
-
   @GetMapping()
   public ResponseEntity<?> getLogs(@PageableDefault Pageable pageable) {
     QueryBuilder jql = QueryBuilder.byClass(
       Location.class,
       Building.class,
-      Device.class
+      Device.class,
+      AdminProfile.class
     );
 
     var changes = javers.findChanges(jql.build());
@@ -37,5 +38,4 @@ public class LogsController {
 
     return ResponseEntity.ok(javers.getJsonConverter().toJson(page));
   }
-
 }

@@ -114,5 +114,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>java-spring-backend-app</finalName>
     </build>
 </project>

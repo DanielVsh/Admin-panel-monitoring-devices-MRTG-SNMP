@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+  frontend:
+    image: nginx
+    volumes:
+      - ./src/main/javascript/frontend:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
