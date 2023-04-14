@@ -1,0 +1,52 @@
+.content {
+  /* padding-top: 0%; */
+  width: 80%;
+  margin: auto auto;
+}
+
+.block {
+  background-color: rgb(234, 234, 234);
+  border-radius: 3%;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding-bottom: 5%;
+  padding-top: 5%;
+  box-shadow: -2px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.link {
+  /* font-weight: bold; */
+  text-decoration: dashed;
+  color: rgba(41, 34, 34, 0.708);
+
+}
+
+.uvtImg {
+  display: block;
+  margin: 0 auto;
+  max-width: 75%;
+}
+
+.title {
+  text-align: center;
+  /* font-size: 3rem; */
+}
+
+.subtitle {
+  text-align: center;
+  /* font-size: 2rem; */
+}
+
+.buildingName {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.text {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.devicesList {
+  display: none;
+}
