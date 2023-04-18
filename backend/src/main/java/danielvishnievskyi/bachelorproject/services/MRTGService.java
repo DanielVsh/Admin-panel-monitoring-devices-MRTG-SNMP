@@ -29,8 +29,9 @@ public class MRTGService {
     StringBuilder mrtgconf = new StringBuilder("/usr/bin/cfgmaker  --output=/tmp/mrtg-gen/mrtg.cfg.new  --global \"Interval: 5\" --global \"Forks: 4\"  --global \"options[_]: growright,bits\"  --ifdesc=descr --ifdesc=name --ifdesc=alias --show-op-down --no-down --subdirs=HOSTNAME__SNMPNAME ");
 
     Files.createDirectories(Path.of("/var/www/mrtg/"));
-
     Files.createDirectories(Paths.get("/tmp/mrtg-gen/"));
+    Files.createDirectories(Paths.get("/var/www/html/mrtg"));
+
     executeShellCommand("rm", "-rf", "/var/www/html/mrtg");
     executeShellCommand("cp", "-r", "/var/www/mrtg", "/var/www/html/mrtg");
 
