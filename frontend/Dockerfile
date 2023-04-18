@@ -6,8 +6,9 @@ COPY . .
 RUN npm run build
 
 FROM nginx:latest
-COPY --from=build app/build /usr/share/nginx/html
-COPY default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build app/build/* /var/www/html/
+COPY --from=build app/build /var/www/html/
+EXPOSE ${PORT_FRONTEND}
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,19 +1,36 @@
 version: '3'
+
 services:
   db:
-    image: my-mariadb-image
+    image: daniel225660/dashboard-monitoring-system:database
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=db1
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
-  app:
-    image: my-java-app-image
+    volumes:
+      - db_data:/var/lib/mysql
+  be:
+    image: daniel225660/dashboard-monitoring-system:backend
+    restart: always
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/${DB_NAME}?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - db
-  web:
-    image: my-react-app-image
+  fe:
+    image: daniel225660/dashboard-monitoring-system:frontend
+    restart: always
     ports:
       - "80:80"
+    depends_on:
+      - be
+
+volumes:
+  db_data:

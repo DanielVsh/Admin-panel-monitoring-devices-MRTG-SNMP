@@ -2,6 +2,8 @@ package danielvishnievskyi.bachelorproject.security;
 
 import danielvishnievskyi.bachelorproject.security.filters.CustomAuthenticationFilter;
 import danielvishnievskyi.bachelorproject.security.filters.CustomAuthorizationFilter;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -57,8 +59,7 @@ public class SecurityConfig {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
     config.setAllowedOriginPatterns(List.of(
-      "http://127.0.0.1:3000/",
-      "http://147.232.205.203/"
+      "http://147.232.205.203"
     ));
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
