@@ -9,6 +9,6 @@ FROM nginx:latest
 COPY nginx.conf /etc/nginx/nginx.conf
 #COPY --from=build app/build/* /var/www/html/
 COPY --from=build app/build /var/www/html/
-EXPOSE ${PORT_FRONTEND}
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
