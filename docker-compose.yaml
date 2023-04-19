@@ -28,6 +28,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - db
+    volumes:
+      - mrtg_data:/var/www/html/mrtg
     container_name: be
 
   fe:
@@ -36,8 +38,11 @@ services:
     restart: always
     ports:
       - "80:80"
+    volumes:
+      - mrtg_data:/var/www/html/mrtg
     container_name: fe
       
 volumes:
   db_data:
+  mrtg_data:
   

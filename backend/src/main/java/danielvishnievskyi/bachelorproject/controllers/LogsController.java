@@ -28,8 +28,7 @@ public class LogsController {
     QueryBuilder jql = QueryBuilder.byClass(
       Location.class,
       Building.class,
-      Device.class,
-      AdminProfile.class
+      Device.class
     );
 
     var changes = javers.findChanges(jql.build());

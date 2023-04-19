@@ -32,10 +32,6 @@ public class MRTGService {
     Files.createDirectories(Paths.get("/tmp/mrtg-gen/"));
     Files.createDirectories(Paths.get("/var/www/html/mrtg"));
 
-    executeShellCommand("rm", "-rf", "/var/www/html/mrtg");
-    executeShellCommand("cp", "-r", "/var/www/mrtg", "/var/www/html/mrtg");
-
-
     getIpList().stream().forEach(ip -> {
       try {
         String community = getCommunityByIp(ip);
@@ -75,6 +71,9 @@ public class MRTGService {
     executeShellCommand("mv", "/etc/mrtg.cfg", "/etc/mrtg.cfg.old");
     executeShellCommand("cp", "-f", "/tmp/mrtg-gen/mrtg.cfg.new", "/etc/mrtg.cfg");
     executeShellCommand("rm", "-rf", "/tmp/mrtg-gen/");
+
+    executeShellCommand("rm", "-rf", "/var/www/html/mrtg");
+    executeShellCommand("cp", "-r", "/var/www/mrtg", "/var/www/html/");
 
     log.info("End of generating MRTG");
   }
