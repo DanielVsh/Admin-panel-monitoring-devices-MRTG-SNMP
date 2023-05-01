@@ -1,4 +1,5 @@
 FROM mariadb:latest
-ENV MYSQL_ROOT_PASSWORD=${PASSWORD_DATABASE}
-ENV MYSQL_DATABASE=${NAME_DATABASE}
+
+COPY init-db.sql /docker-entrypoint-initdb.d/
+
 EXPOSE 3306
