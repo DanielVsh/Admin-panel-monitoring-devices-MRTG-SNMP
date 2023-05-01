@@ -6,9 +6,8 @@ services:
     #image: daniel225660/dashboard-monitoring-system:database
     restart: always
     environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
