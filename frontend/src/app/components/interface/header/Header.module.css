@@ -1,19 +1,35 @@
 .header {
-    grid-area: header;
-    background-color: #F1F1F1F1;
+  grid-area: header;
+  background-color: #c9cdc9f1;
 }
 
 .main {
-    margin-left: 10px;
-    margin-top: 10px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 6px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.header a{
-    text-decoration: none;
-    color: black;
-    padding-right: 20px;
+.header a, p{
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  padding-right: 10px;
 }
 
-.text{
-    color:purple;
+.text {
+  color: purple;
+}
+
+i::before {
+  border-radius: 50%;
+  /*background-color: #e50808;*/
+  transition: all 0.6s ease;
+  padding: 10px;
+}
+
+i:hover::before {
+  background: #949b99;
+  border-radius: 50%;
 }

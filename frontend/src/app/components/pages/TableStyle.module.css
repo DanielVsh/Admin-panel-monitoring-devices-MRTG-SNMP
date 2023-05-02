@@ -1,6 +1,5 @@
 .table .table,
 table {
-    
     width: 100%;
 }
 
@@ -8,8 +7,6 @@ table {
     text-align: center;
     background-color: #04AA6D;
     color: #000000;
-    
-
 }
 
 .table tr:nth-child(even) {
@@ -35,10 +32,6 @@ tbody,
 tr:last-of-type {
     border-bottom: 4px solid #04AA6D;
 }
-
-
-
-
 
 .newLocation, .newBuilding, .newDevice{
     height: 200px;
@@ -143,5 +136,5 @@ tr:last-of-type {
 }
 
 .actionSize {
-    width: 85px;
+    width: 10%;
 }
