@@ -18,8 +18,7 @@ const Logs = () => {
     size: size,
     filter: id,
   }
-
-
+  
   const {data: auditLogs, isLoading: isLoadingLogs} = useGetAuditLogsQuery(pageable);
 
   if (isLoadingLogs) {
@@ -54,12 +53,10 @@ const Logs = () => {
             <td>Property ({logs?.property}):
               from {logs?.left?.cdoId ?? logs?.left ?? "null"} to {logs?.right?.cdoId ?? logs?.right ?? "null"}</td>}
           {logs?.changeType === "ListChange" &&
-            <td>
-              Property ({logs?.property}): Changed
-              <div style={{display: "flex", flexWrap: "wrap"}}>
-                {logs?.elementChanges.map((element, id) => (
-                  <div key={id}>[{element?.value?.cdoId}]</div>
-                ))}
+            <td style={{display: "flex"}}>
+              Property ({logs?.property}): Changed&nbsp;
+              <div>
+                {logs?.elementChanges.map((element, id) => `[${element?.value?.cdoId}]`).join(", ")}
               </div>
             </td>}
           {logs?.changeType === "ObjectRemoved" && <td>removed</td>}
