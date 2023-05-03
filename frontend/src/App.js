@@ -17,8 +17,10 @@ import MissingPage from "./app/components/pages/missingpage/MissingPage";
 import AuthRouteView from "./features/hooks/authRoute/AuthRouteView";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {CreateDevice} from "./app/components/pages/devices/CreateDevice";
+import {DeviceCreate} from "./app/components/pages/devices/DeviceCreate";
 import {DeviceDetails} from "./app/components/pages/devices/DeviceDetails";
+import {LocationCreate} from "./app/components/pages/locations/LocationCreate";
+import {BuildingCreate} from "./app/components/pages/buildings/BuildingCreate";
 
 function App() {
 
@@ -52,15 +54,17 @@ function App() {
                 <Route path={"buildings"}>
                   <Route index element={<Buildings/>}/>
                   <Route path={"building/:id"} element={<BuildingDetails/>}/>
+                  <Route path={"create"} element={<BuildingCreate/>}/>
                 </Route>
                 <Route path={"locations"}>
                   <Route index element={<Locations/>}/>
                   <Route path={"location/:id"} element={<LocationDetails/>}/>
+                  <Route path={"create"} element={<LocationCreate/>}/>
                 </Route>
                 <Route path={"devices"}>
                   <Route index element={<Devices/>}/>
                   <Route path={"device/:id"} element={<DeviceDetails/>}/>
-                  <Route path={"create"} element={<CreateDevice/>}/>
+                  <Route path={"create"} element={<DeviceCreate/>}/>
                 </Route>
                 <Route path={"logs"} element={<Logs/>}/>
               </Route>

@@ -4,7 +4,8 @@
   align-items: center;
   height: 100%;
   /* background-color: #ffffff; */
-  background-image: linear-gradient(rgb(74, 191, 246), rgb(215, 247, 250));
+  /* background-image: linear-gradient(rgb(74, 191, 246), rgb(215, 247, 250)); */
+  background: linear-gradient(230.59deg, #4d9559 0%, #38703d 40.53%, #133917 60.52%);
 }
 
 .formStyle {

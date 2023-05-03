@@ -44,16 +44,17 @@ function MenuModal() {
 
   return (
     <>
-      <i ref={modalWindowRef2} onClick={() => setShowModal(true)} className="bi bi-list"></i>
+      <i ref={modalWindowRef2} onClick={() => setShowModal(!showModal)} className="bi bi-list"></i>
       {showModal && (
         <div className={modal.modal} ref={modalWindowRef}>
           <div>
             <p style={{ display: "inline-block", marginRight: "3px" }}>user:</p>
             <p style={{ display: "inline-block", color: "green" }}>{jwt_decode(localStorage.getItem("access_token"))?.sub}</p>
           </div>
-
-          <p onClick={handleSettings}>Settings</p>
-          <p onClick={handleLogout}>Logout</p>
+          <ul>
+            <li onClick={handleSettings}>Settings</li>
+            <li onClick={handleLogout}>Logout</li>
+          </ul>
         </div>
       )}
     </>

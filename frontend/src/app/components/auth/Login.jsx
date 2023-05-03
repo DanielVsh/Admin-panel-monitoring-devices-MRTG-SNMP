@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../features/utils/axiosCustom";
-import CustomAlert from "../../../features/utils/CustomAlert";
 import { currentIp } from '../../../settings';
 import LoginStyle from "../auth/Login.module.css";
 
@@ -10,7 +9,6 @@ import LoginStyle from "../auth/Login.module.css";
 const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [rememberMe, setRememberMe] = useState(false);
 	const [error, setError] = useState("");
 
 	const navigate = useNavigate();
@@ -57,7 +55,7 @@ const Login = () => {
 							onChange={(event) => setPassword(event.target.value)}
 						/>
 					</div>
-					<button type="submit">Log In</button>
+					<button style={{backgroundColor: "#5f855b"}} type="submit">Log In</button>
 				</form>
 				{error && <div class="alert alert-warning">
 					<strong>Warning!</strong> {error}.

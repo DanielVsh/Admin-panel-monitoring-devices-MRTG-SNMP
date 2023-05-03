@@ -2,7 +2,7 @@ import debounce from "lodash.debounce";
 import React, {useEffect, useState} from "react";
 import {useCreateNewDeviceMutation, useGetBuildingQuery} from "../../../../features/redux/api/structureApi";
 
-export const CreateDevice = () => {
+export const DeviceCreate = () => {
   const [name, setName] = useState('');
   const [ipAddress, setIpAddress] = useState('');
   const [switchMap, setSwitchMap] = useState(Boolean);

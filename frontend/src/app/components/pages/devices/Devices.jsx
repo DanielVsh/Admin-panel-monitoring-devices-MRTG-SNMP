@@ -21,7 +21,7 @@ const Devices = () => {
     page: page,
     sort: {
       element: sortedElement,
-      direction: sortedDirection
+      direction: filterLine.length > 0 ? "asc" : sortedDirection
     },
     size: size,
     filter: filterLine
@@ -45,10 +45,10 @@ const Devices = () => {
 
   return (
     <>
-      <div style={{display: "flex", justifyContent: "space-between"}}>
+      <div className={table.topLine}>
         <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)}
-               placeholder={"search line"}/>
-        <i style={{paddingRight: "5px", paddingTop: "2px"}} className="bi bi-plus-square-fill" onClick={() => navigate(`create`, {replace: true})}></i>
+               placeholder={"Search"}/>
+          <i className={"bi bi-plus-square-fill"} onClick={() => navigate(`create`, {replace: true})}></i>
       </div>
       <table className={table.table}>
         <thead className={table.head}>
@@ -125,17 +125,22 @@ const Devices = () => {
         })}
         </tbody>
       </table>
-      {page + 1 + " of " + devices.totalPages}
-      <button onClick={() => setPage(page > 0 ? page - 1 : page)}>prev page</button>
-      <button onClick={() => setPage(devices.totalPages - 1 > page ? page + 1 : page)}>next page</button>
-      <button onClick={() => setPage(0)}>First page</button>
-      <button onClick={() => setPage(devices.totalPages - 1)}>Last page</button>
-      <select key={1} value={size} onChange={(e) => setSize(e.target.value)}>
-        <option value={10}>{10} </option>
-        <option value={20}>{20} </option>
-        <option value={30}>{30} </option>
-        <option value={40}>{40} </option>
-      </select>
+      <div className={table.pageable}>
+        <select value={size} onChange={(e) => setSize(e.target.value)}>
+          <option value={10}>{10} </option>
+          <option value={20}>{20} </option>
+          <option value={30}>{30} </option>
+          <option value={40}>{40} </option>
+        </select>
+        <i className="bi bi-chevron-double-left" onClick={() => setPage(0)}></i>
+        <i className="bi bi-chevron-left" onClick={() => setPage(page > 0 ? page - 1 : page)}></i>
+        <i className="bi bi-chevron-right"
+           onClick={() => setPage(devices.totalPages - 1 > page ? page + 1 : page)}></i>
+        <i className="bi bi-chevron-double-right" onClick={() => setPage(devices.totalPages - 1)}></i>
+        <span>
+          Page {page + 1} of {devices.totalPages}
+        </span>
+      </div>
     </>
   )
 }

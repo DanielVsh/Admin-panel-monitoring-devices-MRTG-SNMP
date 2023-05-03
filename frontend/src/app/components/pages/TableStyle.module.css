@@ -33,7 +33,7 @@ tr:last-of-type {
     border-bottom: 4px solid #04AA6D;
 }
 
-.newLocation, .newBuilding, .newDevice{
+.newLocation, .newBuilding, .newDevice {
     height: 200px;
     width: 500px;
     background-color: #04AA6D;
@@ -50,18 +50,21 @@ tr:last-of-type {
 .newLocation p {
     text-align: center;
 }
+
 .newLocation input {
     background-color: #fff9f9;
     border: none;
     outline: none;
     padding: 5px 10px;
 }
+
 .newLocation input::placeholder {
     text-align: center;
     color: #7a7777;
 }
-.newLocation button {   
-    margin-top: 3px ;
+
+.newLocation button {
+    margin-top: 3px;
     border-radius: 1px;
     bottom: 0;
     width: 100%;
@@ -107,9 +110,11 @@ tr:last-of-type {
     transition: background-color 0.3s;
     opacity: 1;
 }
+
 .valueListli:hover {
     background-color: #ff908b;
 }
+
 .valueList li.closed {
     max-height: 0;
     overflow: hidden;
@@ -117,24 +122,44 @@ tr:last-of-type {
     opacity: 0;
 }
 
-
-.topMenu {
-    margin-bottom: 10px;
-}
-
-.topMenu button{
-    float: right;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    border-radius: 1px;
-    padding: 6px;
-}
-
 .action i {
-    padding-right: 15px;
+    padding-right: 5px;
 }
 
 .actionSize {
     width: 10%;
+}
+
+.topLine {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 5px 5px 5px;
+}
+
+.topLine input {
+    border-style: none;
+    border-bottom-style: solid;
+    outline: none;
+}
+
+.topLine i {
+}
+
+.pageable {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.pageable select {
+    border-style: none;
+    outline: none;
+}
+
+.pageable span {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 1px;
+    width: 100px;
 }

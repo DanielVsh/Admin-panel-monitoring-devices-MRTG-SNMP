@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import table from "../TableStyle.module.css";
-import { useCreateNewBuildingMutation, useDeleteBuildingMutation, useGetBuildingQuery, useGetLocationsQuery } from "../../../../features/redux/api/structureApi";
+import {
+  useCreateNewBuildingMutation,
+  useDeleteBuildingMutation,
+  useGetBuildingQuery,
+  useGetLocationsQuery
+} from "../../../../features/redux/api/structureApi";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import ErrorPage from "../error/ErrorPage"
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import JSOG from 'jsog';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -18,65 +23,24 @@ const Buildings = () => {
   const [sortedElement, setSortedElement] = useState("id");
   const [sortedDirection, setSortedDirection] = useState("desc");
   const [filterLine, setFilterLine] = useState("");
-  const [filter, setFilter] = useState("");
-  const [dropdownCreateLocation, setDropdownCreateLocation] = useState(false);
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState(Number);
 
-  const { data: pageableBuilding, isLoading: pageableLoading, isError: pageableError }
+
+  const {data: pageableBuilding, isLoading: pageableLoading, isError: pageableError}
     = useGetBuildingQuery({
-      page: page,
-      sort: {
-        element: sortedElement,
-        direction: sortedDirection
-      },
-      size: size,
-      filter: filterLine
-    });
-
-
-  const { data: pageableLocation } = useGetLocationsQuery({
-    page: 0,
+    page: page,
     sort: {
-      element: "name",
-      direction: "asc"
+      element: sortedElement,
+      direction: filterLine.length > 0 ? "asc" : sortedDirection
     },
-    size: 5,
-    filter: filter,
+    size: size,
+    filter: filterLine
   });
+
   const [deleteBuilding] = useDeleteBuildingMutation();
-  const [createBuilding] = useCreateNewBuildingMutation();
 
-
-  const handleCreateBuilding = async (body) => {
-    await createBuilding(body).unwrap();
-  }
   const handleDeleteBuilding = async (id) => {
     await deleteBuilding(id).unwrap();
   }
-
-
-
-
-  const modalWindowRef = useRef();
-  const handleClick = (e) => {
-    if (dropdownCreateLocation && !modalWindowRef?.current?.contains(e?.target)) {
-      setDropdownCreateLocation(false);
-    }
-  }
-
-
-  // useEffect(() => {
-  //   if (pageableLocation) {
-  //     setLocation(pageableLocation?.content[0])
-  //   }
-  // }, [pageableLocation]);
-
-  // useEffect(() => {
-  //   if (locationId) {
-  //     setFilter(locationId)
-  //   }
-  // }, [locationId]);
 
   useEffect(() => {
     if (pageableBuilding) {
@@ -84,96 +48,70 @@ const Buildings = () => {
     }
   }, [filterLine])
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-  });
-
-
-  if (pageableLoading) return <LoaderHook />
-  if (pageableError) return <ErrorPage />
+  if (pageableLoading) return <LoaderHook/>
+  if (pageableError) return <ErrorPage/>
 
   return (
     <>
-      <div className={table.topMenu}>
-        <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)} placeholder={"search"} />
-        {!dropdownCreateLocation &&
-          <button onClick={() => setDropdownCreateLocation(!dropdownCreateLocation)} >add new building</button>
-        }
+      <div className={table.topLine}>
+          <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)}
+                 placeholder={"Search"}/>
+          <i className={"bi bi-plus-square-fill"} onClick={() => navigate(`create`, {replace: true})}></i>
       </div>
-      {dropdownCreateLocation &&
-        <div className={table.newBuilding} ref={modalWindowRef}>
-          <form>
-            <p>Create form</p>
-            <input name={"name"} onChange={(e) => setName(e.target.value)} placeholder={"Building name"} />
-            <div>
-              <div>Location: {location?.name}</div>
-              <input className={table.chosenValue} name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"} />
-              {filter.length > 0 &&
-                pageableLocation?.content?.map(location => (
-                  <div onClick={() => setLocation(location)} key={location.id} value={location.id}>id: {location.id} name: {location.name}</div>
-                ))}
 
-              {/* <select onChange={(e) => setLocationId(e.target.value)}>
-                {pageableLocation?.content?.map(location => (
-                  <option key={location.id} value={location.id}>id: {location.id} name: {location.name}</option>
-                ))}
-              </select>{locationId}<br /> */}
-            </div>
-            <button onClick={(e) => {
-              handleCreateBuilding({
-                name: name,
-                locationId: location?.id
-              }, e.preventDefault())
-              setDropdownCreateLocation(false)
-            }}>Create new Building</button>
-          </form>
-        </div>
-      }
       <table className={table.table}>
         <thead className={table.head}>
-          <tr>
-            <td onClick={() => {
-              setSortedElement("id")
-              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
-            }} className={table.minSize}>Id</td>
-            <td onClick={() => {
-              setSortedElement("name")
-              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
-            }}>Name</td>
-            <td onClick={() => {
-              setSortedElement("location_name")
-              setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
-            }}>Location</td>
-            <td>Devices</td>
-            <td className={table.actionSize}>Actions</td>
-          </tr>
+        <tr>
+          <td onClick={() => {
+            setSortedElement("id")
+            setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+          }} className={table.minSize}>Id
+          </td>
+          <td onClick={() => {
+            setSortedElement("name")
+            setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+          }}>Name
+          </td>
+          <td onClick={() => {
+            setSortedElement("location_name")
+            setSortedDirection(sortedDirection === "asc" ? "desc" : "asc")
+          }}>Location
+          </td>
+          <td>Devices</td>
+          <td className={table.actionSize}>Actions</td>
+        </tr>
         </thead>
         <tbody>
-          {JSOG.decode(pageableBuilding?.content)?.map((building, idx) => (
-            <tr key={idx}>
-              <td>{building.id}</td>
-              <td>{building.name}</td>
-              <td>{building.location.name}</td>
-              <td>{building.devices ? building.devices.length : "0"}</td>
-              <td className={table.action}>
-                <i className="bi bi-pencil-fill" onClick={() => navigate(`building/${building.id}`, { replace: true })}></i>
-                <i className="bi bi-trash" onClick={() => handleDeleteBuilding(building.id)}></i>
-              </td>
-            </tr>
-          ))}
+        {JSOG.decode(pageableBuilding?.content)?.map((building, idx) => (
+          <tr key={idx}>
+            <td>{building.id}</td>
+            <td>{building.name}</td>
+            <td>{building.location.name}</td>
+            <td>{building.devices ? building.devices.length : "0"}</td>
+            <td className={table.action}>
+              <i className="bi bi-pencil-fill" onClick={() => navigate(`building/${building.id}`, {replace: true})}></i>
+              <i className="bi bi-trash" onClick={() => handleDeleteBuilding(building.id)}></i>
+            </td>
+          </tr>
+        ))}
         </tbody>
       </table>
-      {page + 1 + " of " + pageableBuilding.totalPages}
-      <button onClick={() => setPage(page > 0 ? page - 1 : page)}>prev page</button>
-      <button onClick={() => setPage(pageableBuilding.totalPages - 1 > page ? page + 1 : page)}>next page</button>
-      <button onClick={() => setPage(0)}>First page</button>
-      <button onClick={() => setPage(pageableBuilding.totalPages - 1)}>Last page</button>
-      <select value={size} onChange={(e) => setSize(e.target.value)} >
-        <option value={10}>{10} </option>
-        <option value={20}>{20} </option>
-        <option value={30}>{30} </option>
-        <option value={40}>{40} </option>
-      </select>
+      <div className={table.pageable}>
+        <select value={size} onChange={(e) => setSize(e.target.value)}>
+          <option value={10}>{10} </option>
+          <option value={20}>{20} </option>
+          <option value={30}>{30} </option>
+          <option value={40}>{40} </option>
+        </select>
+        <i className="bi bi-chevron-double-left" onClick={() => setPage(0)}></i>
+        <i className="bi bi-chevron-left" onClick={() => setPage(page > 0 ? page - 1 : page)}></i>
+        <i className="bi bi-chevron-right"
+           onClick={() => setPage(pageableBuilding.totalPages - 1 > page ? page + 1 : page)}></i>
+        <i className="bi bi-chevron-double-right" onClick={() => setPage(pageableBuilding.totalPages - 1)}></i>
+        <span>
+          Page {page + 1} of {pageableBuilding.totalPages}
+        </span>
+      </div>
     </>
   )
 }

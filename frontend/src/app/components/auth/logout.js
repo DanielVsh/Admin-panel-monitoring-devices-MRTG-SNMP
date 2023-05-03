@@ -7,5 +7,5 @@ export function logout(navigate, dispatch) {
   }
   clearData();
   navigate && navigate("/", { replace: true });
-  window.location.reload();
+  // window.location.reload();
 }

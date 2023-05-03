@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import { useGetUserLocationsQuery } from "../../../../features/redux/api/structureApi";
 import styles from './MainPage.module.css';
+import table from "../TableStyle.module.css";
 
 const MainPage = () => {
 
@@ -68,6 +69,22 @@ const MainPage = () => {
             ))}
           </div>
         ))}
+      </div>
+      <div style={{display: "flex", justifyContent: "flex-end", paddingRight: "8%", paddingTop: "10px", alignItems: "center"}}>
+        <select style={{borderStyle: "none", outline: "none"}} value={size} onChange={(e) => setSize(e.target.value)}>
+          <option value={10}>{10} </option>
+          <option value={20}>{20} </option>
+          <option value={30}>{30} </option>
+          <option value={40}>{40} </option>
+        </select>
+        <i className="bi bi-chevron-double-left" onClick={() => setPage(0)}></i>
+        <i className="bi bi-chevron-left" onClick={() => setPage(page > 0 ? page - 1 : page)}></i>
+        <i className="bi bi-chevron-right"
+           onClick={() => setPage(locationData.totalPages - 1 > page ? page + 1 : page)}></i>
+        <i className="bi bi-chevron-double-right" onClick={() => setPage(locationData.totalPages - 1)}></i>
+        <span style={{fontSize: "14px", width: "100px", paddingBottom: "2px"}}>
+          Page {page + 1} of {locationData.totalPages}
+        </span>
       </div>
     </>
   )
