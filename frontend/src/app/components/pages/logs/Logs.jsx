@@ -56,7 +56,7 @@ const Logs = () => {
           {logs?.changeType === "ListChange" &&
             <td>
               Property ({logs?.property}): Changed
-              <div style={{display: "flex"}}>
+              <div style={{display: "flex", flexWrap: "wrap"}}>
                 {logs?.elementChanges.map((element, id) => (
                   <div key={id}>[{element?.value?.cdoId}]</div>
                 ))}
