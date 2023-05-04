@@ -6,10 +6,15 @@ const NavBar = () => {
     return (
         <nav className={navbar.navbar}>
             <div>
-                <NavLink end={"/dashboard"} to={"/dashboard"} className={props => props.isActive ? navbar.active : navbar.passive}>Dashboard</NavLink>
+                <NavLink className="bi bi-buildings-fill" end={"/dashboard"} to={"/dashboard"} className={props => props.isActive ? navbar.active : navbar.passive}>Dashboard</NavLink>
             </div>
             <div>
-                <NavLink to={"/dashboard/locations"} className={props => props.isActive ? navbar.active : navbar.passive}>Locations</NavLink>
+                <NavLink to={"/dashboard/locations"} className={props => props.isActive ? navbar.active : navbar.passive}>
+                  {/*<span>*/}
+                  {/*<i className="bi bi-buildings-fill"></i>*/}
+                  Locations
+                  {/*</span>*/}
+                </NavLink>
             </div>
             <div>
                 <NavLink to={"/dashboard/buildings"} className={props => props.isActive ? navbar.active : navbar.passive}>Buildings</NavLink>

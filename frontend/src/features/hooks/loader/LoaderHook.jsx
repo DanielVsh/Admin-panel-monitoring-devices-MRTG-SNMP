@@ -6,9 +6,10 @@ const LoaderHook = () => {
     return (
         <div className={loader.loader}>
             <ReactLoading
-                type="spinningBubbles"
+                type="spin"
                 color="#04AA6DFF"
-                width={'40%'}/>
+                width={"10%"}
+                />
         </div>
     )
 }

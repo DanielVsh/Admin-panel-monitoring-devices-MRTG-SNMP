@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import {useGetAuditLogsQuery} from "../../../../features/redux/api/structureApi";
 import table from "../TableStyle.module.css";
+import ErrorPage from "../error/ErrorPage";
 
 const Logs = () => {
   const [id, setId] = useState();
@@ -19,13 +20,16 @@ const Logs = () => {
     filter: id,
   }
   
-  const {data: auditLogs, isLoading: isLoadingLogs} = useGetAuditLogsQuery(pageable);
+  const {data: auditLogs, isLoading: isLoadingLogs, error: isError} = useGetAuditLogsQuery(pageable);
 
   if (isLoadingLogs) {
     return <LoaderHook/>
   }
 
-  console.log(auditLogs)
+  if(isError) {
+    return <ErrorPage/>
+  }
+
 
   return (<>
     <table className={table.table}>

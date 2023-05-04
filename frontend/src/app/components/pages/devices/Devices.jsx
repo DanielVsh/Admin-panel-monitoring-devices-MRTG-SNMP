@@ -6,6 +6,7 @@ import ErrorPage from "../error/ErrorPage";
 import debounce from 'lodash.debounce';
 import JSOG from 'jsog';
 import {useNavigate} from "react-router-dom";
+import {PageNavigation} from "../../../../features/hooks/PageNavigation";
 
 const Devices = () => {
 
@@ -132,14 +133,7 @@ const Devices = () => {
           <option value={30}>{30} </option>
           <option value={40}>{40} </option>
         </select>
-        <i className="bi bi-chevron-double-left" onClick={() => setPage(0)}></i>
-        <i className="bi bi-chevron-left" onClick={() => setPage(page > 0 ? page - 1 : page)}></i>
-        <i className="bi bi-chevron-right"
-           onClick={() => setPage(devices.totalPages - 1 > page ? page + 1 : page)}></i>
-        <i className="bi bi-chevron-double-right" onClick={() => setPage(devices.totalPages - 1)}></i>
-        <span>
-          Page {page + 1} of {devices.totalPages}
-        </span>
+        <PageNavigation setPage={setPage} page={page} pageable={devices}/>
       </div>
     </>
   )

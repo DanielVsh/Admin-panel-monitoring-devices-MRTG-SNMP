@@ -1,4 +1,10 @@
 .loader  {
-    margin-left: 35%;
-    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.loader > div {
+    text-align: center;
 }

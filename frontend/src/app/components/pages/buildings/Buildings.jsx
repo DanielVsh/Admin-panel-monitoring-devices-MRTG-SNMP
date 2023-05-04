@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import JSOG from 'jsog';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import {PageNavigation} from "../../../../features/hooks/PageNavigation";
 
 const Buildings = () => {
 
@@ -103,14 +104,7 @@ const Buildings = () => {
           <option value={30}>{30} </option>
           <option value={40}>{40} </option>
         </select>
-        <i className="bi bi-chevron-double-left" onClick={() => setPage(0)}></i>
-        <i className="bi bi-chevron-left" onClick={() => setPage(page > 0 ? page - 1 : page)}></i>
-        <i className="bi bi-chevron-right"
-           onClick={() => setPage(pageableBuilding.totalPages - 1 > page ? page + 1 : page)}></i>
-        <i className="bi bi-chevron-double-right" onClick={() => setPage(pageableBuilding.totalPages - 1)}></i>
-        <span>
-          Page {page + 1} of {pageableBuilding.totalPages}
-        </span>
+        <PageNavigation setPage={setPage} page={page} pageable={pageableBuilding}/>
       </div>
     </>
   )

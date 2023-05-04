@@ -30,3 +30,8 @@
     background-color: #04AA6D;
     color: white;
 }
+
+.navLink span{
+    display: flex;
+    align-items: center;
+}

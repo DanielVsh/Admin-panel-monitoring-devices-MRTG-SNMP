@@ -1,33 +1,37 @@
 import JSOG from 'jsog';
-import React, { useState } from "react";
+import React, {useState} from "react";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
-import { useGetUserLocationsQuery } from "../../../../features/redux/api/structureApi";
+import {useGetUserLocationsQuery} from "../../../../features/redux/api/structureApi";
 import styles from './MainPage.module.css';
-import table from "../TableStyle.module.css";
+import ErrorPage from "../error/ErrorPage";
 
 const MainPage = () => {
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
 
-  const { data: locationData, isLoading: locationIsLoading }
+  const {data: locationData, isLoading: locationIsLoading, error: locationIsError}
     = useGetUserLocationsQuery({
-      page: page,
-      sort: {
-        element: "name",
-        direction: "asc"
-      },
-      size: size,
-      filter: ""
-    })
+    page: page,
+    sort: {
+      element: "name",
+      direction: "asc"
+    },
+    size: size,
+    filter: ""
+  })
 
   if (locationIsLoading) {
-    return <LoaderHook />
+    return <LoaderHook/>
+  }
+
+  if (locationIsError) {
+    return <ErrorPage/>
   }
 
   return (
     <>
-      <img className={styles.uvtImg} src="UVT_TUKE.png" alt='UVT' />
+      <img className={styles.uvtImg} src="UVT_TUKE.png" alt='UVT'/>
       <h2 className={styles.title}>MRTG TUKE UVT</h2>
 
       <h3 className={styles.subtitle}>Locations</h3>
@@ -46,7 +50,7 @@ const MainPage = () => {
                 >
                   <h4>{building.name}</h4>
                 </li>
-                <ul className={styles.devicesList} style={{ display: 'none' }}>
+                <ul className={styles.devicesList} style={{display: 'none'}}>
                   {building.devices.map(device => {
                     const deviceTime = new Date(device?.uptime);
                     const currentTime = new Date();
@@ -57,7 +61,7 @@ const MainPage = () => {
                     const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
 
                     return (
-                      <li className={styles.text} key={device.id} >
+                      <li className={styles.text} key={device.id}>
                         <a className={styles.link} href={`/mrtg/${device.ipAddress}.html`}>{device?.name}</a>
                         {/* <Link className={styles.link} to={`/mrtg/${device.ipAddress}.html`}>{device.name}</Link> */}
                         &nbsp;&nbsp;{`uptime: ${days} days ${hours}:${minutes}:${seconds} hours`}
@@ -70,7 +74,13 @@ const MainPage = () => {
           </div>
         ))}
       </div>
-      <div style={{display: "flex", justifyContent: "flex-end", paddingRight: "8%", paddingTop: "10px", alignItems: "center"}}>
+      <div style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        paddingRight: "8%",
+        paddingTop: "10px",
+        alignItems: "center"
+      }}>
         <select style={{borderStyle: "none", outline: "none"}} value={size} onChange={(e) => setSize(e.target.value)}>
           <option value={10}>{10} </option>
           <option value={20}>{20} </option>
