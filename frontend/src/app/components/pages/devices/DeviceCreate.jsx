@@ -57,9 +57,9 @@ export const DeviceCreate = () => {
               </div>
               <span style={{fontSize: "14px", color: "grey"}}>switchMap:</span>
               <div style={{display:"flex", flexDirection: 'row', marginTop: "-4px"}}>
-                <div onClick={() => setSwitchMap(true)} style={{paddingRight: "5px", paddingLeft: "30px", color: switchMap ? "#04943b" : "grey", fontWeight: "bold"}}>TRUE</div>
+                <div onClick={() => setSwitchMap(true)} style={{paddingRight: "5px", paddingLeft: "30px", color: switchMap ? "#04943b" : "grey", fontWeight: "bold", cursor: "pointer"}}>TRUE</div>
                 /
-                <div onClick={() => setSwitchMap(false)} style={{paddingLeft: "5px", color: !switchMap ? "#04943b" : "grey", fontWeight: "bold"}}>FALSE</div>
+                <div onClick={() => setSwitchMap(false)} style={{paddingLeft: "5px", color: !switchMap ? "#04943b" : "grey", fontWeight: "bold", cursor: "pointer"}}>FALSE</div>
               </div>
               <div>
                 <input name={"SNMP"} value={SNMP} onChange={(e) =>
