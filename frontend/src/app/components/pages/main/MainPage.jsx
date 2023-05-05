@@ -93,7 +93,7 @@ const MainPage = () => {
            onClick={() => setPage(locationData.totalPages - 1 > page ? page + 1 : page)}></i>
         <i className="bi bi-chevron-double-right" onClick={() => setPage(locationData.totalPages - 1)}></i>
         <span style={{fontSize: "14px", width: "100px", paddingBottom: "2px"}}>
-          Page {page + 1} of {locationData.totalPages}
+          Page {page + 1} of {locationData.totalPages === 0 ? 1 : locationData.totalPages}
         </span>
       </div>
     </>

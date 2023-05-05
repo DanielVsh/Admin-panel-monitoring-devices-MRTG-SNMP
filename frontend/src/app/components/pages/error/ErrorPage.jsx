@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
   return (
     <h3>
-      ERROR
+      ERROR 404
     </h3>
   )
 };

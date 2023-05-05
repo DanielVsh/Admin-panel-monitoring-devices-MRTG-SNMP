@@ -65,7 +65,7 @@ export const BuildingCreate = () => {
           <button className="btn btn-success" onClick={(e) => {
             handleCreateBuilding({
               name: name,
-              locationId: location
+              locationId: location?.id
             }, e.preventDefault(), navigate("/dashboard/buildings", { replace: true }))
           }}>Create new Building
           </button>
