@@ -27,20 +27,23 @@ const Logs = () => {
     }
   }
 
+  const maxDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
   if (Array.isArray(value) && value.length === 2 && value[0]?.unix === value[1]?.unix) {
-    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day > 1 ? value[0]?.day - 1 : 1).toString().padStart(2, '0')}`;
-    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day < 31 ? value[1]?.day + 1 : 31).toString().padStart(2, '0')}`;
-  }
-  else if (Array.isArray(value) && value.length === 2) {
-    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day > 1 ? value[0]?.day - 1 : 1).toString().padStart(2, '0')}`;
-    pageable.time.timeTo = `${value[1]?.year}-${(value[1]?.month?.number).toString().padStart(2, '0')}-${(value[1]?.day < 31 ? value[1]?.day + 1 : 31).toString().padStart(2, '0')}`;
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.max(value[0]?.day - 1, 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.min(value[0]?.day + 1, maxDaysInMonth(value[0]?.year, value[0]?.month?.number - 1)).toString().padStart(2, '0')}`;
+  } else if (Array.isArray(value) && value.length === 2) {
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.max(value[0]?.day - 1, 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[1]?.year}-${(value[1]?.month?.number).toString().padStart(2, '0')}-${Math.min(value[1]?.day + 1, maxDaysInMonth(value[1]?.year, value[1]?.month?.number - 1)).toString().padStart(2, '0')}`;
   } else if (value instanceof Date) {
     const date = value;
-    pageable.time.timeFrom = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${(date?.getDate() > 1 ? date?.getDate() - 1 : 1)?.toString().padStart(2, '0')}`;
-    pageable.time.timeTo = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${(date?.getDate() < 31 ? date?.getDate() + 1 : 31)?.toString().padStart(2, '0')}`;
+    pageable.time.timeFrom = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${Math.max(date?.getDate()-1, 1)?.toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${Math.min(date?.getDate()+1, maxDaysInMonth(date?.getFullYear(), date?.getMonth())).toString().padStart(2, '0')}`;
   } else {
-    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day > 1 ? value[0]?.day - 1 : 1).toString().padStart(2, '0')}`;
-    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day < 31 ? value[0]?.day + 1 : 31).toString().padStart(2, '0')}`;
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.max(value[0]?.day - 1, 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.min(value[0]?.day + 1, maxDaysInMonth(value[0]?.year, value[0]?.month?.number - 1)).toString().padStart(2, '0')}`;
   }
 
   const {data: auditLogs, isLoading: isLoadingLogs, error: isError} = useGetAuditLogsQuery(pageable);
