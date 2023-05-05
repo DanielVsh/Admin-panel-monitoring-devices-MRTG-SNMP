@@ -24,6 +24,6 @@ public class UserController {
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
-    return ResponseEntity.ok(locationService.findAll(page));
+    return ResponseEntity.ok(locationService.getLocations(page, filter));
   }
 }

@@ -1,7 +1,6 @@
 package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.AdminProfile;
-import danielvishnievskyi.bachelorproject.entities.Privilege;
 import danielvishnievskyi.bachelorproject.entities.Role;
 import danielvishnievskyi.bachelorproject.repositories.AdminProfileRepo;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -51,28 +50,19 @@ public class AdminProfileImpl implements UserDetailsService {
     );
   }
 
-  private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+  private Set<? extends GrantedAuthority> getAuthorities(Set<Role> roles) {
     return getGrantedAuthorities(getPrivileges(roles));
   }
 
-  private Collection<? extends GrantedAuthority> getGrantedAuthorities(Collection<String> privileges) {
+  private Set<? extends GrantedAuthority> getGrantedAuthorities(Set<String> privileges) {
     return privileges.stream()
       .map(SimpleGrantedAuthority::new)
       .collect(Collectors.toSet());
   }
 
-  private Collection<String> getPrivileges(Collection<Role> roles) {
-    var privileges = roles.stream()
+  private Set<String> getPrivileges(Set<Role> roles) {
+    return roles.stream()
       .map(Role::getName)
       .collect(Collectors.toSet());
-
-    var collection = roles.stream()
-      .flatMap(role -> role.getPrivileges().stream()
-        .map(Privilege::getName))
-      .collect(Collectors.toSet());
-
-    privileges.addAll(collection);
-
-    return privileges;
   }
 }

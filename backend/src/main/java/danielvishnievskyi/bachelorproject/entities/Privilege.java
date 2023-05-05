@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Setter
@@ -22,9 +21,6 @@ public class Privilege  {
   private Long id;
 
   private String name;
-
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "privileges")
-  private Collection<Role> roles;
 
   public Privilege(String name) {
     this.name = name;

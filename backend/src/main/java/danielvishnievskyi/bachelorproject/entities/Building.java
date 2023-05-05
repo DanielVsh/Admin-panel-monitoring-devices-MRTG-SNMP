@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
@@ -34,7 +34,7 @@ public class Building  {
   private Location location;
 
   @OneToMany(fetch = EAGER, cascade = MERGE, orphanRemoval = true, mappedBy = "building")
-  private Collection<Device> devices;
+  private List<Device> devices;
 
   public Building(String name, Location location) {
     this.name = name;

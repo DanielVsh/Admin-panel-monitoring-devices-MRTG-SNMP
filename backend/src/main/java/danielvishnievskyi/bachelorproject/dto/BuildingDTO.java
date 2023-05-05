@@ -1,14 +1,9 @@
 package danielvishnievskyi.bachelorproject.dto;
 
-import lombok.Data;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-@Data
-public class BuildingDTO {
-  @NotBlank(message = "name should not be empty")
-  private String name;
-  @Min(value = 1, message = "id should be valid")
-  private Long locationId;
-}
+public record BuildingDTO(
+  @NotBlank(message = "Name should not be empty") String name,
+  @Min(value = 1, message = "Id should be valid") Long locationId
+) { }

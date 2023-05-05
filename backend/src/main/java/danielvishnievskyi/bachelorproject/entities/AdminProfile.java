@@ -9,7 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -40,13 +40,13 @@ public class AdminProfile  {
     name = "users_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-  private Collection<Role> roles;
+  private Set<Role> roles;
 
   public AdminProfile(String username,
                       String firstname,
                       String lastname,
                       String password,
-                      Collection<Role> roles) {
+                      Set<Role> roles) {
     this.username = username;
     this.firstname = firstname;
     this.lastname = lastname;
@@ -54,7 +54,7 @@ public class AdminProfile  {
     this.roles = roles;
   }
 
-  public Collection<String> getRolesName() {
-    return roles.stream().map(Role::getName).collect(Collectors.toList());
+  public Set<String> getRolesName() {
+    return roles.stream().map(Role::getName).collect(Collectors.toSet());
   }
 }

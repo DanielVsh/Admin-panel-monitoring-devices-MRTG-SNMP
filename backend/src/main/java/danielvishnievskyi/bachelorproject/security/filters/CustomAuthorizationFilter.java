@@ -16,10 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -42,7 +39,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
           DecodedJWT decoded = JWT.require(AuthUtil.getSecuredJWT()).build().verify(token);
           String username = decoded.getSubject();
           String[] roles = decoded.getClaim("roles").asArray(String.class);
-          Collection<GrantedAuthority> authorities = new ArrayList<>();
+          List<GrantedAuthority> authorities = new ArrayList<>();
           stream(roles).forEach(s -> authorities.add(new SimpleGrantedAuthority(s)));
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             username, null, authorities

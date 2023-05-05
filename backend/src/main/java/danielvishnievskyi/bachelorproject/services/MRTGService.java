@@ -78,7 +78,7 @@ public class MRTGService {
     log.info("End of generating MRTG");
   }
 
-  private static void executeShellCommand(String... command) throws IOException, InterruptedException {
+  private void executeShellCommand(String... command) throws IOException, InterruptedException {
     ProcessBuilder pb = new ProcessBuilder(command);
     pb.inheritIO();
     Process p = pb.start();

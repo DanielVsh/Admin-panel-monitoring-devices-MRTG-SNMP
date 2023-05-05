@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class RoleService {
   private final RoleRepo roleRepo;
 
   @Transactional
-  public Role createIfNotFound(String name, Collection<Privilege> privileges) {
+  public Role createIfNotFound(String name, Set<Privilege> privileges) {
     return roleRepo.getByName(name.toUpperCase()).orElseGet(() -> {
       Role role = new Role(name.toUpperCase());
       role.setPrivileges(privileges);

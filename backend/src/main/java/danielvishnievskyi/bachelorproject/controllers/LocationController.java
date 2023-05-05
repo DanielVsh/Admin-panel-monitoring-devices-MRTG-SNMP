@@ -2,99 +2,68 @@ package danielvishnievskyi.bachelorproject.controllers;
 
 import danielvishnievskyi.bachelorproject.dto.LocationDTO;
 import danielvishnievskyi.bachelorproject.entities.Location;
-import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
-import danielvishnievskyi.bachelorproject.repositories.specifications.LocationSpecification;
 import danielvishnievskyi.bachelorproject.services.LocationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.Set;
 
-import static danielvishnievskyi.bachelorproject.enums.SearchOperation.EQUAL;
-import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;
 import static org.springframework.data.domain.Sort.Direction.DESC;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CONFLICT;
 
-@Slf4j
 @RestController
 @RequestMapping("api/v1/location")
 @RequiredArgsConstructor
 public class LocationController {
   private final LocationService locationService;
 
-
   @GetMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
-  public ResponseEntity<?> getFilteredAndPageableLocations(
+  public ResponseEntity<Page<Location>> getLocations(
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
-    LocationSpecification lcFilter = new LocationSpecification();
-
-    if (NumberUtils.isParsable(filter) && Long.parseLong(filter) > 0) {
-      lcFilter.add(new SearchCriteria("id", filter, EQUAL));
-    }  else if (StringUtils.hasLength(filter)) {
-      lcFilter.add(new SearchCriteria("name", filter, MATCH));
-    }
-    return ResponseEntity.ok(locationService.findAll(lcFilter, page));
+    return ResponseEntity.ok(locationService.getLocations(page, filter));
   }
 
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
-  public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
-    if (locationService.findById(id).isEmpty()) {
-      return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok(locationService.findById(id).orElseThrow());
+  public ResponseEntity<Location> getLocation(@PathVariable Long id) {
+    return ResponseEntity.ok(locationService.getLocation(id));
   }
 
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
-  public ResponseEntity<?> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
-    if (locationService.findByName(locationDetails.getName()).isPresent()) {
-      return new ResponseEntity<>
-        (String.format("Location with %s name already exists", locationDetails.getName()), CONFLICT);
-    }
-    Location location = new Location(locationDetails.getName());
-    locationService.save(location);
-    return ResponseEntity.ok(location);
+  public ResponseEntity<Location> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
+    return ResponseEntity.ok(locationService.createLocation(locationDetails));
   }
+
 
   @PutMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
-  public ResponseEntity<?> updateLocation(@PathVariable Long id,
-                                          @RequestBody @Valid LocationDTO locationDetails) {
-    if (locationService.findById(id).isEmpty()) {
-      return new ResponseEntity<>("Invalid id", BAD_REQUEST);
-    }
-    Location location = locationService.findById(id).orElseThrow();
-    location.setName(locationDetails.getName());
-    locationService.save(location);
-    return ResponseEntity.ok(location);
+  public ResponseEntity<Location> updateLocation(
+    @PathVariable Long id,
+    @RequestBody @Valid LocationDTO locationDetails
+  ) {
+    return ResponseEntity.ok(locationService.updateLocation(id, locationDetails));
   }
 
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('SUPER_ADMIN')")
-  public ResponseEntity<Location> delete(@PathVariable Long id) {
-    locationService.deleteById(id);
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    locationService.deleteLocation(id);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping()
   @PreAuthorize("hasRole('SUPER_ADMIN')")
-  public ResponseEntity<Collection<Long>> delete(@RequestParam Collection<Long> filter) throws IOException {
-    locationService.deleteAllById(filter);
+  public ResponseEntity<Void> delete(@RequestParam Set<Long> ids) {
+    locationService.deleteLocations(ids);
     return ResponseEntity.ok().build();
   }
 }
