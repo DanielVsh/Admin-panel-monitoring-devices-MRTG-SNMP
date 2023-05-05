@@ -3,12 +3,15 @@ import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import {useGetAuditLogsQuery} from "../../../../features/redux/api/structureApi";
 import table from "../TableStyle.module.css";
 import ErrorPage from "../error/ErrorPage";
+import DatePicker from "react-multi-date-picker";
 
 const Logs = () => {
   const [id, setId] = useState();
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
+
+  const [value, setValue] = useState(new Date());
 
   const pageable = {
     page: page,
@@ -18,8 +21,29 @@ const Logs = () => {
     },
     size: size,
     filter: id,
+    time: {
+      timeFrom: "",
+      timeTo: ""
+    }
   }
-  
+
+  console.log(value)
+  if (Array.isArray(value) && value.length === 2 && value[0]?.unix === value[1]?.unix) {
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day - 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day + 1).toString().padStart(2, '0')}`;
+  }
+  else if (Array.isArray(value) && value.length === 2) {
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day - 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[1]?.year}-${(value[1]?.month?.number).toString().padStart(2, '0')}-${(value[1]?.day + 1).toString().padStart(2, '0')}`;
+  } else if (value instanceof Date) {
+    const date = value;
+    pageable.time.timeFrom = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${(date?.getDate()-1)?.toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${(date?.getDate()+1)?.toString().padStart(2, '0')}`;
+  } else {
+    pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day - 1).toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${(value[0]?.day + 1).toString().padStart(2, '0')}`;
+  }
+
   const {data: auditLogs, isLoading: isLoadingLogs, error: isError} = useGetAuditLogsQuery(pageable);
 
   if (isLoadingLogs) {
@@ -98,7 +122,7 @@ const Logs = () => {
           Page {page + 1} of {auditLogs.totalPages}
       </span>
     </div>
-
+    <DatePicker value={value} onChange={setValue} range={true}/>
   </>)
 }
 

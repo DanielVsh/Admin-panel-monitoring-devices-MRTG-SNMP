@@ -152,7 +152,7 @@ export const structureApi = createApi({
     ////////////////////////////
     getAuditLogs: builder.query({
       query: (pageable) => pageable
-        ? `logs?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
+        ? `logs?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}&timeFrom=${pageable?.time?.timeFrom}&timeTo=${pageable?.time?.timeTo}`
         : `logs`,
       providesTags: ["Location", "Building", "Device"]
     }),
