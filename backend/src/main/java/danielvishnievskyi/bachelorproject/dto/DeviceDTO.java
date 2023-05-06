@@ -24,7 +24,7 @@ public record DeviceDTO(
   @NotBlank(message = "Ip address should not be empty") String ipAddress,
   Date uptime,
   @NotNull boolean switchMap,
-  String SNMP,
+  @NotBlank(message = "SNMP should not be empty, default value: 'public'") String SNMP,
   @Min(value = 1, message = "Id should be valid") Long buildingId
 ) {
 }

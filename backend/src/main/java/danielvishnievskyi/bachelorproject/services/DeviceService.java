@@ -19,6 +19,7 @@ import java.util.Set;
 
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.EQUAL;
 import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Service class that handles operations related to devices.
@@ -74,13 +75,14 @@ public class DeviceService {
       throw new DeviceBadRequestException(String.format("Device %s already exists", deviceDTO.name()));
     });
 
+    System.out.println(deviceDTO);
     return deviceRepo.save(
       new Device(
         deviceDTO.name(),
         buildingService.getBuilding(deviceDTO.buildingId()),
         deviceDTO.ipAddress(),
         deviceDTO.switchMap(),
-        deviceDTO.SNMP() != null ? deviceDTO.SNMP() : null
+        isBlank(deviceDTO.SNMP()) ? "public" : deviceDTO.SNMP()
       ));
   }
 
@@ -96,6 +98,7 @@ public class DeviceService {
   public Device updateDevice(Long id, DeviceDTO deviceDTO) {
     Device device = getDevice(id);
     device.setBuilding(buildingService.getBuilding(deviceDTO.buildingId()));
+    device.setSNMP(deviceDTO.SNMP().toLowerCase());
     device.setName(deviceDTO.name());
     device.setIpAddress(deviceDTO.ipAddress());
     device.setSwitchMap(deviceDTO.switchMap());

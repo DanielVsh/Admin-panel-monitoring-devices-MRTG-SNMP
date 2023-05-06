@@ -4,6 +4,7 @@ import danielvishnievskyi.bachelorproject.dto.DeviceDTO;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.services.DeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,23 @@ public class DeviceController {
    */
   @GetMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
-  public ResponseEntity<?> getDevices(
+  public ResponseEntity<Page<Device>> getDevices(
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
     return ResponseEntity.ok(deviceService.getDevices(page, filter));
+  }
+
+  /**
+   * Returns a device with the given ID.
+   *
+   * @param id the ID of the device to retrieve
+   * @return a response entity containing the retrieved device
+   */
+  @GetMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
+  public ResponseEntity<Device> getDevice(@PathVariable Long id) {
+    return ResponseEntity.ok(deviceService.getDevice(id));
   }
 
   /**
@@ -55,7 +68,7 @@ public class DeviceController {
    */
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
-  public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
+  public ResponseEntity<Device> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
     return ResponseEntity.ok(deviceService.createDevice(deviceDetails));
   }
 
