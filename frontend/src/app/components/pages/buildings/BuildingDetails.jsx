@@ -10,6 +10,8 @@ import {
   useUpdateBuildingMutation
 } from "../../../../features/redux/api/structureApi";
 import debounce from 'lodash.debounce';
+import JSOG from "jsog";
+import {PageNavigation} from "../../../../features/hooks/PageNavigation";
 
 const BuildingDetails = () => {
 
@@ -17,32 +19,39 @@ const BuildingDetails = () => {
 
   const {id} = useParams();
 
-  const [buildingLocationId, setBuildingLocationId] = useState(Number);
-  const [buildingName, setBuildingName] = useState('');
+  const [location, setLocation] = useState(Number);
+  const [buildingName, setBuildingName] = useState();
   const [filter, setFilter] = useState('');
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
 
 
   const {data: buildingsData, isLoading: isLoadingBuildings} = useGetBuildingByIdQuery(Number(id));
   const {data: locationData, isLoading} = useGetLocationByIdQuery(buildingsData?.location.id);
-
   const {data: pageableLocation} = useGetLocationsQuery({
-    page: 0,
+    page: page,
     sort: {
       element: "name",
       direction: "asc"
     },
-    size: 10,
+    size: size,
     filter: filter,
   });
+
   const [updateBuilding] = useUpdateBuildingMutation();
 
+  useEffect(() => {
+    if (locationData) {
+      setPage(0);
+    }
+  }, [filter]);
 
   useEffect(() => {
     if (buildingsData) {
+      setLocation(locationData)
       setBuildingName(buildingsData?.name)
-      setBuildingLocationId(buildingsData.location.id)
     }
-  }, [buildingsData]);
+  }, [buildingsData, locationData]);
 
   if (isLoadingBuildings || isLoading) return <LoaderHook/>
 
@@ -56,26 +65,30 @@ const BuildingDetails = () => {
       <div className={style.body}>
         <form action="submit">
           <div className={style.block}>
-            <label htmlFor="location">{locationData?.name}</label><br/>
-            <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"search"}/>
-            <select value={buildingLocationId} onChange={(e) => setBuildingLocationId(e.target.value)}>
-              <option key={buildingsData?.location}
-                      value={buildingsData?.location}>id: {locationData?.id} name: {locationData?.name}</option>
-              {pageableLocation?.content?.map(location => (
-                <option key={location.id} value={location.id}>id: {location.id} name: {location.name}</option>
-              ))}
-            </select>{buildingLocationId}<br/>
-            <label htmlFor="name">Name</label><br/>
-            <input type="text" name="name" value={buildingName} onChange={(e) => setBuildingName(e.target.value)}/>
+            <div>
+              <p>Change Building Form</p>
+              <label htmlFor="name">Name</label><br/>
+              <input name="name" value={buildingName} onChange={(e) => setBuildingName(e.target.value)}/>
+            </div>
+            <div className={style.search}>
+              <ii className="bi bi-buildings-fill">Location: {location?.name}</ii>
+              <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"Search"}/>
+              <PageNavigation setPage={setPage} page={page} pageable={pageableLocation} />
+              <div className={style.searched}>
+                {JSOG.decode(pageableLocation?.content)?.map(location => (
+                  <div onClick={() => setLocation(location)}>id: {location.id} name: {location.name}</div>
+                ))}
+              </div>
+            </div>
           </div>
-          <button onClick={(e) => handleUpdateBuilding(
+          <button className={"btn btn-success"} onClick={(e) => handleUpdateBuilding(
             {
               buildingId: Number(id),
               data: {
                 name: buildingName,
-                locationId: buildingLocationId
+                locationId: location?.id
               }
-            }, e)}>Update building
+            }, e)}>Update Building
           </button>
         </form>
       </div>

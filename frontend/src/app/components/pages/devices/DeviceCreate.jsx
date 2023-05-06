@@ -4,6 +4,10 @@ import {useCreateNewDeviceMutation, useGetBuildingQuery} from "../../../../featu
 import style from "../CreatePage.module.css";
 import {PageNavigation} from "../../../../features/hooks/PageNavigation";
 import {useNavigate} from "react-router-dom";
+import JSOG from "jsog";
+import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
+import {retry} from "@reduxjs/toolkit/query";
+import ErrorPage from "../error/ErrorPage";
 
 export const DeviceCreate = () => {
   const [name, setName] = useState('');
@@ -24,7 +28,7 @@ export const DeviceCreate = () => {
     await createDevice(body).unwrap();
   }
 
-  const {data: buildingsData, isLoading: isLoadingBuildings} = useGetBuildingQuery({
+  const {data: buildingsData, isLoading: isLoadingBuildings, isError} = useGetBuildingQuery({
     page: page,
     sort: {
       element: "id",
@@ -39,6 +43,13 @@ export const DeviceCreate = () => {
       setPage(0);
     }
   }, [filter]);
+
+  if (isLoadingBuildings) {
+    return <LoaderHook/>
+  }
+  if (isError) {
+    return <ErrorPage />
+  }
 
   return (
     <>
@@ -71,7 +82,7 @@ export const DeviceCreate = () => {
               <input name={filter} onChange={debounce((e) => setFilter(e.target.value), 500)} placeholder={"Search"}/>
               <PageNavigation setPage={setPage} page={page} pageable={buildingsData}/>
               <div className={style.searched}>
-                {buildingsData?.content?.map(building => (
+                {JSOG.decode(buildingsData?.content)?.map(building => (
                   <div onClick={() => setBuilding(building)} key={building?.id}>
                     {building?.id} {building?.name}
                   </div>
@@ -84,7 +95,7 @@ export const DeviceCreate = () => {
             ipAddress: ipAddress,
             uptime: null,
             switchMap: switchMap,
-            snmp: SNMP,
+            SNMP: SNMP,
             buildingId: building?.id
           }, e.preventDefault(), navigate("/dashboard/devices", { replace: true }))}>Create new Device
           </button>

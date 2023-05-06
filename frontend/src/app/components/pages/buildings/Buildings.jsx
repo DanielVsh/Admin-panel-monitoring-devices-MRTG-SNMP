@@ -1,11 +1,6 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import table from "../TableStyle.module.css";
-import {
-  useCreateNewBuildingMutation,
-  useDeleteBuildingMutation,
-  useGetBuildingQuery,
-  useGetLocationsQuery
-} from "../../../../features/redux/api/structureApi";
+import {useDeleteBuildingMutation, useGetBuildingQuery} from "../../../../features/redux/api/structureApi";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
 import ErrorPage from "../error/ErrorPage"
 import {useNavigate} from 'react-router-dom';
@@ -55,9 +50,9 @@ const Buildings = () => {
   return (
     <>
       <div className={table.topLine}>
-          <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)}
-                 placeholder={"Search"}/>
-          <i className={"bi bi-plus-square-fill"} onClick={() => navigate(`create`, {replace: true})}></i>
+        <input name={filterLine} onChange={debounce((e) => setFilterLine(e.target.value), 500)}
+               placeholder={"Search"}/>
+        <i className={"bi bi-plus-square-fill"} onClick={() => navigate(`create`, {replace: true})}></i>
       </div>
 
       <table className={table.table}>

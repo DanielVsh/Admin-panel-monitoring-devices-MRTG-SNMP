@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useGetLocationByIdQuery, useUpdateLocationMutation} from "../../../../features/redux/api/structureApi";
 import LoaderHook from './../../../../features/hooks/loader/LoaderHook';
 import style from "../CreatePage.module.css";
+import ErrorPage from "../error/ErrorPage";
 
 const LocationDetails = () => {
 
@@ -10,7 +11,7 @@ const LocationDetails = () => {
 
   const {id} = useParams();
 
-  const {data: locationData, isLoading} = useGetLocationByIdQuery(Number(id))
+  const {data: locationData, isLoading, isError} = useGetLocationByIdQuery(Number(id))
   const [updateLocation] = useUpdateLocationMutation();
 
   const [locationName, setLocationName] = useState('')
@@ -21,7 +22,6 @@ const LocationDetails = () => {
     }
   }, [locationData]);
 
-  if (isLoading) return <LoaderHook/>
 
   const handleUpdateLocation = async (body, e) => {
     e.preventDefault()
@@ -29,14 +29,21 @@ const LocationDetails = () => {
     navigate('/dashboard/locations')
   }
 
+  if (isLoading) return <LoaderHook/>
+  if (isError) return <ErrorPage/>
 
   return (
     <>
       <div className={style.body}>
         <form action="submit">
-          <label htmlFor="name">Name</label><br/>
-          <input type="text" name="name" value={locationName} onChange={(e) => setLocationName(e.target.value)}/>
-          <button onClick={(e) => handleUpdateLocation(
+          <div className={style.block}>
+            <div>
+              <p>Change Building Form</p>
+              <label htmlFor="name">Name</label><br/>
+              <input name="name" value={locationName} onChange={(e) => setLocationName(e.target.value)}/>
+            </div>
+          </div>
+          <button className={"btn btn-success"} onClick={(e) => handleUpdateLocation(
             {
               locationId: Number(id),
               data: {
@@ -45,6 +52,13 @@ const LocationDetails = () => {
             }, e)}>Update Location
           </button>
         </form>
+        {/*<div className={style.list}>*/}
+        {/*  {locationData && locationData?.buildings?.map(building => (*/}
+        {/*    <div className={style.listElement}>*/}
+        {/*      {building.id} {building.name}*/}
+        {/*    </div>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
       </div>
     </>
   )

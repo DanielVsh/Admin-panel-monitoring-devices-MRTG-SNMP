@@ -4,6 +4,7 @@ import {useCreateNewBuildingMutation, useGetLocationsQuery} from "../../../../fe
 import style from "../CreatePage.module.css"
 import {PageNavigation} from "../../../../features/hooks/PageNavigation";
 import {useNavigate} from "react-router-dom";
+import JSOG from "jsog";
 
 export const BuildingCreate = () => {
   const [filter, setFilter] = useState("");
@@ -55,7 +56,7 @@ export const BuildingCreate = () => {
                      placeholder={"Search"}/>
               <PageNavigation setPage={setPage} page={page} pageable={pageableLocation}/>
               <div className={style.searched}>
-                {pageableLocation?.content?.map(location => (
+                {JSOG.decode(pageableLocation?.content)?.map(location => (
                   <div onClick={() => setLocation(location)} key={location.id}
                        value={location.id}>id: {location.id} name: {location.name}</div>
                 ))}
