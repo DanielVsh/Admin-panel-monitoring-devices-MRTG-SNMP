@@ -42,7 +42,7 @@ public class LogsController {
    * @return a ResponseEntity containing the retrieved logs.
    */
   @GetMapping()
-  public ResponseEntity<?> getLogs(
+  public ResponseEntity<String> getLogs(
     @PageableDefault(sort = "id", direction = DESC) Pageable pageable,
     @RequestParam(required = false) String filter,
     @RequestParam(required = false) String timeFrom,
