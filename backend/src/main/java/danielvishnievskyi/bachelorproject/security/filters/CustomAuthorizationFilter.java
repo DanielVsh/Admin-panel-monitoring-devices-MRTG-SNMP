@@ -16,16 +16,39 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * CustomAuthorizationFilter is a custom filter used to authorize requests to protected endpoints by validating JWT tokens
+ * sent in the Authorization header.
+ * This filter extends OncePerRequestFilter to ensure that it is only executed once per request.
+ * This filter will only authorize requests that are not for the login or token refresh endpoints.
+ * If the JWT token is valid, the user's username and roles will be extracted from the token and added to the
+ * SecurityContextHolder to allow access to protected endpoints.
+ * If the JWT token is invalid, an error message will be sent in the response with an HTTP status code of 401 Unauthorized.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
+
+  /**
+   * Overrides the doFilterInternal method to implement the custom authorization logic.
+   *
+   * @param request     the HTTP request
+   * @param response    the HTTP response
+   * @param filterChain the filter chain
+   * @throws ServletException if there is a servlet exception
+   * @throws IOException      if there is an IO exception
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     if (request.getServletPath().equals("/api/v1/auth/login")

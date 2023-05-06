@@ -15,13 +15,32 @@ import java.time.LocalDate;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+
+/**
+ * The LogsController class represents the REST API endpoints for handling logs.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @RestController
 @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
 @RequestMapping("api/v1/logs")
 @RequiredArgsConstructor
 public class LogsController {
+
+  /**
+   * The logsService instance used to perform operations related to audit logs of entities.
+   */
   private final LogsService logsService;
 
+  /**
+   * GET endpoint to retrieve logs.
+   *
+   * @param pageable the Pageable object to determine pagination and sorting.
+   * @param filter   the filter string to apply on logs.
+   * @param timeFrom the start time of the logs to retrieve.
+   * @param timeTo   the end time of the logs to retrieve.
+   * @return a ResponseEntity containing the retrieved logs.
+   */
   @GetMapping()
   public ResponseEntity<?> getLogs(
     @PageableDefault(sort = "id", direction = DESC) Pageable pageable,

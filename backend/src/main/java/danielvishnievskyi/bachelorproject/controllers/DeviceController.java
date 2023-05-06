@@ -4,7 +4,6 @@ import danielvishnievskyi.bachelorproject.dto.DeviceDTO;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.services.DeviceService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,29 @@ import java.util.Set;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
-@Slf4j
+/**
+ * The DeviceController class is responsible for handling all incoming requests related to devices and forwarding them to
+ * the DeviceService for processing.
+ *
+ * @author [Daniel Vishnievskyi]
+ */
 @RestController
 @RequestMapping("api/v1/device")
 @RequiredArgsConstructor
 public class DeviceController {
+
+  /**
+   * The deviceService instance used to perform operations related to Device entity.
+   */
   private final DeviceService deviceService;
 
+  /**
+   * Retrieves a page of devices based on the provided filter and pagination parameters.
+   *
+   * @param page   The pagination parameters including page number, size and sorting criteria.
+   * @param filter An optional filter to apply on the results.
+   * @return ResponseEntity with the retrieved devices and pagination information.
+   */
   @GetMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> getDevices(
@@ -32,12 +47,25 @@ public class DeviceController {
     return ResponseEntity.ok(deviceService.getDevices(page, filter));
   }
 
+  /**
+   * Creates a new device based on the provided device details.
+   *
+   * @param deviceDetails The details of the device to be created.
+   * @return ResponseEntity with the created device and its location URI.
+   */
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<?> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
     return ResponseEntity.ok(deviceService.createDevice(deviceDetails));
   }
 
+  /**
+   * Updates an existing device based on the provided device details and id.
+   *
+   * @param id            The id of the device to be updated.
+   * @param deviceDetails The updated details of the device.
+   * @return ResponseEntity with the updated device.
+   */
   @PutMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
@@ -45,6 +73,12 @@ public class DeviceController {
     return ResponseEntity.ok(deviceService.updateDevice(id, deviceDetails));
   }
 
+  /**
+   * Deletes an existing device based on the provided id.
+   *
+   * @param id The id of the device to be deleted.
+   * @return ResponseEntity with no content.
+   */
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
@@ -52,6 +86,12 @@ public class DeviceController {
     return ResponseEntity.ok().build();
   }
 
+  /**
+   * Deletes multiple existing devices based on the provided ids.
+   *
+   * @param ids The ids of the devices to be deleted.
+   * @return ResponseEntity with no content.
+   */
   @DeleteMapping()
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteBuildings(@RequestParam Set<Long> ids) {

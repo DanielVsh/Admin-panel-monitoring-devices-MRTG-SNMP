@@ -2,8 +2,6 @@ package danielvishnievskyi.bachelorproject.security;
 
 import danielvishnievskyi.bachelorproject.security.filters.CustomAuthenticationFilter;
 import danielvishnievskyi.bachelorproject.security.filters.CustomAuthorizationFilter;
-import io.github.cdimascio.dotenv.Dotenv;
-import io.github.cdimascio.dotenv.DotenvBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,15 +23,43 @@ import java.util.List;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+/**
+ * This class is responsible for configuring the security settings of the application. It is annotated with
+ * {@code @EnableWebSecurity} to enable web security and {@code @EnableGlobalMethodSecurity(prePostEnabled = true)}
+ * to enable method level security.
+ * It is also annotated with {@code @RequiredArgsConstructor} which generates a constructor with required arguments.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+  /**
+   * The user details service that provides user-related data.
+   */
   private final UserDetailsService userDetailsService;
+  /**
+   * The password encoder used to encode and verify user passwords.
+   */
   private final BCryptPasswordEncoder passwordEncoder;
+  /**
+   * The authentication configuration for the application.
+   */
   private final AuthenticationConfiguration configuration;
 
+  /**
+   * This method configures the security filter chain that handles incoming requests to the application. It creates a
+   * {@code CustomAuthenticationFilter} and sets its filterProcessesUrl to "/api/v1/auth/login". CSRF protection is
+   * disabled, session creation policy is set to STATELESS, and all requests to endpoints "/api/v1/user/**" and
+   * "/api/v1/auth/**" are permitted without authentication. A {@code CustomAuthorizationFilter} is also added to the
+   * filter chain.
+   *
+   * @param http the HttpSecurity instance to configure
+   * @return the configured security filter chain
+   * @throws Exception if an error occurs during configuration
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
@@ -53,6 +79,11 @@ public class SecurityConfig {
     return http.build();
   }
 
+  /**
+   * This method creates a CORS filter that allows requests from specific origins and with specific headers and methods.
+   *
+   * @return the CORS filter instance
+   */
   @Bean
   public CorsFilter corsFilter() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -64,11 +95,17 @@ public class SecurityConfig {
     ));
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
-    config.setMaxAge(60*60L);
+    config.setMaxAge(60 * 60L);
     source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);
   }
 
+  /**
+   * This method creates an instance of DaoAuthenticationProvider, which provides DAO-based authentication using the
+   * provided user details service and password encoder.
+   *
+   * @return the authentication provider instance
+   */
   @Bean
   public DaoAuthenticationProvider getDaoAuthenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -77,6 +114,11 @@ public class SecurityConfig {
     return authProvider;
   }
 
+  /**
+   * This method retrieves the authentication manager from the authentication configuration.
+   *
+   * @return the authentication manager instance
+   */
   @Bean
   public AuthenticationManager authenticationManager() throws Exception {
     return configuration.getAuthenticationManager();

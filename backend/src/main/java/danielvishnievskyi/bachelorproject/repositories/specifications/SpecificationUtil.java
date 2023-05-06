@@ -9,8 +9,22 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for creating predicates in Specifications based on search criteria.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 public class SpecificationUtil {
 
+  /**
+   * Returns a list of predicates based on the given search criteria.
+   *
+   * @param list    the list of search criteria
+   * @param root    the root entity being queried
+   * @param query   the criteria query
+   * @param builder the criteria builder
+   * @return a list of predicates based on the search criteria
+   */
   public static List<Predicate> getSpecificationSettings(
     List<SearchCriteria> list,
     Root<?> root,

@@ -19,11 +19,23 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * Service class for authentication related operations
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
   private final AdminProfileService userProfileService;
 
+  /**
+   * Refreshes the authentication token using the refresh token provided in the request header.
+   *
+   * @param request  the HTTP request
+   * @param response the HTTP response
+   * @throws IOException if there is an error while writing to the response
+   */
   public void refreshAuthToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String authorizationHeader = request.getHeader(AUTHORIZATION);
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

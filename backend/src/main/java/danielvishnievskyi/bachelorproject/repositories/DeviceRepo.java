@@ -8,9 +8,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The DeviceRepo interface provides the CRUD operations for the Device entity.
+ * It extends the JpaRepository interface, JpaSpecificationExecutor interface, and is annotated with @Repository.
+ * It also utilizes the @JaversSpringDataAuditable annotation for auditing purposes.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @Repository
 @JaversSpringDataAuditable
 public interface DeviceRepo extends JpaRepository<Device, Long>,
-  JpaSpecificationExecutor<Device>{
+  JpaSpecificationExecutor<Device> {
+
+  /**
+   * Retrieves an optional Device instance based on the given name.
+   *
+   * @param name The name to search for.
+   * @return An Optional containing the found Device instance, or an empty Optional if none was found.
+   */
   Optional<Device> findByName(String name);
 }

@@ -11,6 +11,12 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Represents the entity of a Device in the system.
+ * This class is used to model a device located in a building.
+ *
+ * @author [Daniel Vishnievskyi]
+ */
 @Entity
 @Getter
 @Setter
@@ -19,22 +25,58 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Device  {
+public class Device {
+
+  /**
+   * The unique identifier for a Device.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  /**
+   * The unique name of the Device.
+   */
   @Column(unique = true)
   private String name;
+
+  /**
+   * The unique IP address of the Device.
+   */
   @Column(unique = true)
   private String ipAddress;
+
+  /**
+   * The date and time when the Device was last restarted.
+   */
   private Date uptime;
+
+  /**
+   * A flag that indicates whether the Device is currently in use.
+   */
   private boolean switchMap;
+
+  /**
+   * The SNMP (Simple Network Management Protocol) community string for the Device.
+   */
   private String SNMP;
 
+  /**
+   * The Building where the Device is located.
+   */
   @ManyToOne()
   @ToString.Exclude
   private Building building;
 
+  /**
+   * Constructs a Device object with the specified parameters.
+   * The SNMP value is set to "public" by default.
+   *
+   * @param name      the unique name of the Device
+   * @param building  the Building where the Device is located
+   * @param ipAddress the IP address of the Device
+   * @param switchMap a flag that indicates whether the Device is currently in use
+   */
   public Device(String name,
                 Building building,
                 String ipAddress,
@@ -47,6 +89,15 @@ public class Device  {
     this.SNMP = "public";
   }
 
+  /**
+   * Constructs a Device object with the specified parameters.
+   *
+   * @param name      the unique name of the Device
+   * @param building  the Building where the Device is located
+   * @param ipAddress the IP address of the Device
+   * @param switchMap a flag that indicates whether the Device is currently in use
+   * @param SNMP      the SNMP community string for the Device
+   */
   public Device(String name,
                 Building building,
                 String ipAddress,

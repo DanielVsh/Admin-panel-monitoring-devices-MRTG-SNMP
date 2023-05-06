@@ -21,8 +21,6 @@ public class AdminController {
 
   @GetMapping()
   public String admin(Principal principal) throws JsonProcessingException{
-    AdminProfile admin = userProfileService.getByUsername(principal.getName());
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.writeValueAsString(admin);
+    return new ObjectMapper().writeValueAsString(userProfileService.getByUsername(principal.getName()));
   }
 }

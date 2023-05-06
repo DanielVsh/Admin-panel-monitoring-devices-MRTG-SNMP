@@ -8,9 +8,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The LocationRepo interface provides the CRUD operations for the Location entity.
+ * It extends the JpaRepository interface, JpaSpecificationExecutor interface, and is annotated with @Repository.
+ * It also utilizes the @JaversSpringDataAuditable annotation for auditing purposes.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @Repository
 @JaversSpringDataAuditable
 public interface LocationRepo extends JpaRepository<Location, Long>,
-  JpaSpecificationExecutor<Location>{
+  JpaSpecificationExecutor<Location> {
+
+  /**
+   * Retrieves an optional Location instance based on the given name.
+   *
+   * @param name The name to search for.
+   * @return An Optional containing the found Location instance, or an empty Optional if none was found.
+   */
   Optional<Location> findByName(String name);
 }

@@ -8,9 +8,23 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The BuildingRepo interface provides the CRUD operations for the Building entity.
+ * It extends the JpaRepository interface, JpaSpecificationExecutor interface, and is annotated with @Repository.
+ * It also utilizes the @JaversSpringDataAuditable annotation for auditing purposes.
+ *
+ * @author [Daniel Vishnievskyi].
+ */
 @Repository
 @JaversSpringDataAuditable
 public interface BuildingRepo extends JpaRepository<Building, Long>,
-  JpaSpecificationExecutor<Building>{
+  JpaSpecificationExecutor<Building> {
+
+  /**
+   * Retrieves an optional Building instance based on the given name.
+   *
+   * @param name The name to search for.
+   * @return An Optional containing the found Building instance, or an empty Optional if none was found.
+   */
   Optional<Building> findByName(String name);
 }
