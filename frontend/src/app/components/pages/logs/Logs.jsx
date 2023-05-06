@@ -56,7 +56,6 @@ const Logs = () => {
     return <ErrorPage/>
   }
 
-
   return (<>
     <table className={table.table}>
       <thead className={table.head}>
@@ -86,7 +85,8 @@ const Logs = () => {
             <td style={{display: "flex"}}>
               Property ({logs?.property}): Changed&nbsp;
               <div>
-                {logs?.elementChanges.map((element, id) => `[${element?.value?.cdoId}]`).join(", ")}
+                {logs?.elementChanges.map((element) => element?.value && `[${element?.value?.cdoId}]`).join("")
+                }
               </div>
             </td>}
           {logs?.changeType === "ObjectRemoved" && <td>removed</td>}
