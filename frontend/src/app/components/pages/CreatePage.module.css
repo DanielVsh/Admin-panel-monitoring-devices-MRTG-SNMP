@@ -54,13 +54,28 @@
     padding-bottom: 10px;
     background-color: #04AA6D;
     border-radius: 20px;
+}
 
+.searched :hover {
+    background-color: #34cc85;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin-right: 20px;
+    cursor:pointer;
 }
 
 .body p {
     font-size: 24px;
 }
 
-.forma{
-    padding-top: 10px;
+.list {
+    background-color: white;
+    padding: 15%;
+    margin: 4% 0 4% 15%;
+    box-shadow: -2px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+.listElement {
+    margin-left: -200%;
 }
