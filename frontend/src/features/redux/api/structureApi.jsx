@@ -157,13 +157,6 @@ export const structureApi = createApi({
       providesTags: ["Location", "Building", "Device"]
     }),
     ////////////////////////////
-    getUserLocations: builder.query({
-      query: (pageable) => pageable
-        ? `user?sort=${pageable?.sort?.element},${pageable?.sort?.direction}&size=${pageable?.size}&page=${pageable?.page}`
-        : `user`,
-      providesTags: ["Location", "Building", "Device"]
-
-    })
   }),
 });
 
@@ -188,7 +181,7 @@ export const {
   useGetLocationAuditLogsQuery,
   useGetBuildingAuditLogsQuery,
   ////////////////////////////
-  useGetUserLocationsQuery,
+
 
 
 
