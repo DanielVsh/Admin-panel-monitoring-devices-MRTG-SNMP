@@ -133,11 +133,25 @@ export const structureApi = createApi({
       providesTags: ["Location", "Building", "Device"]
     }),
 
+    getDeviceById: builder.query({
+      query: (id) => `device/${id}`,
+      providesTags: ["Building", "Location", "Device"]
+    }),
+
     createNewDevice: builder.mutation({
       query: (body) => ({
         url: "device",
         method: "POST",
         body: body
+      }),
+      invalidatesTags: ["Building", "Location", "Device"]
+    }),
+
+    updateDevice: builder.mutation({
+      query: (body) => ({
+        url: `device/${body.deviceIp}`,
+        method: "PUT",
+        body: body.data
       }),
       invalidatesTags: ["Building", "Location", "Device"]
     }),
@@ -174,7 +188,9 @@ export const {
   useDeleteBuildingMutation,
   ////////////////////////////
   useGetDeviceQuery,
+  useGetDeviceByIdQuery,
   useCreateNewDeviceMutation,
+  useUpdateDeviceMutation,
   useDeleteDeviceMutation,
   ////////////////////////////
   useGetAuditLogsQuery,
