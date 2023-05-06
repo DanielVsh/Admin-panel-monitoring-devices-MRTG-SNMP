@@ -1,7 +1,7 @@
 import JSOG from 'jsog';
 import React, {useState} from "react";
 import LoaderHook from "../../../../features/hooks/loader/LoaderHook";
-import {useGetLocationsQuery, useGetUserLocationsQuery} from "../../../../features/redux/api/structureApi";
+import {useGetLocationsQuery} from "../../../../features/redux/api/structureApi";
 import styles from './MainPage.module.css';
 import ErrorPage from "../error/ErrorPage";
 
