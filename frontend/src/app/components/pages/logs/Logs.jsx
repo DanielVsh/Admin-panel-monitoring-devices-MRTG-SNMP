@@ -39,8 +39,8 @@ const Logs = () => {
     pageable.time.timeTo = `${value[1]?.year}-${(value[1]?.month?.number).toString().padStart(2, '0')}-${Math.min(value[1]?.day + 1, maxDaysInMonth(value[1]?.year, value[1]?.month?.number - 1)).toString().padStart(2, '0')}`;
   } else if (value instanceof Date) {
     const date = value;
-    pageable.time.timeFrom = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${Math.max(date?.getDate()-1, 1)?.toString().padStart(2, '0')}`;
-    pageable.time.timeTo = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth()+1)?.toString().padStart(2, '0')}-${Math.min(date?.getDate()+1, maxDaysInMonth(date?.getFullYear(), date?.getMonth())).toString().padStart(2, '0')}`;
+    pageable.time.timeFrom = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth() + 1)?.toString().padStart(2, '0')}-${Math.max(date?.getDate() - 1, 1)?.toString().padStart(2, '0')}`;
+    pageable.time.timeTo = `${date?.getFullYear()?.toString().padStart(2, '0')}-${(date?.getMonth() + 1)?.toString().padStart(2, '0')}-${Math.min(date?.getDate() + 1, maxDaysInMonth(date?.getFullYear(), date?.getMonth())).toString().padStart(2, '0')}`;
   } else {
     pageable.time.timeFrom = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.max(value[0]?.day - 1, 1).toString().padStart(2, '0')}`;
     pageable.time.timeTo = `${value[0]?.year}-${(value[0]?.month?.number).toString().padStart(2, '0')}-${Math.min(value[0]?.day + 1, maxDaysInMonth(value[0]?.year, value[0]?.month?.number - 1)).toString().padStart(2, '0')}`;
@@ -52,7 +52,7 @@ const Logs = () => {
     return <LoaderHook/>
   }
 
-  if(isError) {
+  if (isError) {
     return <ErrorPage/>
   }
 
@@ -80,7 +80,7 @@ const Logs = () => {
             <td>Property ({logs?.property}): from {logs?.left ?? "null"} to {logs?.right ?? "null"}</td>}
           {(logs?.changeType === "ReferenceChange" || logs?.changeType === "ValueChange") &&
             <td>Property ({logs?.property}):
-              from {logs?.left?.cdoId ?? logs?.left ?? "null"} to {logs?.right?.cdoId ?? logs?.right ?? "null"}</td>}
+              from {logs?.left?.cdoId ?? logs?.left?.toString() ?? "null"} to {logs?.right?.cdoId ?? logs?.right?.toString() ?? "null"}</td>}
           {logs?.changeType === "ListChange" &&
             <td style={{display: "flex"}}>
               Property ({logs?.property}): Changed&nbsp;
@@ -124,7 +124,9 @@ const Logs = () => {
           Page {page + 1} of {auditLogs.totalPages}
       </span>
     </div>
-    <DatePicker value={value} onChange={setValue} range={true}/>
+    <div style={{marginTop: "-25px", marginLeft: "10px"}}>
+      <DatePicker value={value} onChange={setValue} range={true}/>
+    </div>
   </>)
 }
 
