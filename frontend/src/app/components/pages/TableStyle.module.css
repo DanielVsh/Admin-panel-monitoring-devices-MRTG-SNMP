@@ -1,10 +1,11 @@
 .table .table,
 table {
     width: 100%;
+
 }
 
 .table .head {
-    text-align: center;
+    /*text-align: center;*/
     background-color: #04AA6D;
     color: #000000;
 }
