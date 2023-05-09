@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.controllers;
 
 import danielvishnievskyi.bachelorproject.dto.LocationDTO;
 import danielvishnievskyi.bachelorproject.entities.Location;
-import danielvishnievskyi.bachelorproject.services.LocationService;
+import danielvishnievskyi.bachelorproject.services.location.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +44,7 @@ public class LocationController {
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
-    return ResponseEntity.ok(locationService.getLocations(page, filter));
+    return ResponseEntity.ok(locationService.getFilteredAndPageableList(page, filter));
   }
 
   /**
@@ -56,7 +56,7 @@ public class LocationController {
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Location> getLocation(@PathVariable Long id) {
-    return ResponseEntity.ok(locationService.getLocation(id));
+    return ResponseEntity.ok(locationService.getEntityById(id));
   }
 
   /**
@@ -68,7 +68,7 @@ public class LocationController {
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Location> createLocation(@RequestBody @Valid LocationDTO locationDetails) {
-    return ResponseEntity.ok(locationService.createLocation(locationDetails));
+    return ResponseEntity.ok(locationService.createEntity(locationDetails));
   }
 
   /**
@@ -84,7 +84,7 @@ public class LocationController {
     @PathVariable Long id,
     @RequestBody @Valid LocationDTO locationDetails
   ) {
-    return ResponseEntity.ok(locationService.updateLocation(id, locationDetails));
+    return ResponseEntity.ok(locationService.updateEntity(id, locationDetails));
   }
 
   /**
@@ -96,7 +96,7 @@ public class LocationController {
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
-    locationService.deleteLocation(id);
+    locationService.deleteEntityById(id);
     return ResponseEntity.ok().build();
   }
 
@@ -109,7 +109,7 @@ public class LocationController {
   @DeleteMapping()
   @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<Void> delete(@RequestParam Set<Long> ids) {
-    locationService.deleteLocations(ids);
+    locationService.deleteEntitiesByIds(ids);
     return ResponseEntity.ok().build();
   }
 }

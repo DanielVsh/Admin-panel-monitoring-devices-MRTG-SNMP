@@ -1,6 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
-import danielvishnievskyi.bachelorproject.services.MRTGService;
+import danielvishnievskyi.bachelorproject.services.mrtg.MRTGService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableAsync;

@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.controllers;
 
 import danielvishnievskyi.bachelorproject.dto.BuildingDTO;
 import danielvishnievskyi.bachelorproject.entities.Building;
-import danielvishnievskyi.bachelorproject.services.BuildingService;
+import danielvishnievskyi.bachelorproject.services.building.BuildingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +45,7 @@ public class BuildingController {
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
-    return ResponseEntity.ok(buildingService.getBuildings(page, filter));
+    return ResponseEntity.ok(buildingService.getFilteredAndPageableList(page, filter));
   }
 
   /**
@@ -57,7 +57,7 @@ public class BuildingController {
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Building> getBuilding(@PathVariable Long id) {
-    return ResponseEntity.ok(buildingService.getBuilding(id));
+    return ResponseEntity.ok(buildingService.getEntityById(id));
   }
 
   /**
@@ -69,7 +69,7 @@ public class BuildingController {
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Building> createBuilding(@RequestBody @Valid BuildingDTO buildingDetails) {
-    return ResponseEntity.ok(buildingService.createBuilding(buildingDetails));
+    return ResponseEntity.ok(buildingService.createEntity(buildingDetails));
   }
 
   /**
@@ -85,7 +85,7 @@ public class BuildingController {
     @PathVariable Long id,
     @RequestBody @Valid BuildingDTO buildingDetails
   ) {
-    return ResponseEntity.ok(buildingService.updateBuilding(id, buildingDetails));
+    return ResponseEntity.ok(buildingService.updateEntity(id, buildingDetails));
   }
 
   /**
@@ -97,7 +97,7 @@ public class BuildingController {
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteBuilding(@PathVariable Long id) {
-    buildingService.deleteBuilding(id);
+    buildingService.deleteEntityById(id);
     return ResponseEntity.ok().build();
   }
 
@@ -110,7 +110,7 @@ public class BuildingController {
   @DeleteMapping()
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteBuildings(@RequestParam Set<Long> ids) {
-    buildingService.deleteBuildings(ids);
+    buildingService.deleteEntitiesByIds(ids);
     return ResponseEntity.ok().build();
   }
 }

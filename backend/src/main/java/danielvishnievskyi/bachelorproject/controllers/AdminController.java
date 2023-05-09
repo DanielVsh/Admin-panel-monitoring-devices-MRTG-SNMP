@@ -2,8 +2,7 @@ package danielvishnievskyi.bachelorproject.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import danielvishnievskyi.bachelorproject.entities.AdminProfile;
-import danielvishnievskyi.bachelorproject.services.AdminProfileService;
+import danielvishnievskyi.bachelorproject.services.admin.AdminProfileServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import java.security.Principal;
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 public class AdminController {
-  private final AdminProfileService userProfileService;
+  private final AdminProfileServiceImpl userProfileService;
 
   @GetMapping()
   public String admin(Principal principal) throws JsonProcessingException{

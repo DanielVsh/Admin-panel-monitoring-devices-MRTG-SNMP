@@ -1,6 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
-import danielvishnievskyi.bachelorproject.services.LogsService;
+import danielvishnievskyi.bachelorproject.services.logs.LogsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.controllers;
 
 import danielvishnievskyi.bachelorproject.dto.DeviceDTO;
 import danielvishnievskyi.bachelorproject.entities.Device;
-import danielvishnievskyi.bachelorproject.services.DeviceService;
+import danielvishnievskyi.bachelorproject.services.device.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +30,7 @@ public class DeviceController {
   /**
    * The deviceService instance used to perform operations related to Device entity.
    */
-  private final DeviceService deviceService;
+  private final DeviceService deleteDevice;
 
   /**
    * Retrieves a page of devices based on the provided filter and pagination parameters.
@@ -45,7 +45,7 @@ public class DeviceController {
     @PageableDefault(sort = "id", direction = DESC) Pageable page,
     @RequestParam(required = false) String filter
   ) {
-    return ResponseEntity.ok(deviceService.getDevices(page, filter));
+    return ResponseEntity.ok(deleteDevice.getFilteredAndPageableList(page, filter));
   }
 
   /**
@@ -57,7 +57,7 @@ public class DeviceController {
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Device> getDevice(@PathVariable Long id) {
-    return ResponseEntity.ok(deviceService.getDevice(id));
+    return ResponseEntity.ok(deleteDevice.getEntityById(id));
   }
 
   /**
@@ -69,7 +69,7 @@ public class DeviceController {
   @PostMapping()
   @PreAuthorize("hasAnyRole('ADMIN_VIEW')")
   public ResponseEntity<Device> createDevice(@RequestBody @Valid DeviceDTO deviceDetails) {
-    return ResponseEntity.ok(deviceService.createDevice(deviceDetails));
+    return ResponseEntity.ok(deleteDevice.createEntity(deviceDetails));
   }
 
   /**
@@ -83,7 +83,7 @@ public class DeviceController {
   @PreAuthorize("hasAnyRole('ADMIN_WRITE')")
   public ResponseEntity<Device> updateDevice(@PathVariable Long id,
                                              @RequestBody @Valid DeviceDTO deviceDetails) {
-    return ResponseEntity.ok(deviceService.updateDevice(id, deviceDetails));
+    return ResponseEntity.ok(deleteDevice.updateEntity(id, deviceDetails));
   }
 
   /**
@@ -95,7 +95,7 @@ public class DeviceController {
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
-    deviceService.deleteDevice(id);
+    deleteDevice.deleteEntityById(id);
     return ResponseEntity.ok().build();
   }
 
@@ -108,7 +108,7 @@ public class DeviceController {
   @DeleteMapping()
   @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
   public ResponseEntity<Void> deleteBuildings(@RequestParam Set<Long> ids) {
-    deviceService.deleteDevices(ids);
+    deleteDevice.deleteEntitiesByIds(ids);
     return ResponseEntity.ok().build();
   }
 }

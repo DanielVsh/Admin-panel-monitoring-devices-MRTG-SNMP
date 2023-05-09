@@ -1,6 +1,6 @@
 package danielvishnievskyi.bachelorproject.controllers;
 
-import danielvishnievskyi.bachelorproject.services.AuthService;
+import danielvishnievskyi.bachelorproject.services.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +34,6 @@ public class AuthController {
    */
   @GetMapping("/token/refresh")
   public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    authService.refreshAuthToken(request, response);
+    authService.refreshAuthenticationToken(request, response);
   }
 }
