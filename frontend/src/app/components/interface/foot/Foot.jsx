@@ -4,7 +4,7 @@ import foot from "./Foot.module.css"
 const Foot = () => {
     return (
         <footer className={foot.foot}>
-            Footer :) created by me
+          Copyright © {new Date().getFullYear()} UVT / Daniel Vishnievskyi.
         </footer>
     )
 }
