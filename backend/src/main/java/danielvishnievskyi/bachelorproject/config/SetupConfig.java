@@ -4,26 +4,25 @@ import danielvishnievskyi.bachelorproject.entities.*;
 import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
 import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
 import danielvishnievskyi.bachelorproject.repositories.LocationRepo;
-import danielvishnievskyi.bachelorproject.services.*;
+import danielvishnievskyi.bachelorproject.services.admin.AdminProfileServiceImpl;
+import danielvishnievskyi.bachelorproject.services.privilege.PrivilegeService;
+import danielvishnievskyi.bachelorproject.services.privilege.PrivilegeServiceImpl;
+import danielvishnievskyi.bachelorproject.services.role.RoleService;
+import danielvishnievskyi.bachelorproject.services.role.RoleServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 @Configuration
 public class SetupConfig {
 
   @Bean
   public CommandLineRunner commandLineRunner(
-    AdminProfileService userProfileService,
+    AdminProfileServiceImpl userProfileService,
     RoleService roleService,
-    PrivilegeService privilegeService,
-    LocationRepo locationRepo,
-    BuildingRepo buildingRepo,
-    DeviceRepo deviceRepo
+    PrivilegeService privilegeService
   ) {
     return args -> {
       Privilege adminWritePrivilege = privilegeService.createIfNotFound("admin:write");
