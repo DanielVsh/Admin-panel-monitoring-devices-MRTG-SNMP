@@ -1,4 +1,4 @@
-package danielvishnievskyi.bachelorproject.services;
+package danielvishnievskyi.bachelorproject.services.mrtg;
 
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
@@ -27,17 +27,10 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class MRTGService {
-
+public class MRTGServiceImpl implements MRTGService {
   private final DeviceRepo deviceRepo;
 
-  /**
-   * Generates MRTG configuration files and HTML pages for all devices in the database.
-   *
-   * @throws IOException          if an I/O error occurs.
-   * @throws InterruptedException if the current thread is interrupted.
-   */
-  @Transactional
+  @Override
   public void generateMRTG() throws IOException, InterruptedException {
     log.info("Start of generating MRTG");
 
@@ -112,6 +105,7 @@ public class MRTGService {
     log.info("End of generating MRTG");
   }
 
+
   /**
    * Executes the given shell command in a new process and waits for it to finish.
    *
@@ -131,7 +125,7 @@ public class MRTGService {
    *
    * @return A list of IP addresses.
    */
-  public List<String> getIpList() {
+  private List<String> getIpList() {
     return deviceRepo.findAll()
       .stream()
       .map(Device::getIpAddress)
@@ -144,7 +138,7 @@ public class MRTGService {
    * @param ip The IP address to retrieve the SNMP community string for.
    * @return The SNMP community string.
    */
-  public String getCommunityByIp(String ip) {
+  private String getCommunityByIp(String ip) {
     return deviceRepo.findAll()
       .stream()
       .filter(snmpData -> snmpData.getIpAddress().equals(ip))
