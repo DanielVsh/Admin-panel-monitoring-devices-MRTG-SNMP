@@ -87,7 +87,7 @@ To do:
 
 ## Contact
 Created by Daniel Vishnievskyi. 
-[LinkedIn](linkedin.com/in/daniel-vishnievskyi) - feel free to contact me!
+[LinkedIn](https://linkedin.com/in/daniel-vishnievskyi) - feel free to contact me!
 
 
 <!-- Optional -->
