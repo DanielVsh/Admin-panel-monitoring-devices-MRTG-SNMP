@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * The PrivilegeRepo interface provides the CRUD operations for the Privilege entity.
+ * The PrivilegeRepository interface provides the CRUD operations for the Privilege entity.
  * It extends the JpaRepository interface and is annotated with @Repository.
  *
  * @author [Daniel Vishnievskyi].
  */
 @Repository
-public interface PrivilegeRepo extends JpaRepository<Privilege, Long> {
+public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
 
   /**
    * Retrieves an optional Privilege instance based on the given name.

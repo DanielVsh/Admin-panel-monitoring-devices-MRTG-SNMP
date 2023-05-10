@@ -1,12 +1,11 @@
 package danielvishnievskyi.bachelorproject.services.mrtg;
 
 import danielvishnievskyi.bachelorproject.entities.Device;
-import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
+import danielvishnievskyi.bachelorproject.repositories.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class MRTGServiceImpl implements MRTGService {
-  private final DeviceRepo deviceRepo;
+  private final DeviceRepository deviceRepository;
 
   @Override
   public void generateMRTG() throws IOException, InterruptedException {
@@ -126,7 +125,7 @@ public class MRTGServiceImpl implements MRTGService {
    * @return A list of IP addresses.
    */
   private List<String> getIpList() {
-    return deviceRepo.findAll()
+    return deviceRepository.findAll()
       .stream()
       .map(Device::getIpAddress)
       .toList();
@@ -139,7 +138,7 @@ public class MRTGServiceImpl implements MRTGService {
    * @return The SNMP community string.
    */
   private String getCommunityByIp(String ip) {
-    return deviceRepo.findAll()
+    return deviceRepository.findAll()
       .stream()
       .filter(snmpData -> snmpData.getIpAddress().equals(ip))
       .map(Device::getSNMP)

@@ -4,7 +4,7 @@ import danielvishnievskyi.bachelorproject.dto.DeviceDTO;
 import danielvishnievskyi.bachelorproject.entities.Device;
 import danielvishnievskyi.bachelorproject.exception.device.DeviceBadRequestException;
 import danielvishnievskyi.bachelorproject.exception.device.DeviceNotFoundException;
-import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
+import danielvishnievskyi.bachelorproject.repositories.DeviceRepository;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.DeviceSpecification;
 import danielvishnievskyi.bachelorproject.services.building.BuildingService;
@@ -24,7 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Service
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements DeviceService {
-  private final DeviceRepo deviceRepo;
+  private final DeviceRepository deviceRepository;
   private final BuildingService buildingService;
 
   @Override
@@ -36,22 +36,22 @@ public class DeviceServiceImpl implements DeviceService {
     } else if (StringUtils.hasLength(filter)) {
       dvFilter.add(new SearchCriteria("name", filter, MATCH));
     }
-    return deviceRepo.findAll(dvFilter, pageable);
+    return deviceRepository.findAll(dvFilter, pageable);
   }
 
   @Override
   public Device getEntityById(Long id) {
-    return deviceRepo.findById(id)
+    return deviceRepository.findById(id)
       .orElseThrow(() -> new DeviceNotFoundException(String.format("Device[%d]: Not Found", id)));
   }
 
   @Override
   public Device createEntity(DeviceDTO entityDTO) {
-    deviceRepo.findByName(entityDTO.name()).ifPresent(building -> {
+    deviceRepository.findByName(entityDTO.name()).ifPresent(building -> {
       throw new DeviceBadRequestException(String.format("Device %s already exists", entityDTO.name()));
     });
 
-    return deviceRepo.save(
+    return deviceRepository.save(
       new Device(
         entityDTO.name(),
         buildingService.getEntityById(entityDTO.buildingId()),
@@ -70,16 +70,16 @@ public class DeviceServiceImpl implements DeviceService {
     device.setIpAddress(entityDTO.ipAddress());
     device.setSwitchMap(entityDTO.switchMap());
     device.setUptime(entityDTO.uptime());
-    return deviceRepo.save(device);
+    return deviceRepository.save(device);
   }
 
   @Override
   public void deleteEntityById(Long id) {
-    deviceRepo.deleteById(id);
+    deviceRepository.deleteById(id);
   }
 
   @Override
   public void deleteEntitiesByIds(Set<Long> ids) {
-    deviceRepo.deleteAllById(ids);
+    deviceRepository.deleteAllById(ids);
   }
 }

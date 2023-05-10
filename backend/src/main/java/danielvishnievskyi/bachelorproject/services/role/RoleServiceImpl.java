@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.services.role;
 
 import danielvishnievskyi.bachelorproject.entities.Privilege;
 import danielvishnievskyi.bachelorproject.entities.Role;
-import danielvishnievskyi.bachelorproject.repositories.RoleRepo;
+import danielvishnievskyi.bachelorproject.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService{
-  private final RoleRepo roleRepo;
+  private final RoleRepository roleRepository;
 
   @Transactional
   @Override
   public Role createIfNotFound(String name, Set<Privilege> privileges) {
-    return roleRepo.getByName(name.toUpperCase()).orElseGet(() -> {
+    return roleRepository.getByName(name.toUpperCase()).orElseGet(() -> {
       Role role = new Role(name.toUpperCase());
       role.setPrivileges(privileges);
-      roleRepo.save(role);
+      roleRepository.save(role);
       return role;
     });
   }

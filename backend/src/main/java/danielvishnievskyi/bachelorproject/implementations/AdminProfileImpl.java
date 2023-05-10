@@ -2,7 +2,7 @@ package danielvishnievskyi.bachelorproject.implementations;
 
 import danielvishnievskyi.bachelorproject.entities.AdminProfile;
 import danielvishnievskyi.bachelorproject.entities.Role;
-import danielvishnievskyi.bachelorproject.repositories.AdminProfileRepo;
+import danielvishnievskyi.bachelorproject.repositories.AdminProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,7 +29,7 @@ import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundExc
 @Component
 @RequiredArgsConstructor
 public class AdminProfileImpl implements UserDetailsService {
-  private final AdminProfileRepo userRepo;
+  private final AdminProfileRepository userRepo;
   private final PasswordEncoder passwordEncoder;
 
   /**

@@ -5,7 +5,7 @@ import danielvishnievskyi.bachelorproject.entities.Building;
 import danielvishnievskyi.bachelorproject.entities.Location;
 import danielvishnievskyi.bachelorproject.exception.building.BuildingBadRequestException;
 import danielvishnievskyi.bachelorproject.exception.building.BuildingNotFoundException;
-import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
+import danielvishnievskyi.bachelorproject.repositories.BuildingRepository;
 import danielvishnievskyi.bachelorproject.repositories.criteria.SearchCriteria;
 import danielvishnievskyi.bachelorproject.repositories.specifications.BuildingSpecification;
 import danielvishnievskyi.bachelorproject.services.location.LocationService;
@@ -24,7 +24,7 @@ import static danielvishnievskyi.bachelorproject.enums.SearchOperation.MATCH;
 @Service
 @RequiredArgsConstructor
 public class BuildingServiceImpl implements BuildingService {
-  private final BuildingRepo buildingRepo;
+  private final BuildingRepository buildingRepository;
   private final LocationService locationService;
 
   @Override
@@ -36,12 +36,12 @@ public class BuildingServiceImpl implements BuildingService {
     } else if (StringUtils.hasLength(filter)) {
       buildFilter.add(new SearchCriteria("name", filter, MATCH));
     }
-    return buildingRepo.findAll(buildFilter, pageable);
+    return buildingRepository.findAll(buildFilter, pageable);
   }
 
   @Override
   public Building getEntityById(Long id) {
-    return buildingRepo.findById(id)
+    return buildingRepository.findById(id)
       .orElseThrow(() -> new BuildingNotFoundException(String.format("Building[%d]: Not Found", id)));
   }
 
@@ -49,11 +49,11 @@ public class BuildingServiceImpl implements BuildingService {
   public Building createEntity(BuildingDTO entityDTO) {
     Location location = locationService.getEntityById(entityDTO.locationId());
 
-    buildingRepo.findByName(entityDTO.name()).ifPresent(building -> {
+    buildingRepository.findByName(entityDTO.name()).ifPresent(building -> {
       throw new BuildingBadRequestException(String.format("Building %s already exists", building.getName()));
     });
 
-    return buildingRepo.save(new Building(entityDTO.name(), location));
+    return buildingRepository.save(new Building(entityDTO.name(), location));
   }
 
   @Override
@@ -63,16 +63,16 @@ public class BuildingServiceImpl implements BuildingService {
     building.setName(entityDTO.name());
     building.setLocation(locationService.getEntityById(entityDTO.locationId()));
 
-    return buildingRepo.save(building);
+    return buildingRepository.save(building);
   }
 
   @Override
   public void deleteEntityById(Long id) {
-    buildingRepo.deleteById(id);
+    buildingRepository.deleteById(id);
   }
 
   @Override
   public void deleteEntitiesByIds(Set<Long> ids) {
-    buildingRepo.deleteAllById(ids);
+    buildingRepository.deleteAllById(ids);
   }
 }

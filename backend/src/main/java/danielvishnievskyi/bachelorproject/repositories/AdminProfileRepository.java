@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * The AdminProfileRepo interface provides the CRUD operations for the AdminProfile entity.
+ * The AdminProfileRepository interface provides the CRUD operations for the AdminProfile entity.
  * It extends the JpaRepository interface and is annotated with @Repository.
  *
  * @author [Daniel Vishnievskyi].
  */
 @Repository
-public interface AdminProfileRepo extends JpaRepository<AdminProfile, Long> {
+public interface AdminProfileRepository extends JpaRepository<AdminProfile, Long> {
 
   /**
    * Retrieves an optional AdminProfile instance based on the given username.

@@ -9,13 +9,13 @@ import java.util.Optional;
 
 
 /**
- * The RoleRepo interface provides the CRUD operations for the Role entity.
+ * The RoleRepository interface provides the CRUD operations for the Role entity.
  * It extends the JpaRepository interface and is annotated with @Repository.
  *
  * @author [Daniel Vishnievskyi].
  */
 @Repository
-public interface RoleRepo extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
   /**
    * Retrieves an optional Role instance based on the given name.
