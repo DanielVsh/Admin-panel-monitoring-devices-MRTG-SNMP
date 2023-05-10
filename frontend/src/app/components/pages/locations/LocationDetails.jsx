@@ -38,7 +38,7 @@ const LocationDetails = () => {
         <form action="submit">
           <div className={style.block}>
             <div>
-              <p>Change Building Form</p>
+              <p>Change Location Form</p>
               <label htmlFor="name">Name</label><br/>
               <input name="name" value={locationName} onChange={(e) => setLocationName(e.target.value)}/>
             </div>
