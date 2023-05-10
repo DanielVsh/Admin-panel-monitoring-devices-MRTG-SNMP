@@ -29,6 +29,7 @@ This is a complete web application with an admin panel that uses Multi Router Tr
 - React - version 18.2.0
 - React Redux - version 8.0.5
 - RTK Query - version 1.8.6
+- Docker - version 20.10.17
 
 
 
