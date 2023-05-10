@@ -20,7 +20,7 @@ This is a complete web application with an admin panel that uses Multi Router Tr
 
 ## Technologies Used
 - Java - version 19.0.2
-- Spring Framework - version 2.7.4
+- Spring Boot - version 2.7.4
 - Javers - version 6.10.0
 - Java JWT - version 4.0.0
 - Maven - version 3.6.3
