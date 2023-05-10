@@ -1,14 +1,11 @@
 package danielvishnievskyi.bachelorproject.config;
 
-import danielvishnievskyi.bachelorproject.entities.*;
-import danielvishnievskyi.bachelorproject.repositories.BuildingRepo;
-import danielvishnievskyi.bachelorproject.repositories.DeviceRepo;
-import danielvishnievskyi.bachelorproject.repositories.LocationRepo;
+import danielvishnievskyi.bachelorproject.entities.AdminProfile;
+import danielvishnievskyi.bachelorproject.entities.Privilege;
+import danielvishnievskyi.bachelorproject.entities.Role;
 import danielvishnievskyi.bachelorproject.services.admin.AdminProfileServiceImpl;
 import danielvishnievskyi.bachelorproject.services.privilege.PrivilegeService;
-import danielvishnievskyi.bachelorproject.services.privilege.PrivilegeServiceImpl;
 import danielvishnievskyi.bachelorproject.services.role.RoleService;
-import danielvishnievskyi.bachelorproject.services.role.RoleServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

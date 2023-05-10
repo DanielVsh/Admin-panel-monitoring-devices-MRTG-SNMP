@@ -1,4 +1,4 @@
-package danielvishnievskyi.bachelorproject.services;
+package danielvishnievskyi.bachelorproject.services.admin;
 
 import danielvishnievskyi.bachelorproject.entities.AdminProfile;
 import danielvishnievskyi.bachelorproject.implementations.AdminProfileImpl;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class AdminProfileService {
+public class AdminProfileServiceImpl {
   private final AdminProfileImpl userImpl;
 
   /**
