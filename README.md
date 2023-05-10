@@ -76,8 +76,6 @@ Project is: _in progress_
 
 
 ## Room for Improvement
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
 Room for improvement:
 - Improve the design of the app.
 
@@ -89,7 +87,7 @@ To do:
 
 ## Contact
 Created by Daniel Vishnievskyi. 
-linkedin.com/in/daniel-vishnievskyi - feel free to contact me!
+[LinkedIn](linkedin.com/in/daniel-vishnievskyi) - feel free to contact me!
 
 
 <!-- Optional -->
