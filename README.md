@@ -26,6 +26,7 @@ This is a complete web application with an admin panel that uses Multi Router Tr
 - Maven - version 3.6.3
 - Node.JS - version 16.15.1
 - npm - version 8.11.0
+- nginx - version 1.18.0
 - React - version 18.2.0
 - React Redux - version 8.0.5
 - Redux Toolkit - version 1.8.6
